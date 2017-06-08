@@ -26,7 +26,10 @@
         <activity android:name=".SellerModifyActivity" />
         <activity android:name=".TruckRegisterActivity" />
         <activity android:name=".MemberProfileActivity" />
-        <activity android:name=".ReviewDetailActivity"></activity>
+        <activity android:name=".ReviewDetailActivity" />
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".MembeDetailActivity" />
+        <activity android:name=".MemberModifyActivity"></activity>
     </application>
 
 </manifest>
