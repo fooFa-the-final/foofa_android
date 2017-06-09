@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_main"
@@ -40,12 +40,80 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="match_parent"
+
+                    <ImageView
+                        android:id="@+id/myProfile"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="8dp"
-                        android:text="TAB CONTENT 1" />
+                        android:layout_gravity="center"
+                        android:layout_marginTop="90dp"
+                        android:scaleX="4"
+                        android:scaleY="4"
+                        android:src="@mipmap/ic_launcher" />
+
+                    <TextView
+                        android:id="@+id/myId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="50dp"
+                        android:layout_marginTop="100dp"
+                        android:scaleX="3"
+                        android:scaleY="3"
+                        android:text="MyId" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="30dp"
+                            android:text="My Name : " />
+
+                        <TextView
+                            android:id="@+id/name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="30dp" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Birthday: " />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Email : " />
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/modify"
+                        android:layout_gravity="center"
+                        android:text="modify"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
 
                 </LinearLayout>
 
@@ -56,12 +124,11 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="8dp"
-                        android:text="TAB CONTENT 2" />
+                    <ListView
+                        android:id="@+id/reviewList"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"></ListView>
+                    <!--list_review_list.xml-->
 
                 </LinearLayout>
 
@@ -72,12 +139,44 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="match_parent"
+
+                    <ImageView
+                        android:id="@+id/followImage"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp" />
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="8dp"
-                        android:text="TAB CONTENT 3" />
+                        android:onClick="vertical">
+
+                        <TextView
+                            android:id="@+id/id"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:id="@+id/followcount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:id="@+id/reviewconunt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Unfollow"/>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -88,12 +187,11 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
+                    <ListView
+                        android:id="@+id/memberFavList"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="8dp"
-                        android:text="TAB CONTENT 1" />
+                        android:layout_height="wrap_content" />
+                    <!--list_mem_fav_item.xml-->
 
                 </LinearLayout>
 
@@ -116,5 +214,5 @@
             </FrameLayout>
         </LinearLayout>
     </TabHost>
-</RelativeLayout>
+</LinearLayout>
 
