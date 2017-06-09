@@ -76,11 +76,12 @@
             android:layout_height="wrap_content"
             android:hint="리뷰트럭이름" />
 
-        <TextView
+        <RatingBar
             android:id="@+id/reviewScore"
+            style="?android:attr/ratingBarStyleSmall"
+            android:numStars="5"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="리뷰점수" />
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/reviewContent"
