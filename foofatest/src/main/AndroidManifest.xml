@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.foofatest">
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -30,7 +32,8 @@
         <activity android:name=".ReviewDetailActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".MembeDetailActivity" />
-        <activity android:name=".MemberModifyActivity"></activity>
+        <activity android:name=".MemberModifyActivity" />
+        <activity android:name=".ReportActivity"></activity>
     </application>
 
 </manifest>
