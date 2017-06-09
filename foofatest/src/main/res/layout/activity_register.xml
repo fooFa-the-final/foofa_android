@@ -42,10 +42,17 @@
             android:hint="이메일을 입력해주세요"
             />
 
+
+        <TextView
+            android:hint="생년월일을 입력해주세요"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <DatePicker
+            android:datePickerMode="spinner"
             android:id="@+id/birthday"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
         </DatePicker>
 
             <LinearLayout
