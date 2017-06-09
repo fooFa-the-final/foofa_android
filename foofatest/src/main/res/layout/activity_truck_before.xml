@@ -135,12 +135,6 @@
                 android:hint="메뉴가격을 입력해주세요" />
 
 
-            <Button
-                android:layout_marginRight="20dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="메뉴추가" />
 
 
         </LinearLayout>

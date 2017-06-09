@@ -4,6 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
+    <!-- 영업에서 메뉴 추가 삭제
+    -->
     <TextView
         android:id="@+id/menuName"
         android:layout_width="wrap_content"
