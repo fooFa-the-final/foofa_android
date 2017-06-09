@@ -39,7 +39,8 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".MembeDetailActivity" />
         <activity android:name=".MemberModifyActivity" />
-        <activity android:name=".TruckBefore"></activity>
+        <activity android:name=".TruckBefore" />
+        <activity android:name=".MemberFavListActivity"></activity>
     </application>
 
 </manifest>
