@@ -110,7 +110,7 @@
             android:id="@+id/truckMenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"></ListView>
-
+<!--truck_menu.xml-->
 
 
     </LinearLayout>

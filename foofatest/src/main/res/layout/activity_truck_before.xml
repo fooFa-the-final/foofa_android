@@ -120,6 +120,7 @@
                 android:id="@+id/menuList"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"></ListView>
+<!--truck_menubefore.xml-->
 
             <EditText
                 android:id="@+id/menuName"
