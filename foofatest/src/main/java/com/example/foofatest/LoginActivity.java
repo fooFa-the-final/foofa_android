@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -50,16 +51,19 @@ public class LoginActivity extends AppCompatActivity {
             findViewById(R.id.loginBtn).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new LoginCheckTask().execute("http://106.242.203.67:8088/FoodtruckFinderProject/mobilelogin.do?Id="
+                    new LoginCheckTask().execute("http://106.242.203.67:8088/FoodtruckFinderProject/mobilelogin.do?id="
                             + idEdit.getText() + "&password=" + pwEdit.getText());
+                    Toast.makeText(LoginActivity.this, "Seller", Toast.LENGTH_SHORT).show();
+
                 }
             });
         } else {
             findViewById(R.id.loginBtn).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new LoginCheckTask().execute("http://106.242.203.67:8088/FoodtruckFinderProject/mobilelogin.do?Id="
+                    new LoginCheckTask().execute("http://106.242.203.67:8088/FoodtruckFinderProject/mobilelogin.do?id="
                             + idEdit.getText() + "&password=" + pwEdit.getText());
+                    Toast.makeText(LoginActivity.this, "Member", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -75,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 url = new URL(params[0]);
                 http = (HttpURLConnection) url.openConnection();
-                http.setRequestMethod("GET");
+                http.setRequestMethod("POST");
                 http.connect();
                 is = http.getInputStream();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
