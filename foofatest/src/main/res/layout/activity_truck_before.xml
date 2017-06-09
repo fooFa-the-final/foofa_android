@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:layout_marginLeft="20dp"
+    android:orientation="vertical"
     tools:context="com.example.foofatest.TruckBefore">
 
 
@@ -16,38 +16,36 @@
 
 
     <LinearLayout
-android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
 
-
-
-<TextView
-    android:textSize="25dp"
-    android:text="Today Hour"
-    android:textStyle="bold"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Today Hour"
+            android:textSize="25dp"
+            android:textStyle="bold" />
 
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <TimePicker
                 android:id="@+id/openHour"
-                android:timePickerMode="spinner"
                 android:layout_width="150dp"
-                android:layout_height="60dp"/>
+                android:layout_height="60dp"
+                android:timePickerMode="spinner" />
 
 
             <TimePicker
                 android:id="@+id/closeHour"
-                android:timePickerMode="spinner"
                 android:layout_width="150dp"
-                android:layout_height="60dp"/>
+                android:layout_height="60dp"
+                android:timePickerMode="spinner" />
 
 
         </LinearLayout>
@@ -57,96 +55,254 @@ android:orientation="vertical"
 
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
-            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Location"
             android:textSize="25dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textStyle="bold" />
 
 
         <EditText
-            android:layout_marginLeft="20dp"
             android:id="@+id/foodtruckLocation"
-            android:hint="영업하실 장소를 입력해주세요"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:hint="영업하실 장소를 입력해주세요" />
 
 
     </LinearLayout>
 
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
-            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Notice"
             android:textSize="25dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textStyle="bold" />
 
 
         <EditText
             android:id="@+id/truckNotice"
-            android:layout_marginLeft="20dp"
-            android:hint="공지사항을 적어주세요"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:hint="공지사항을 적어주세요" />
     </LinearLayout>
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <TextView
-            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Menu"
             android:textSize="25dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
+            android:textStyle="bold" />
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
+            <ListView
+                android:id="@+id/menuList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"></ListView>
 
             <EditText
                 android:id="@+id/menuName"
-                android:hint="메뉴이름을 입력해주세요"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:hint="메뉴이름을 입력해주세요" />
 
 
             <EditText
                 android:id="@+id/menuPrice"
-                android:hint="메뉴가격을 입력해주세요"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:hint="메뉴가격을 입력해주세요" />
+
 
             <Button
-                android:layout_marginLeft="65dp"
-                android:layout_gravity="center"
-                android:text="메뉴추가"
+                android:layout_marginRight="20dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="메뉴추가" />
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="More Info"
+                android:textSize="25dp"
+                android:textStyle="bold" />
+
+
+            <LinearLayout
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Accept card" />
+
+                <RadioButton
+                    android:layout_marginLeft="59dp"
+                    android:id="@+id/truckCard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yes" />
+
+                <RadioButton
+                    android:id="@+id/truckCard1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Avaliabl Alchol" />
+
+                <RadioButton
+                    android:layout_marginLeft="38dp"
+                    android:id="@+id/truckDriking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yes" />
+
+                <RadioButton
+                    android:id="@+id/truckDriking1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Accept Parking" />
+
+                <RadioButton
+                    android:layout_marginLeft="35dp"
+                    android:id="@+id/truckParking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yes" />
+
+                <RadioButton
+                    android:id="@+id/truckParking1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Accept catering" />
+
+                <RadioButton
+                    android:layout_marginLeft="30dp"
+                    android:id="@+id/truckCatering"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Yes" />
+
+                <RadioButton
+                    android:id="@+id/truckCatering1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No" />
+
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_marginRight="20dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <Button
 
+        android:id="@+id/truckStart"
+        android:text="영업시작"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
+    </LinearLayout>
 
 
 </LinearLayout>
