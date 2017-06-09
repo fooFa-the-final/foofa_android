@@ -7,6 +7,8 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/foofa_android.iml" filepath="$PROJECT_DIR$/foofa_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/foofa_android.iml" filepath="$PROJECT_DIR$/foofa_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/foofatest/foofatest.iml" filepath="$PROJECT_DIR$/foofatest/foofatest.iml" />
       <module fileurl="file://$PROJECT_DIR$/foofatest/foofatest.iml" filepath="$PROJECT_DIR$/foofatest/foofatest.iml" />
     </modules>
   </component>
