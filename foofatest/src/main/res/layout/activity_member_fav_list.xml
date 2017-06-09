@@ -7,9 +7,9 @@
     tools:context="com.example.foofatest.MemberFavListActivity">
 
     <ListView
+        android:id="@+id/memberFavList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:oriental="vertical"/>
+        android:layout_height="wrap_content" />
     <!--list_mem_fav_item.xml-->
 
 </LinearLayout>

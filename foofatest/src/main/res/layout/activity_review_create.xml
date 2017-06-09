@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="350dp"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="17dp"
+    tools:context="com.example.foofatest.ReviewCreateActivity"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="180dp">
+
+    <ImageView
+        android:background="@drawable/border"
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/default_truck"
+        android:scaleType="fitCenter"
+        android:padding="2dp"/>
+
+    <ImageView
+        android:background="@drawable/border"
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/default_truck"
+        android:scaleType="fitCenter"
+        android:padding="2dp"/>
+
+    </LinearLayout>
+
+    <RatingBar
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:isIndicator="false"
+        android:stepSize="1"/>
+
+    <EditText
+        android:background="@drawable/border"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:gravity="top"
+        android:hint="리뷰 내용을 작성하세요"/>
+
+    <Button
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="리뷰 등록"/>
+
+</LinearLayout>
