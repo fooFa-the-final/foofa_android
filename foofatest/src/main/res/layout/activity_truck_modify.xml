@@ -8,30 +8,39 @@
     tools:context="com.example.foofatest.TruckModifyActivity">
 
     <TextView
+        android:layout_marginLeft="20dp"
         android:text="Location detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <EditText
+        android:hint="상세주소를 입력하시오."
         android:id="@+id/locationDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <TextView
+        android:layout_marginLeft="20dp"
         android:text="Menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+
+
+
     <TextView
+        android:layout_marginLeft="20dp"
         android:text="Notice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/notice"
+        android:hint="Notice를 입력하시오."
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <TextView
+        android:layout_marginLeft="20dp"
         android:text="Today's Hour"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -68,6 +77,7 @@
 </LinearLayout>
 
     <TextView
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="-30dp"
         android:text="More Info"
         android:layout_width="match_parent"
