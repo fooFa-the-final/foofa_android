@@ -49,9 +49,13 @@
         android:text="직접 작성"/>
 
     <EditText
+        android:background="@drawable/border"
         android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
         android:layout_width="300dp"
-        android:layout_height="150dp" />
+        android:layout_height="150dp"
+        android:hint="신고 내용을 작성해주세요"
+        android:gravity="top"/>
 
     <Button
         android:layout_gravity="center"
