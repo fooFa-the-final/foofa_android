@@ -52,8 +52,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 new LoginCheckTask().execute("http://foofa.crabdance.com:8888/FoodtruckFinderProject/mobilelogin.do?id="
                         + idEdit.getText() + "&password=" + pwEdit.getText());
-                Toast.makeText(LoginActivity.this, "Seller", Toast.LENGTH_SHORT).show();
-
             }
         });
     }
@@ -96,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             } else {
-                Toast.makeText(LoginActivity.this, "loginfalse", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "아이디또는 비밀번호를 확인하세요", Toast.LENGTH_SHORT).show();
             }
         }
     }

@@ -43,27 +43,27 @@ public class TruckInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_seller);
 
-
-        TabHost tabHost1 = (TabHost) findViewById(R.id.tabHost1);
-        tabHost1.setup();
-        prefs = getSharedPreferences("loginUserId", Context.MODE_PRIVATE);
-
-        TabHost.TabSpec ts1 = tabHost1.newTabSpec("Tab Spec 1");
-        ts1.setContent(R.id.truckInfo);
-        ts1.setIndicator("INFO");
-        tabHost1.addTab(ts1);
-
-
-        TabHost.TabSpec ts2 = tabHost1.newTabSpec("Tab Spec 2");
-        ts1.setContent(R.id.truckReview);
-        ts1.setIndicator("리뷰");
-        tabHost1.addTab(ts1);
-
-
-        TabHost.TabSpec ts3 = tabHost1.newTabSpec("Tab Spec 3");
-        ts1.setContent(R.id.truckAdvertise);
-        ts1.setIndicator("광고신청");
-        tabHost1.addTab(ts1);
+//
+//        TabHost tabHost1 = (TabHost) findViewById(R.id.tabHost1);
+//        tabHost1.setup();
+//        prefs = getSharedPreferences("loginUserId", Context.MODE_PRIVATE);
+//
+//        TabHost.TabSpec ts1 = tabHost1.newTabSpec("Tab Spec 1");
+//        ts1.setContent(R.id.truckInfo);
+//        ts1.setIndicator("INFO");
+//        tabHost1.addTab(ts1);
+//
+//
+//        TabHost.TabSpec ts2 = tabHost1.newTabSpec("Tab Spec 2");
+//        ts1.setContent(R.id.truckReview);
+//        ts1.setIndicator("리뷰");
+//        tabHost1.addTab(ts1);
+//
+//
+//        TabHost.TabSpec ts3 = tabHost1.newTabSpec("Tab Spec 3");
+//        ts1.setContent(R.id.truckAdvertise);
+//        ts1.setIndicator("광고신청");
+//        tabHost1.addTab(ts1);
 
 //        Intent intent = getIntent();
 //        Foodtruck truck = (Foodtruck) intent.getExtras().get("truck");

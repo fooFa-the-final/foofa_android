@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="343dp"
+        android:layout_height="350dp"
         android:layout_gravity="center"
         android:orientation="vertical"
         tools:layout_editor_absoluteY="50dp"
@@ -22,33 +22,39 @@
             android:layout_height="wrap_content"
             android:text="판매자 가입"
             android:textSize="25dp"
-            android:layout_marginBottom="70dp"/>
+            android:layout_marginBottom="50dp"
+            />
 
         <EditText
             android:id="@+id/idEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="ID" />
+            android:hint="ID"
+            android:layout_marginTop="10dp"/>
         <EditText
             android:id="@+id/passwordEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Password" />
+            android:hint="Password"
+            android:layout_marginTop="10dp"/>
         <EditText
             android:id="@+id/password1Edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Confirm Password" />
+            android:hint="Confirm Password"
+            android:layout_marginTop="10dp"/>
         <EditText
             android:id="@+id/BusinessNumberEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Business Registration Number" />
+            android:hint="Business Registration Number"
+            android:layout_marginTop="10dp"/>
         <EditText
             android:id="@+id/PhoneEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Phone"
+            android:layout_marginTop="10dp"
             />
     </LinearLayout>
     <Button
