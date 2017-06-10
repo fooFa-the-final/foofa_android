@@ -8,6 +8,7 @@
     tools:context="com.example.foofatest.TruckInfoActivity">
 
     <LinearLayout
+        android:id="@+id/info"
         android:background="#FFEBEE"
         android:orientation="horizontal"
         android:layout_width="match_parent"
