@@ -32,7 +32,7 @@ public class ButtonListActivity extends AppCompatActivity {
         findViewById(R.id.memberRegisterBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ButtonListActivity.this, MemberFavListActivity.class);
+                Intent intent = new Intent(ButtonListActivity.this, RegisterActivity.class);
                 startActivity(intent);
             }
         });

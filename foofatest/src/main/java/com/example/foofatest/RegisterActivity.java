@@ -41,7 +41,6 @@ public class RegisterActivity extends AppCompatActivity {
         final EditText birthdayEdit = (EditText) findViewById(R.id.reg_birthday);
         final EditText emailEdit = (EditText) findViewById(R.id.reg_email);
         final RadioButton maleRadio = (RadioButton) findViewById(R.id.reg_genderM);
-        final RadioButton femaleRadio = (RadioButton) findViewById(R.id.reg_genderF);
 
         Button submitBtn = (Button)findViewById(R.id.reg_memberBtn);
 
@@ -51,6 +50,15 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if(password1Edit.getText().toString().equals(password2Edit.getText().toString())){
+                    member.setMemberId(idEdit.getText().toString());
+                    member.setPassword(password2Edit.getText().toString());
+                    member.setBirthday(birthdayEdit.getText().toString());
+                    member.setEmail(emailEdit.getText().toString());
+                    if(maleRadio.isChecked()){
+                        member.setGender("M");
+                    }else {
+                        member.setGender("F");
+                    }
                     new RegisterActivity.RegisterTask().execute("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/memberRegister.do");
                 }
             }

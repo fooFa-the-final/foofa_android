@@ -113,8 +113,6 @@ public class LoginActivity extends AppCompatActivity {
                 intent = new Intent(LoginActivity.this, ButtonListActivity.class);
 
                 SharedPreferences login = getSharedPreferences("loginUserId", Context.MODE_PRIVATE);
-                Log.d("life", idEdit.getText()+"??");
-                Log.d("life", idEdit.getText().toString()+"??");
                 login.edit().putString("loginId", idEdit.getText().toString()).apply();
                 intent.putExtra("loginUserId",idEdit.getText().toString());
                 startActivity(intent);
