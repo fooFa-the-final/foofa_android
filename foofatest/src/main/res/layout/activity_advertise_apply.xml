@@ -26,6 +26,7 @@
         android:scaleY="0.50" />
 
     <TextView
+        android:id="@+id/advDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20.0dp"
@@ -59,6 +60,7 @@
             android:layout_height="wrap_content"
             android:text="14일" />
 
+
         <RadioButton
             android:id="@+id/radio3"
             android:layout_width="wrap_content"
@@ -69,6 +71,7 @@
 
 
     <Button
+        android:id="@+id/advbtn"
         android:text="결제"
         android:layout_marginTop="20dp"
         android:layout_gravity="center"
