@@ -7,6 +7,14 @@
     android:layout_height="match_parent"
     tools:context="com.example.foofatest.TruckInfoActivity">
 
+    <TextView
+        android:text="실패"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
+    <ListView
+        android:id="@+id/truckDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.example.foofatest.R;
 import com.example.foofatest.dto.Foodtruck;
-import com.example.foofatest.dto.Menu;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -36,7 +35,7 @@ public class FoodtruckDetailAdapter extends BaseAdapter {
 
     public FoodtruckDetailAdapter(Context context, List<Foodtruck> foodtrucks) {
         this.context = context;
-        this.inflater =  LayoutInflater.from(context);
+        this.inflater = LayoutInflater.from(context);
         this.foodtrucks = foodtrucks;
     }
 
@@ -73,6 +72,16 @@ public class FoodtruckDetailAdapter extends BaseAdapter {
         TextView truckLocation = (TextView) convertView.findViewById(R.id.truckLocation);
         ImageView image = (ImageView) convertView.findViewById(R.id.truckimg);
 
+
+        truckName.setText(foodtrucks.get(position).getFoodtruckName());
+        truckCategory.setText(foodtrucks.get(position).getCategory1());
+        truckArea.setText(foodtrucks.get(position).getLocation());
+//        truckFavorite.setText(foodtrucks.get(position).getFavoriteCount());
+//        truckReviewCount.setText(foodtrucks.get(position).getReviewCount());
+        truckNotice.setText(foodtrucks.get(position).getNotice());
+        truckHours.setText(foodtrucks.get(position).getOperationTime());
+        truckLocation.setText(foodtrucks.get(position).getSpot());
+
         new ImageLoadingTask(image).execute(foodtrucks.get(position).getFoodtruckImg());
         return convertView;
     }
@@ -81,6 +90,7 @@ public class FoodtruckDetailAdapter extends BaseAdapter {
     private class ImageLoadingTask extends AsyncTask<String, Void, Bitmap> {
 
         private final WeakReference<ImageView> imageViewWeakReference;
+
         public ImageLoadingTask(ImageView img) {
             this.imageViewWeakReference = new WeakReference<ImageView>(img);
         }

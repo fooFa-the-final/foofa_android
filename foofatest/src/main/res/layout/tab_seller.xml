@@ -25,9 +25,6 @@
                 android:layout_height="wrap_content"
                 />
 
-
-
-
             <!-- FrameLayout의 id값이 반드시 "tabcontent"로 지정되어야 함. -->
             <FrameLayout
                 android:id="@android:id/tabcontent"
@@ -35,14 +32,15 @@
                 android:layout_height="wrap_content">
 
                 <!-- 첫 번째 페이지. 트럭info -->
-         <LinearLayout
+             <LinearLayout
              android:id="@+id/truckInfo1"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content">
-          <ListView
+
+             <ListView
               android:id="@+id/truckDetail"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"></ListView>
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"/>
 
          </LinearLayout>
                 <!-- 두 번째 페이지. content2 -->
@@ -51,14 +49,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Shrimp Fighter"
-                        android:textSize="30dp"/>
-
-
                     <ListView
                         android:id="@+id/mylist"
                         android:layout_width="wrap_content"
@@ -68,9 +58,6 @@
                 </LinearLayout>
 
                 <!-- 세 번째 페이지. content3 -->
-
-
-                <!-- 첫 번째 페이지. content1 -->
                 <LinearLayout
                     android:id="@+id/truckAdvertise"
                     android:layout_width="match_parent"
