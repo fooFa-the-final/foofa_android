@@ -32,7 +32,7 @@
         <activity android:name=".FollowerActivity" />
         <activity android:name=".TruckInfoActivity" />
         <activity android:name=".TruckDetailActivity" />
-        <activity android:name=".TruckOpenActivity"
+        <activity android:name=".TruckOpenActivity"/>
         <activity android:name=".TruckClosedActivity" />
         <activity android:name=".SellerModifyActivity" />
         <activity android:name=".TruckRegisterActivity" />
