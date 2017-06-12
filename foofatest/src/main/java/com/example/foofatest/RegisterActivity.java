@@ -62,6 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if(password1Edit.getText().toString().equals(password2Edit.getText().toString())){
                     Toast.makeText(RegisterActivity.this, "회원가입 시도.", Toast.LENGTH_SHORT).show();
+                    member = new Member();
                     member.setMemberId(idEdit.getText().toString());
                     member.setPassword(password2Edit.getText().toString());
                     member.setBirthday(birthdayEdit.getText().toString());
