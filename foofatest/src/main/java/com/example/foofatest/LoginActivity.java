@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
 
         prefs = getSharedPreferences("loginUserId", Context.MODE_PRIVATE);
         String id = prefs.getString("id", "");
-        if(!id.isEmpty()) {
+        if (!id.isEmpty()) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
@@ -47,26 +47,13 @@ public class LoginActivity extends AppCompatActivity {
         pwEdit = (EditText) findViewById(R.id.pwedit);
         sellerChek = (CheckBox) findViewById(R.id.sellerCheck);
 
-        if(sellerChek.isChecked()) {
-            findViewById(R.id.loginBtn).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new LoginCheckTask().execute("http://106.242.203.67:8088/FoodtruckFinderProject/mobilelogin.do?id="
-                            + idEdit.getText() + "&password=" + pwEdit.getText());
-                    Toast.makeText(LoginActivity.this, "Seller", Toast.LENGTH_SHORT).show();
-
-                }
-            });
-        } else {
-            findViewById(R.id.loginBtn).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    new LoginCheckTask().execute("http://106.242.203.67:8088/FoodtruckFinderProject/mobilelogin.do?id="
-                            + idEdit.getText() + "&password=" + pwEdit.getText());
-                    Toast.makeText(LoginActivity.this, "Member", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
+        findViewById(R.id.loginBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new LoginCheckTask().execute("http://foofa.crabdance.com:8888/FoodtruckFinderProject/mobilelogin.do?id="
+                        + idEdit.getText() + "&password=" + pwEdit.getText());
+            }
+        });
     }
 
     private class LoginCheckTask extends AsyncTask<String, Void, String> {
@@ -94,5 +81,26 @@ public class LoginActivity extends AppCompatActivity {
             }
             return checkStr;
         }
+        @Override
+        protected void onPostExecute(String s) {
+            if(s.equals("true")){
+
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("id", idEdit.getText().toString());
+                    editor.putString("pw", pwEdit.getText().toString());
+                    editor.apply();
+
+                Intent intent = new Intent(LoginActivity.this, TruckInfoActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
+                Toast.makeText(LoginActivity.this, "아이디또는 비밀번호를 확인하세요", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
+
 }
+
+
+
+

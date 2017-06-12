@@ -1,18 +1,22 @@
-package com.example.foofatest;
+package com.example.foofatest.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
+
+import com.example.foofatest.R;
+import com.example.foofatest.dto.Menu;
+
 import java.util.List;
 
 /**
  * Created by kosta on 2017-06-10.
  */
 
-public class FoodtruckDetailMenuAdapter extends BaseAdapter{
+public class FoodtruckDetailMenuAdapter extends BaseAdapter {
 
     private Context context;
     private LayoutInflater inflater;
@@ -23,7 +27,6 @@ public class FoodtruckDetailMenuAdapter extends BaseAdapter{
         this.inflater = inflater;
         this.menus = menu;
     }
-
     @Override
     public int getCount() {
         return menus.size();
@@ -41,9 +44,19 @@ public class FoodtruckDetailMenuAdapter extends BaseAdapter{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-    if(convertView == null) {
-        convertView = inflater.inflate(R.layout.truck_menu, null);
-    }
-        return null;
+        if (convertView == null) {
+            convertView = inflater.inflate(R.layout.truck_menu, null);
+        }
+        TextView menuName = (TextView) convertView.findViewById(R.id.menuName);
+        TextView menuPrice = (TextView) convertView.findViewById(R.id.menuPrice);
+        TextView menuState = (TextView) convertView.findViewById(R.id.menuState);
+        menuName.setText(menus.get(position).getMenuName());
+        if(menus.get(position).isMenuState() == true) {
+            menuState.setText("판매중");
+        } else {
+            menuState.setText("매진");
+        }
+        menuPrice.setText(menus.get(position).getPrice());
+        return convertView;
     }
 }
