@@ -29,7 +29,7 @@ public class TruckInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(TruckInfoActivity.this, TruckModifyActivity.class);
-                intent.putExtra("foodtruck", id);
+                /*intent.putExtra("foodtruck", id);*/
                 startActivity(intent);
             }
         });
