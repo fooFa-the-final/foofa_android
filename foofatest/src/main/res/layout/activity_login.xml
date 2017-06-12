@@ -13,7 +13,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Fooofa"
+        android:text="Foofa"
         android:textAlignment="center"
         android:textColor="#e81434"
         android:textSize="20sp" />
