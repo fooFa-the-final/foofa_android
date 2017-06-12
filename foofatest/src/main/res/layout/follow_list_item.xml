@@ -15,7 +15,7 @@
         android:onClick="vertical">
 
         <TextView
-            android:id="@+id/id"
+            android:id="@+id/toId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -35,6 +35,7 @@
         android:orientation="vertical">
 
         <Button
+            android:id="@+id/ufbtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Unfollow"/>
