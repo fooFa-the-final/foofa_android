@@ -54,6 +54,8 @@ public class TruckOpenActivity extends AppCompatActivity {
     private int minute;
     private int ampm;
     private String Geolocation = "";
+    private TextView locationText;
+    private EditText location1;
 
     final Geocoder geocoder = new Geocoder(this);
 
@@ -77,15 +79,15 @@ public class TruckOpenActivity extends AppCompatActivity {
         foodtruck.setParking(false);
         foodtruck.setCatering(true);
 
-        final TextView locationText = (TextView)findViewById(R.id.locationText);
-        final EditText location = (EditText)findViewById(R.id.modLocation);
-        final EditText notice = (EditText)findViewById(R.id.modNotice);
+        locationText = (TextView) findViewById(R.id.locationText);
+        location1 = (EditText) findViewById(R.id.myLocation);
+        final EditText notice = (EditText) findViewById(R.id.modNotice);
         /*final TimePicker startTime = (TimePicker)findViewById(R.id.modStartTime);
         final TimePicker endTime = (TimePicker)findViewById(R.id.modEndTime);*/
-        final CheckBox card = (CheckBox)findViewById(R.id.modAcceptCard);
-        final CheckBox alchol = (CheckBox)findViewById(R.id.modAlchol);
-        final CheckBox parking = (CheckBox)findViewById(R.id.modParking);
-        final CheckBox catering = (CheckBox)findViewById(R.id.modCatering);
+        final CheckBox card = (CheckBox) findViewById(R.id.modAcceptCard);
+        final CheckBox alchol = (CheckBox) findViewById(R.id.modAlchol);
+        final CheckBox parking = (CheckBox) findViewById(R.id.modParking);
+        final CheckBox catering = (CheckBox) findViewById(R.id.modCatering);
 
         final Calendar cal = Calendar.getInstance();
         hour = cal.get(Calendar.HOUR_OF_DAY);
@@ -93,7 +95,6 @@ public class TruckOpenActivity extends AppCompatActivity {
         ampm = cal.get(Calendar.AM_PM);
 
 
-        location.setText(Geolocation);
         notice.setText(foodtruck.getNotice());
         /*startTime.setHour(hour);
         startTime.setMinute(minute);
@@ -106,21 +107,21 @@ public class TruckOpenActivity extends AppCompatActivity {
 
         final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        try{
+        try {
             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 1, mLocationListener);
             lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 100, 1, mLocationListener);
 
-        }catch (SecurityException ex){
+        } catch (SecurityException ex) {
 
         }
 
 
-        Button modifyBtn = (Button)findViewById(R.id.modTruckBtn);
+        Button modifyBtn = (Button) findViewById(R.id.modTruckBtn);
 
         modifyBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                foodtruck.setLocation(location.getText().toString());
+                foodtruck.setLocation(location1.getText().toString());
                 foodtruck.setNotice(notice.getText().toString());
                 foodtruck.setCard(card.isChecked());
                 foodtruck.setDrinking(alchol.isChecked());
@@ -162,6 +163,8 @@ public class TruckOpenActivity extends AppCompatActivity {
                     Geolocation = "";
                 } else {
                     Geolocation = list.get(0).getAddressLine(0).toString();
+                    location1.setText(Geolocation);
+                    locationText.setText("Location detail(done)");
                 }
             }
         }
@@ -181,9 +184,10 @@ public class TruckOpenActivity extends AppCompatActivity {
             Log.d("test", "onStatusChanged, provider:" + provider + ", status:" + status + " ,Bundle:" + extras);
         }
     };
+
     private class HttpAsyncTask extends AsyncTask<Object, Void, String> {
 
-        private  TruckOpenActivity truckOpenAct;
+        private TruckOpenActivity truckOpenAct;
 
         HttpAsyncTask(TruckOpenActivity truckOpenActivity) {
             this.truckOpenAct = truckOpenActivity;
@@ -192,10 +196,11 @@ public class TruckOpenActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(Object... objects) {
 
-            Foodtruck foodtruck = (Foodtruck)objects[1];
+            Foodtruck foodtruck = (Foodtruck) objects[1];
 
             return POST((String) objects[0], foodtruck);
         }
+
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(String result) {
@@ -204,11 +209,11 @@ public class TruckOpenActivity extends AppCompatActivity {
     }
 
 
-    private static String convertInputStreamToString(InputStream inputStream) throws IOException{
-        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
+    private static String convertInputStreamToString(InputStream inputStream) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         String line = "";
         String result = "";
-        while((line = bufferedReader.readLine()) != null)
+        while ((line = bufferedReader.readLine()) != null)
             result += line;
 
         inputStream.close();
@@ -216,7 +221,7 @@ public class TruckOpenActivity extends AppCompatActivity {
 
     }
 
-    public boolean isConnected(){
+    public boolean isConnected() {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected())
@@ -225,12 +230,12 @@ public class TruckOpenActivity extends AppCompatActivity {
             return false;
     }
 
-    public static String POST(String url, Foodtruck foodtruck){
+    public static String POST(String url, Foodtruck foodtruck) {
         InputStream is = null;
         String result = "";
         try {
             URL urlCon = new URL(url);
-            HttpURLConnection httpCon = (HttpURLConnection)urlCon.openConnection();
+            HttpURLConnection httpCon = (HttpURLConnection) urlCon.openConnection();
 
             // build jsonObject
             JSONObject jsonObject = new JSONObject();
@@ -261,22 +266,18 @@ public class TruckOpenActivity extends AppCompatActivity {
             try {
                 is = httpCon.getInputStream();
                 // convert inputstream to string
-                if(is != null)
+                if (is != null)
                     result = convertInputStreamToString(is);
                 else
                     result = "Did not work!";
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
-            }
-            finally {
+            } finally {
                 httpCon.disconnect();
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Log.d("InputStream", e.getLocalizedMessage());
         }
 
