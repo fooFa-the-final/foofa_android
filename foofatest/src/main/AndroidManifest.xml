@@ -41,7 +41,15 @@
         <activity android:name=".MemberModifyActivity" />
         <activity android:name=".TruckBefore" />
         <activity android:name=".MemberFavListActivity" />
-        <activity android:name=".ReviewCreateActivity"></activity>
+        <activity android:name=".ReviewCreateActivity" />
+        <activity android:name=".AdvertiseApplyActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
     </application>
 
 </manifest>
