@@ -1,6 +1,7 @@
 package com.example.foofatest;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.icu.util.Calendar;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -210,6 +211,7 @@ public class TruckOpenActivity extends AppCompatActivity {
             Log.d("InputStream", e.getLocalizedMessage());
         }
 
+        Log.d("InputStream", result);
         return result;
     }
 }
