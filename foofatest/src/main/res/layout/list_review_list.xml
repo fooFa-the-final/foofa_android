@@ -67,6 +67,7 @@
                 <RatingBar
                     style="?android:attr/ratingBarStyleSmall"
                     android:numStars="5"
+                    android:id="@+id/truckReivewScore"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
