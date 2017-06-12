@@ -1,11 +1,14 @@
 package com.example.foofatest;
 
+import android.app.ActivityGroup;
+import android.app.LocalActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -53,23 +56,53 @@ public class TruckInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_seller);
 
+//
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.main);
+//        final TabHost tabHost = (TabHost) findViewById(R.id.tabhost);
+//        tabHost.setup();
+//
+//        tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("tab1").setContent(R.id.TextView01));
+//        tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator("tab2").setContent(R.id.Button01));
+//    }
+//}
+
+
+
         TabHost tabHost1 = (TabHost) findViewById(R.id.tabHost1);
-        tabHost1.setup();
+//        tabHost1.setup();
+ LocalActivityManager oo = new LocalActivityManager(getParent(), true);
+//        LocalActivityManager oo = getLocalActivityManager();
+        tabHost1.setup(oo);
+
+
+
+//        tabHost1.addTab(tabHost1.newTabSpec("tab1").setIndicator("INFO").setContent(R.id.truckInfo1).setContent(getIntent().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)));
+//        tabHost1.addTab(tabHost1.newTabSpec("tab2").setIndicator("INFO1").setContent(R.id.truckReview).setContent(getIntent().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)));
+//        tabHost1.addTab(tabHost1.newTabSpec("tab3").setIndicator("INFO2").setContent(R.id.truckAdvertise).setContent(getIntent().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)));
+
+
         TabHost.TabSpec ts1 = tabHost1.newTabSpec("Tab Spec 1");
         ts1.setContent(R.id.truckInfo1);
         ts1.setIndicator("INFO");
+//        ts1.setContent(getIntent().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
         tabHost1.addTab(ts1);
         TabHost.TabSpec ts2 = tabHost1.newTabSpec("Tab Spec 2");
-        ts1.setContent(R.id.truckReview);
-        ts1.setIndicator("리뷰");
-        tabHost1.addTab(ts1);
+        ts2.setContent(R.id.truckReview);
+        ts2.setIndicator("리뷰");
+//        ts2.setContent(getIntent().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
+        tabHost1.addTab(ts2);
         TabHost.TabSpec ts3 = tabHost1.newTabSpec("Tab Spec 3");
-        ts1.setContent(R.id.truckAdvertise);
-        ts1.setIndicator("광고신청");
-        tabHost1.addTab(ts1);
+        ts3.setContent(R.id.truckAdvertise);
+        ts3.setIndicator("광고신청");
+//        ts3.setContent(getIntent().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
+        tabHost1.addTab(ts3);
+
+
 
         prefs = getSharedPreferences("loginUserId", Context.MODE_PRIVATE);
         final String id = prefs.getString("id", "");
+        Log.d(id, "id는 뭔가여");
         foodtrucks = new ArrayList<>();
         adapter = new FoodtruckDetailAdapter(this, foodtrucks);
 

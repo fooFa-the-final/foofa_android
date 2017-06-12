@@ -9,10 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.foofatest.R;
 import com.example.foofatest.dto.Foodtruck;
+import com.example.foofatest.dto.Review;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -23,31 +25,29 @@ import java.net.URLConnection;
 import java.util.List;
 
 /**
- * Created by kosta on 2017-06-10.
+ * Created by kosta on 2017-06-12.
  */
 
-public class FoodtruckDetailAdapter extends BaseAdapter {
-
+public class TruckReviewAdapter extends BaseAdapter {
 
     private Context context;
     private LayoutInflater inflater;
-    private List<Foodtruck> foodtrucks;
+    private List<Review> reviews;
 
-    public FoodtruckDetailAdapter(Context context, List<Foodtruck> foodtrucks) {
+    public TruckReviewAdapter(Context context, List<Review> reviews) {
         this.context = context;
-        this.inflater = LayoutInflater.from(context);
-        this.foodtrucks = foodtrucks;
+        this.reviews = reviews;
     }
 
 
     @Override
     public int getCount() {
-        return foodtrucks.size();
+        return reviews.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return foodtrucks.get(position);
+        return reviews.get(position);
     }
 
     @Override
@@ -58,32 +58,23 @@ public class FoodtruckDetailAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.list_foodtruck_detail, null);
+            convertView = inflater.inflate(R.layout.list_review_list, null);
         }
 
+        TextView writerId = (TextView) convertView.findViewById(R.id.writerId);
+        TextView reviewRecommendCount = (TextView) convertView.findViewById(R.id.reviewRecommendCount);
+        TextView reviewTruckName = (TextView) convertView.findViewById(R.id.reviewTruckName);
+        TextView reviewContent = (TextView) convertView.findViewById(R.id.reviewContent);
+        RatingBar truckReivewScore = (RatingBar) convertView.findViewById(R.id.truckReivewScore);
+        ImageView image = (ImageView) convertView.findViewById(R.id.reviewImage);
 
-        TextView truckName = (TextView) convertView.findViewById(R.id.truckName);
-        TextView truckCategory = (TextView) convertView.findViewById(R.id.truckCategory);
-        TextView truckArea = (TextView) convertView.findViewById(R.id.truckArea);
-        TextView truckFavorite = (TextView) convertView.findViewById(R.id.truckFavorite);
-        TextView truckReviewCount = (TextView) convertView.findViewById(R.id.truckReviewCount);
-        TextView truckNotice = (TextView) convertView.findViewById(R.id.truckNotice);
-        TextView truckHours = (TextView) convertView.findViewById(R.id.truckHours);
-        TextView truckLocation = (TextView) convertView.findViewById(R.id.truckLocation);
-        ImageView image = (ImageView) convertView.findViewById(R.id.truckimg);
-
-
-        truckName.setText(foodtrucks.get(position).getFoodtruckName());
-        truckCategory.setText(foodtrucks.get(position).getCategory1());
-        truckArea.setText(foodtrucks.get(position).getLocation());
-//        truckFavorite.setText(foodtrucks.get(position).getFavoriteCount());
-//        truckReviewCount.setText(foodtrucks.get(position).getReviewCount());
-        truckNotice.setText(foodtrucks.get(position).getNotice());
-        truckHours.setText(foodtrucks.get(position).getOperationTime());
-        truckLocation.setText(foodtrucks.get(position).getSpot());
-
-        new ImageLoadingTask(image).execute(foodtrucks.get(position).getFoodtruckImg());
-        return convertView;
+        writerId.setText(reviews.get(position).getWriter().getMemberId());
+        reviewRecommendCount.setText(reviews.get(position).getRecommand());
+        reviewTruckName.setText(reviews.get(position).getFoodtruck().getFoodtruckName());
+        reviewContent.setText(reviews.get(position).getContents());
+        truckReivewScore.setRating(reviews.get(position).getScore());
+        
+        return null;
     }
 
 
@@ -139,5 +130,5 @@ public class FoodtruckDetailAdapter extends BaseAdapter {
 
 
 
-}
 
+}
