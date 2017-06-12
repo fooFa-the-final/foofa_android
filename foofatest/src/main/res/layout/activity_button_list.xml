@@ -91,9 +91,10 @@
             android:text="회원가입" />
 
         <Button
+            android:id="@+id/truckOpenBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="f" />
+            android:text="open" />
 
         <Button
             android:layout_width="wrap_content"

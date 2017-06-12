@@ -36,5 +36,13 @@ public class ButtonListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        findViewById(R.id.truckOpenBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ButtonListActivity.this, TruckOpenActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
