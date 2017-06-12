@@ -25,6 +25,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".TruckModifyActivity"/>
         <activity android:name=".MainActivity" />
         <activity android:name=".TruckProfileActivity" />
         <activity android:name=".SellerRegisterActivity" />
@@ -41,7 +42,7 @@
         <activity android:name=".MemberModifyActivity" />
         <activity android:name=".TruckBefore" />
         <activity android:name=".MemberFavListActivity" />
-        <activity android:name=".ReviewCreateActivity"></activity>
+        <activity android:name=".ReviewCreateActivity" />
     </application>
 
 </manifest>

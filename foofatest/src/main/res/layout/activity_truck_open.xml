@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="360dp"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="10dp"
+    tools:context="com.example.foofatest.TruckOpenActivity">
+
+    <TextView
+        android:text="Location detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:id="@+id/modLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="오늘 영업주소를 입력하세요" />
+
+    <TextView
+        android:text="Menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ListView
+        android:id="@+id/modMenus"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+
+
+    <TextView
+        android:text="Notice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/modNotice"
+        android:hint="공지사항을 입력하세요"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:text="Today's Hour"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!--<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:text="영업시작" />
+
+
+        <TimePicker
+            android:scaleX="1.10"
+            android:scaleY="0.90"
+            android:id="@+id/modStartTime"
+            android:layout_marginTop="-50dp"
+            android:layout_marginLeft="-40dp"
+            android:layout_marginRight="-40dp"
+            android:timePickerMode="spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:text="영업마감" />
+
+        <TimePicker
+            android:scaleX="1.10"
+            android:scaleY="0.90"
+            android:layout_marginTop="-50dp"
+            android:layout_marginLeft="-30dp"
+            android:layout_marginRight="-40dp"
+            android:id="@+id/modEndTime"
+            android:timePickerMode="spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        </LinearLayout>-->
+
+
+    <TextView
+        android:layout_marginTop="-30dp"
+        android:text="More Info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <CheckBox
+        android:id="@+id/modAcceptCard"
+        android:text="Accept card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <CheckBox
+        android:id="@+id/modAlchol"
+        android:text="Alchol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <CheckBox
+        android:id="@+id/modParking"
+        android:text="Parking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <CheckBox
+        android:id="@+id/modCatering"
+        android:text="Catering"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/modTruckBtn"
+        android:text="Save"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
