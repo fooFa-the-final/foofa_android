@@ -28,7 +28,9 @@ public class LoginActivity extends AppCompatActivity {
     private EditText idEdit;
     private EditText pwEdit;
 
-    private CheckBox sellerChek;
+    private CheckBox sellerCheck;
+    private CheckBox autoLoginCheck;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +47,20 @@ public class LoginActivity extends AppCompatActivity {
 
         idEdit = (EditText) findViewById(R.id.idedit);
         pwEdit = (EditText) findViewById(R.id.pwedit);
-        sellerChek = (CheckBox) findViewById(R.id.sellerCheck);
+        sellerCheck = (CheckBox) findViewById(R.id.sellerCheck);
+        autoLoginCheck = (CheckBox) findViewById(R.id.autoLoginCheck);
 
         findViewById(R.id.loginBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new LoginCheckTask().execute("http://foofa.crabdance.com:8888/FoodtruckFinderProject/mobilelogin.do?id="
-                        + idEdit.getText() + "&password=" + pwEdit.getText());
+
+                if(sellerCheck.isChecked()){
+                    new LoginCheckTask().execute("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/sellerlogin.do?id="
+                            + idEdit.getText() + "&password=" + pwEdit.getText());
+                }else {
+                    new LoginCheckTask().execute("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/memberlogin.do?id="
+                            + idEdit.getText() + "&password=" + pwEdit.getText());
+                }
             }
         });
     }
@@ -85,12 +94,20 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             if(s.equals("true")){
 
+                if(autoLoginCheck.isChecked()) {
                     SharedPreferences.Editor editor = prefs.edit();
                     editor.putString("id", idEdit.getText().toString());
                     editor.putString("pw", pwEdit.getText().toString());
                     editor.apply();
+                }
+                Toast.makeText(LoginActivity.this, "정상 로그인 되었습니다.", Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(LoginActivity.this, TruckInfoActivity.class);
+                Intent intent;
+                if(sellerCheck.isChecked()){
+                    intent = new Intent(LoginActivity.this, TruckInfoActivity.class);
+                }else {
+                    intent = new Intent(LoginActivity.this, TruckInfoActivity.class);
+                }
                 startActivity(intent);
                 finish();
             } else {
