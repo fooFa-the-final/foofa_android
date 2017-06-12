@@ -26,28 +26,28 @@ import java.util.List;
  * Created by kosta on 2017-06-10.
  */
 
-public class FoodtruckDetailAdapter extends BaseAdapter {
+public class FavoriteListlAdapter extends BaseAdapter {
 
 
     private Context context;
     private LayoutInflater inflater;
-    private List<Foodtruck> foodtrucks;
+    private List<Foodtruck> favorites;
 
-    public FoodtruckDetailAdapter(Context context, List<Foodtruck> foodtrucks) {
+    public FavoriteListlAdapter(Context context, List<Foodtruck> favorites) {
         this.context = context;
         this.inflater = LayoutInflater.from(context);
-        this.foodtrucks = foodtrucks;
+        this.favorites = favorites;
     }
 
 
     @Override
     public int getCount() {
-        return foodtrucks.size();
+        return favorites.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return foodtrucks.get(position);
+        return favorites.get(position);
     }
 
     @Override
@@ -73,16 +73,16 @@ public class FoodtruckDetailAdapter extends BaseAdapter {
         ImageView image = (ImageView) convertView.findViewById(R.id.truckimg);
 
 
-        truckName.setText(foodtrucks.get(position).getFoodtruckName());
-        truckCategory.setText(foodtrucks.get(position).getCategory1());
-        truckArea.setText(foodtrucks.get(position).getLocation());
+        truckName.setText(favorites.get(position).getFoodtruckName());
+        truckCategory.setText(favorites.get(position).getCategory1());
+        truckArea.setText(favorites.get(position).getLocation());
 //        truckFavorite.setText(foodtrucks.get(position).getFavoriteCount());
 //        truckReviewCount.setText(foodtrucks.get(position).getReviewCount());
-        truckNotice.setText(foodtrucks.get(position).getNotice());
-        truckHours.setText(foodtrucks.get(position).getOperationTime());
-        truckLocation.setText(foodtrucks.get(position).getSpot());
+        truckNotice.setText(favorites.get(position).getNotice());
+        truckHours.setText(favorites.get(position).getOperationTime());
+        truckLocation.setText(favorites.get(position).getSpot());
 
-        new ImageLoadingTask(image).execute(foodtrucks.get(position).getFoodtruckImg());
+        new ImageLoadingTask(image).execute(favorites.get(position).getFoodtruckImg());
         return convertView;
     }
 
@@ -136,8 +136,4 @@ public class FoodtruckDetailAdapter extends BaseAdapter {
         }
         return bitmap;
     }
-
-
-
 }
-

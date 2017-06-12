@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
 
-        prefs = getSharedPreferences("loginUserId", Context.MODE_PRIVATE);
+        prefs = getSharedPreferences("autologinUserId", Context.MODE_PRIVATE);
         String id = prefs.getString("id", "");
         if (!id.isEmpty()) {
             Intent intent = new Intent(this, MainActivity.class);
@@ -108,6 +108,9 @@ public class LoginActivity extends AppCompatActivity {
                 }else {
                     intent = new Intent(LoginActivity.this, TruckInfoActivity.class);
                 }
+                SharedPreferences login = getSharedPreferences("loginUserId", Context.MODE_PRIVATE);
+                login.edit().putString("id", idEdit.getText().toString());
+                intent.putExtra("loginUserId",idEdit.getText().toString());
                 startActivity(intent);
                 finish();
             } else {
