@@ -85,9 +85,10 @@
             android:text="f" />
 
         <Button
+            android:id="@+id/memberRegisterBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="f" />
+            android:text="회원가입" />
 
         <Button
             android:layout_width="wrap_content"

@@ -25,14 +25,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TruckModifyActivity"/>
+        <activity android:name=".TruckModifyActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".TruckProfileActivity" />
         <activity android:name=".SellerRegisterActivity" />
         <activity android:name=".FollowerActivity" />
         <activity android:name=".TruckInfoActivity" />
         <activity android:name=".TruckDetailActivity" />
-        <activity android:name=".TruckOpenActivity"
+        <activity android:name=".TruckOpenActivity"/>
         <activity android:name=".TruckClosedActivity" />
         <activity android:name=".SellerModifyActivity" />
         <activity android:name=".TruckRegisterActivity" />
@@ -44,6 +44,7 @@
         <activity android:name=".TruckBefore" />
         <activity android:name=".MemberFavListActivity" />
         <activity android:name=".ReviewCreateActivity" />
+        <activity android:name=".ButtonListActivity"></activity>
     </application>
 
 </manifest>

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -108,8 +109,13 @@ public class LoginActivity extends AppCompatActivity {
                 }else {
                     intent = new Intent(LoginActivity.this, TruckInfoActivity.class);
                 }
+
+                intent = new Intent(LoginActivity.this, ButtonListActivity.class);
+
                 SharedPreferences login = getSharedPreferences("loginUserId", Context.MODE_PRIVATE);
-                login.edit().putString("id", idEdit.getText().toString());
+                Log.d("life", idEdit.getText()+"??");
+                Log.d("life", idEdit.getText().toString()+"??");
+                login.edit().putString("loginId", idEdit.getText().toString()).apply();
                 intent.putExtra("loginUserId",idEdit.getText().toString());
                 startActivity(intent);
                 finish();

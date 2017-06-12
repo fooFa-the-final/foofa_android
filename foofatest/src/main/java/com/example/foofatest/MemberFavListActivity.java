@@ -33,6 +33,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -54,7 +55,8 @@ public class MemberFavListActivity extends AppCompatActivity {
 
         Log.d("life", "lifetest");
         pref = getSharedPreferences("loginUserId", Context.MODE_PRIVATE);
-        loginUserId = pref.getString("loginUserId", "");
+        loginUserId = pref.getString("loginId", "");
+        Log.d("life", "lifetest"+loginUserId+";");
 
         //login 안되어 있으면 이동.
         if (loginUserId.equals("")) {
@@ -62,7 +64,9 @@ public class MemberFavListActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
-        new FavoriteTask().execute("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/sellerlogin.do?id="+loginUserId);
+        foodtrucks = new ArrayList<>();
+
+        new FavoriteTask().execute("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/favorite/list.do?memberId="+loginUserId);
 
         listView = (ListView)findViewById(R.id.memberFavList);
         adapter = new FavoriteListlAdapter(this, foodtrucks);
