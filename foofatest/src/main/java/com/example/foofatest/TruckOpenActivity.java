@@ -1,21 +1,33 @@
 package com.example.foofatest;
 
+import android.app.Activity;
 import android.icu.util.Calendar;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.foofatest.dto.Foodtruck;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -91,89 +103,113 @@ public class TruckOpenActivity extends AppCompatActivity {
                 foodtruck.setParking(parking.isChecked());
                 foodtruck.setCatering(catering.isChecked());
 
-
-
-                sendTask.execute((Runnable) foodtruck);
-
+                HttpAsyncTask httpTask = new HttpAsyncTask(TruckOpenActivity.this);
+                httpTask.execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/foodtruck/modify.do", foodtruck);
+                Toast.makeText(getBaseContext(), "conntection", Toast.LENGTH_LONG).show();
             }
         });
 
     }
 
-    public class sendTask extends AsyncTask{
+    private class HttpAsyncTask extends AsyncTask<Object, Void, String> {
+
+        private  TruckOpenActivity truckOpenAct;
+
+        HttpAsyncTask(TruckOpenActivity truckOpenActivity) {
+            this.truckOpenAct = truckOpenActivity;
+        }
 
         @Override
-        protected Object doInBackground(Object[] params) {
-            HashMap<String, Foodtruck> map = new HashMap<String, Foodtruck>();
-            map.put("foodtruck", foodtruck);
-            send(map);
-            return null;
+        protected String doInBackground(Object... objects) {
+
+            Foodtruck foodtruck = (Foodtruck)objects[1];
+
+            return POST((String) objects[0], foodtruck);
+        }
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
         }
     }
 
-    //  매개변수를 웹으로 보내고 그 결과를 반환하는 함수
-    private String send(HashMap<String, Foodtruck> map){
 
-        String response = "";   // DB서버의 응답을 담는 변수
-        String addr = "http://10.0.2.2:8888/FoodtruckFinderProject/mobile/truck/modify.do";
+    private static String convertInputStreamToString(InputStream inputStream) throws IOException{
+        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
+        String line = "";
+        String result = "";
+        while((line = bufferedReader.readLine()) != null)
+            result += line;
+
+        inputStream.close();
+        return result;
+
+    }
+
+    public boolean isConnected(){
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected())
+            return true;
+        else
+            return false;
+    }
+
+    public static String POST(String url, Foodtruck foodtruck){
+        InputStream is = null;
+        String result = "";
         try {
-            URL url = new URL(addr);
-            HttpURLConnection conn = (HttpURLConnection)url.openConnection();   //해당 URL에 연결
-            conn.setConnectTimeout(1000); //타임아웃: 10초
-            conn.setUseCaches(false); //캐시 사용 안함
-            conn.setRequestMethod("POST"); //POST로 연결
-            conn.setDoInput(true);
-            conn.setDoOutput(true);
+            URL urlCon = new URL(url);
+            HttpURLConnection httpCon = (HttpURLConnection)urlCon.openConnection();
 
-            if(map != null){ // 웹서버로 보낼 매개변수가 있는 경우
-                OutputStream os = conn.getOutputStream();   //서버로 보내기 위한 출력 스트림
-                BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));    //UTF-8로 전송
-                bw.write(getPostString(map)); //매개변수 전송
-                bw.flush();
-                bw.close();
-                os.close();
-            }
+            // build jsonObject
+            JSONObject jsonObject = new JSONObject();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-            if(conn.getResponseCode() == HttpURLConnection.HTTP_OK){
-                String line;
-                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));   //서버의 응답을 읽기 위한 입력 스트림
-                while((line = br.readLine()) != null)   //서버의 응답을 읽어옴
-                    response += line;
-            }
+            String json = gson.toJson(foodtruck);
 
-            conn.disconnect();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            Log.d("InputStream", jsonObject.toString());
+            // convert JSONObject to JSON to String
 
-        return response;
-    }
+            // ** Alternative way to convert Person object to JSON string usin Jackson Lib
+            // ObjectMapper mapper = new ObjectMapper();
+            // json = mapper.writeValueAsString(person);
 
-    //매개변수를 URL에 붙이는 함수
-    private String getPostString(HashMap<String, Foodtruck> map){
-        StringBuilder result = new StringBuilder();
-        boolean first = true; //첫 번째 매개변수 여부
+            // Set some headers to inform server about the type of the content
+            httpCon.setRequestProperty("Accept", "application/json");
+            httpCon.setRequestProperty("Content-type", "application/json");
 
-        for(Map.Entry<String, Foodtruck> entry : map.entrySet()){
-            if(first)
-                first = false;
-            else    //첫 번째 매개변수가 아닌 경우엔 앞에 &를 붙임
-            result.append("&");
+            // OutputStream으로 POST 데이터를 넘겨주겠다는 옵션.
+            httpCon.setDoOutput(true);
+            // InputStream으로 서버로 부터 응답을 받겠다는 옵션.
+            httpCon.setDoInput(true);
 
+            OutputStream os = httpCon.getOutputStream();
+            os.write(json.getBytes("utf-8"));
+            os.flush();
+            // receive response as inputStream
             try {
-                result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
-                result.append("=");
-                /*result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));*/
-            } catch (UnsupportedEncodingException e) {
+                is = httpCon.getInputStream();
+                // convert inputstream to string
+                if(is != null)
+                    result = convertInputStreamToString(is);
+                else
+                    result = "Did not work!";
+            }
+            catch (IOException e) {
                 e.printStackTrace();
             }
-
+            finally {
+                httpCon.disconnect();
+            }
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        catch (Exception e) {
+            Log.d("InputStream", e.getLocalizedMessage());
         }
 
-        return result.toString();
+        return result;
     }
-
-
 }
