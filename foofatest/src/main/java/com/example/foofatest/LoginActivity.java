@@ -108,6 +108,7 @@ public class LoginActivity extends AppCompatActivity {
                 }else {
                     intent = new Intent(LoginActivity.this, TruckInfoActivity.class);
                 }
+                intent.putExtra("loginUserId",idEdit.getText());
                 startActivity(intent);
                 finish();
             } else {
