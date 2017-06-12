@@ -190,5 +190,5 @@ public class TruckInfoActivity extends AppCompatActivity {
 //        return value.hasChildNodes();
 ////되는지 모르겠따;
 //    }
-
+ 
 }
