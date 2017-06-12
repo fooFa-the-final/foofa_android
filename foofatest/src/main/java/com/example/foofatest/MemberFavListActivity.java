@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
@@ -51,6 +52,7 @@ public class MemberFavListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_member_fav_list);
 
+        Log.d("life", "lifetest");
         pref = getSharedPreferences("loginUserId", Context.MODE_PRIVATE);
         loginUserId = pref.getString("loginUserId", "");
 
