@@ -11,14 +11,15 @@
     tools:context="com.example.foofatest.TruckOpenActivity">
 
     <TextView
-        android:text="Location detail"
+        android:id="@+id/locationText"
+        android:text="Location detail(Loading...)"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <EditText
-        android:id="@+id/modLocation"
+        android:id="@+id/myLocation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="오늘 영업주소를 입력하세요" />
+        android:hint="현재 위치가 입력됩니다. " />
 
     <TextView
         android:text="Menu"
@@ -28,7 +29,7 @@
     <ListView
         android:id="@+id/modMenus"
         android:layout_width="match_parent"
-        android:layout_height="0dp"/>
+        android:layout_height="200dp"/>
 
 
     <TextView
