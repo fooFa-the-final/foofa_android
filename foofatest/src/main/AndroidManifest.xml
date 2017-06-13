@@ -41,6 +41,7 @@
         <activity android:name=".MemberRegisterActivity" />
         <activity android:name=".MembeDetailActivity" />
         <activity android:name=".MemberModifyActivity" />
+        <activity android:name=".ReviewListActivity"/>
         <activity android:name=".TruckBefore" />
         <activity android:name=".MemberFavListActivity" />
         <activity android:name=".ReviewCreateActivity" />

@@ -47,6 +47,12 @@ public class ButtonListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        findViewById(R.id.memberReview).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ButtonListActivity.this, ReviewListActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

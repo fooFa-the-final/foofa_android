@@ -143,7 +143,7 @@ public class TruckInfoActivity extends AppCompatActivity {
                     Node node = nodeList.item(i);
                     Element element = (Element) node;
                     review.setContents(getTagValue("contents", element));
-                    review.setScore(Float.valueOf(getTagValue("score", element)));
+                    //review.setScore(Float.valueOf(getTagValue("score", element)));
                     review.setRecommand(Integer.parseInt(getTagValue("recommand", element)));
                     review.setReviewId(getTagValue("reviewId", element));
 //                    review.setWriteDate(DataFormatException(getTagValue("writeDate", element)));

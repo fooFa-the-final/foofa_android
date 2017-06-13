@@ -87,7 +87,7 @@ public class TruckReviewListActivity extends AppCompatActivity {
                     Node node = nodeList.item(i);
                     Element element = (Element) node;
                     review.setContents(getTagValue("contents", element));
-                    review.setScore(Float.valueOf(getTagValue("score", element)));
+                    //review.setScore(Float.valueOf(getTagValue("score", element)));
                     review.setRecommand(Integer.parseInt(getTagValue("recommand", element)));
                     review.setReviewId(getTagValue("reviewId", element));
 //                    review.setWriteDate(DataFormatException(getTagValue("writeDate", element)));
@@ -109,7 +109,7 @@ public class TruckReviewListActivity extends AppCompatActivity {
                     foodtruck.setState(getTagBoolean("state", element));
                     foodtruck.setFavoriteCount(Integer.parseInt(getTagValue("favoriteCount", element)));
                     foodtruck.setReviewCount(Integer.parseInt(getTagValue("reviewCount", element)));
-                    review.setScore(Float.valueOf((getTagValue("score", element))));
+                    //review.setScore(Float.valueOf((getTagValue("score", element))));
                     NodeList nodeList1 = doc.getElementsByTagName("menus");
                     foodtruck.setFoodtruckImg("http://foofa.crabdance.com:8888/FoodtruckFinderProject/resources/img/food/"+getTagValue("foodtruckImg", element));
                     review.setWriter(writer);
