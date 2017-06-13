@@ -37,6 +37,8 @@ public class TruckReviewAdapter extends BaseAdapter {
     public TruckReviewAdapter(Context context, List<Review> reviews) {
         this.context = context;
         this.reviews = reviews;
+        this.inflater = LayoutInflater.from(context);
+
     }
 
 
@@ -62,19 +64,19 @@ public class TruckReviewAdapter extends BaseAdapter {
         }
 
         TextView writerId = (TextView) convertView.findViewById(R.id.writerId);
-        TextView reviewRecommendCount = (TextView) convertView.findViewById(R.id.reviewRecommendCount);
+//        TextView reviewRecommendCount = (TextView) convertView.findViewById(R.id.reviewRecommendCount);
         TextView reviewTruckName = (TextView) convertView.findViewById(R.id.reviewTruckName);
         TextView reviewContent = (TextView) convertView.findViewById(R.id.reviewContent);
-        RatingBar truckReivewScore = null;
-        ImageView image = (ImageView) convertView.findViewById(R.id.reviewImage);
+//        RatingBar truckReivewScore = (RatingBar) convertView.findViewById(R.id.reviewScore);
+//        ImageView image = (ImageView) convertView.findViewById(R.id.reviewImage);
 
         writerId.setText(reviews.get(position).getWriter().getMemberId());
-        reviewRecommendCount.setText(reviews.get(position).getRecommand());
+//        reviewRecommendCount.setText(reviews.get(position).getRecommand());
         reviewTruckName.setText(reviews.get(position).getFoodtruck().getFoodtruckName());
         reviewContent.setText(reviews.get(position).getContents());
-        //truckReivewScore.setRating(reviews.get(position).getScore());
+//        truckReivewScore.setRating(reviews.get(position).getScore());
         
-        return null;
+        return convertView;
     }
 
 

@@ -37,6 +37,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.zip.DataFormatException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -85,9 +86,14 @@ public class TruckInfoActivity extends AppCompatActivity {
 //        ts3.setContent(getIntent().addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
         tabHost1.addTab(ts3);
 
-
         prefs = getSharedPreferences("loginUserId", Context.MODE_PRIVATE);
-        loginUserId= prefs.getString("id", "");
+        loginUserId = prefs.getString("loginId", "");
+
+
+//        prefs = getSharedPreferences("loginUserId", Context.MODE_PRIVATE);
+//        Intent intent = getIntent();
+//        final String id = (String) intent.getExtras().get("loginUserId");
+//        loginUserId= prefs.getString("id", "");
 //        Intent intent = new Intent();
 //        final String id = intent.getExtras().getString("loginUserId".toString());
 
@@ -96,7 +102,7 @@ public class TruckInfoActivity extends AppCompatActivity {
         adapter = new FoodtruckDetailAdapter(this, foodtrucks);
 
 
-        findViewById(R.id.truckStatus).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.truckTestButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(TruckInfoActivity.this, TruckModifyActivity.class);
@@ -105,13 +111,13 @@ public class TruckInfoActivity extends AppCompatActivity {
         });
 
         final ListView list = (ListView) findViewById(R.id.truckDetail);
-        new FoodtruckDetailTask().execute("http://foofa.crabdance.com:8888/FoodtruckFinderProject/mobile/detail.do?id="+loginUserId);
+        new FoodtruckDetailTask().execute("http://foofa.crabdance.com:8888/FoodtruckFinderProject/mobile/detail.do?id=" + loginUserId);
         list.setAdapter(adapter);
 
         reviews = new ArrayList<>();
         truckReviewAdapter = new TruckReviewAdapter(this, reviews);
 
-        new ReviewDetialTask().execute("http://foofa.crabdance.com:8888/FoodtruckFinderProject/mobile/review/list/turck.do?id="+loginUserId);
+        new ReviewDetialTask().execute("http://foofa.crabdance.com:8888/FoodtruckFinderProject/mobile/review/list/turck.do?id=" + loginUserId);
 
 
         final ListView reviewlist = (ListView) findViewById(R.id.truckReviewListlist);
@@ -161,7 +167,7 @@ public class TruckInfoActivity extends AppCompatActivity {
                     foodtruck.setReviewCount(Integer.parseInt(getTagValue("reviewCount", element)));
                     foodtruck.setScore(Double.parseDouble(getTagValue("score", element)));
                     NodeList nodeList1 = doc.getElementsByTagName("menus");
-                    foodtruck.setFoodtruckImg("http://foofa.crabdance.com:8888/FoodtruckFinderProject/resources/img/food/"+getTagValue("foodtruckImg", element));
+//                    foodtruck.setFoodtruckImg("http://foofa.crabdance.com:8888/FoodtruckFinderProject/resources/img/food/"+getTagValue("foodtruckImg", element));
                     review.setWriter(writer);
                     review.setFoodtruck(foodtruck);
                     reviews.add(review);
@@ -253,6 +259,10 @@ public class TruckInfoActivity extends AppCompatActivity {
     private static String getTagValue(String tag, Element element) {
         NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
         Node value = (Node) nodeList.item(0);
+        if(value.getNodeValue() == null) {
+            Objects.equals(value.getNodeValue(), "");
+        }
+
         return value.getNodeValue();
     }
 

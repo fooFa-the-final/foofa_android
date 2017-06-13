@@ -68,11 +68,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <Button
-                    android:id="@+id/truckStatus"
-                    android:text="영업시작"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+
 
             </LinearLayout>
 
