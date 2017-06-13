@@ -14,6 +14,7 @@ public class Review {
     private String contents;
     private int score;
     private List<Image> images;
+    private String img1;
     private Member writer;
     private int recommand;
     private Date writeDate;
@@ -80,5 +81,13 @@ public class Review {
 
     public void setWriteDate(Date writeDate) {
         this.writeDate = writeDate;
+    }
+
+    public String getImg1() {
+        return img1;
+    }
+
+    public void setImg1(String img1) {
+        this.img1 = img1;
     }
 }

@@ -67,10 +67,10 @@ public class ReviewListAdapter extends BaseAdapter{
         RatingBar ratingBar = (RatingBar) convertView.findViewById(R.id.ratingBar1);
 
         writerId.setText(data.get(position).getReviewId());
-        truckName.setText(data.get(position).getFoodtruck().getFoodtruckId());
+        truckName.setText(data.get(position).getFoodtruck().getFoodtruckName());
         reviewContent.setText(data.get(position).getContents());
         ratingBar.setRating(data.get(position).getScore());
-        new ImageLoadingTask(image).execute(data.get(position).getImages().get(0).getFilename());
+        new ImageLoadingTask(image).execute(data.get(position).getImg1());
 
         return convertView;
     }

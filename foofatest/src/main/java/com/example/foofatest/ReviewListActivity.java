@@ -42,7 +42,7 @@ public class ReviewListActivity extends AppCompatActivity {
         ListView list = (ListView) findViewById(R.id.reviewList);
 
         final ReviewLoadingTask task = new ReviewLoadingTask();
-        task.execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/review/member/list.do?memberId=momo");
+        task.execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/review/member/list.do?memberId=nayeon");
 
         data = new ArrayList<>();
         adapter = new ReviewListAdapter(data, this);
@@ -64,15 +64,11 @@ public class ReviewListActivity extends AppCompatActivity {
                     Review review = new Review();
                     Foodtruck foodtruck = new Foodtruck();
                     Member writer = new Member();
-                    List<Image> images = new ArrayList<>();
-                    Image image = new Image();
 
                     Node node = nodeList.item(i);
                     Element element = (Element)node;
                     String src = "http://10.0.2.2:8888/FoodtruckFinderProject/resources/img/reviewImg/"+getTagValue("filename", element);
-                    image.setFilename(src);
-                    images.add(image);
-                    review.setImages(images);
+                    review.setImg1(src);
                     review.setReviewId(getTagValue("reviewId", element));
                     foodtruck.setFoodtruckId(getTagValue("foodtruckId", element));
                     foodtruck.setFoodtruckName(getTagValue("foodtruckName", element));
@@ -109,7 +105,9 @@ public class ReviewListActivity extends AppCompatActivity {
          Node value = (Node)list.item(0);
          return value.getNodeValue();
      } catch(NullPointerException e){
-         e.printStackTrace();
+         if(tag == "filename"){
+             return "noimage.jpg";
+         }
      }
      return "";
     }
