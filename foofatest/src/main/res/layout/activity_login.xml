@@ -1,72 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_margin="50dp"
+    android:background="@drawable/select_border"
+    android:orientation="vertical"
+    android:padding="10dp"
     tools:context="com.example.foofatest.LoginActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Foofa"
+        android:textAlignment="center"
+        android:textColor="#e81434"
+        android:textSize="20sp" />
+
+
+    <EditText
+        android:id="@+id/idedit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="아이디를 입력해주세요" />
+
+    <EditText
+
+        android:id="@+id/pwedit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="패스워드를 입력해주세요" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Fooofa"
-            android:textAlignment="center"
-            android:textColor="#e81434"
-            android:textSize="20sp" />
-
-
-        <EditText
-            android:id="@+id/idedit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="아이디를 입력해주세요" />
-
-        <EditText
-
-            android:id="@+id/pwedit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="패스워드를 입력해주세요" />
+        android:orientation="horizontal">
 
         <CheckBox
             android:id="@+id/sellerCheck"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="판매자 로그인" />
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <CheckBox
+            android:id="@+id/autoLoginCheck"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_gravity="center"
+            android:text="자동 로그인" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
 
-            <Button
-                android:id="@+id/signBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="회원가입" />
+        <Button
+            android:id="@+id/signBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="회원가입" />
 
 
-            <Button
-                android:id="@+id/loginBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Login" />
-
-        </LinearLayout>
+        <Button
+            android:id="@+id/loginBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/holo_red_dark"
+            android:textColor="@android:color/white"
+            android:text="Login" />
 
     </LinearLayout>
 
-</FrameLayout>
+
+</LinearLayout>

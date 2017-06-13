@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.foofatest.RegisterActivity"
-    android:orientation="center_horizontal">
+    android:orientation="horizontal">
 
     <TextView
         android:layout_width="wrap_content"
@@ -21,7 +21,7 @@
         android:layout_marginTop="40dp"
         android:layout_marginLeft="70dp">
         <EditText
-            android:id="@+id/idedit"
+            android:id="@+id/reg_id"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:hint="회원 ID"
@@ -29,28 +29,28 @@
             android:layout_gravity="center_horizontal"
             />
         <EditText
-            android:id="@+id/password"
+            android:id="@+id/reg_password1"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:hint="Password"
             android:layout_gravity="center_horizontal"
             />
         <EditText
-            android:id="@+id/password1"
+            android:id="@+id/reg_password2"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:hint="Confirm password"
             android:layout_gravity="center_horizontal"
             />
         <EditText
-            android:id="@+id/birthday"
+            android:id="@+id/reg_birthday"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:hint="생년월일"
             android:layout_gravity="center_horizontal"
             />
         <EditText
-            android:id="@+id/email"
+            android:id="@+id/reg_email"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:hint="Email"
@@ -63,21 +63,22 @@
             android:orientation="horizontal"
             >
             <RadioButton
-                android:id="@+id/gender"
+                android:id="@+id/reg_genderM"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="남자"/>
             <RadioButton
-                android:id="@+id/gender1"
+                android:id="@+id/reg_genderF"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="여자"/>
         </LinearLayout>
         <Button
+            android:id="@+id/reg_memberBtn"
             android:layout_marginTop="50dp"
             android:layout_marginLeft="30dp"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:text="MODIFY"/>
+            android:text="REGISTER"/>
     </LinearLayout>
 </FrameLayout>
