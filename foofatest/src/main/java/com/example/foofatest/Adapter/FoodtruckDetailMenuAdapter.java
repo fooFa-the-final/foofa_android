@@ -22,9 +22,10 @@ public class FoodtruckDetailMenuAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private List<Menu> menus;
 
-    public FoodtruckDetailMenuAdapter(Context context, LayoutInflater inflater, List<Menu> menu) {
+
+    public FoodtruckDetailMenuAdapter(Context context, List<Menu> menu) {
         this.context = context;
-        this.inflater = inflater;
+        this.inflater = LayoutInflater.from(context);
         this.menus = menu;
     }
     @Override
@@ -51,12 +52,12 @@ public class FoodtruckDetailMenuAdapter extends BaseAdapter {
         TextView menuPrice = (TextView) convertView.findViewById(R.id.menuPrice);
         TextView menuState = (TextView) convertView.findViewById(R.id.menuState);
         menuName.setText(menus.get(position).getMenuName());
-        if(menus.get(position).isMenuState() == true) {
-            menuState.setText("판매중");
-        } else {
-            menuState.setText("매진");
-        }
-        menuPrice.setText(menus.get(position).getPrice());
+//        if(menus.get(position).isMenuState() == true) {
+//            menuState.setText("판매중");
+//        } else {
+//            menuState.setText("매진");
+//        }
+        menuPrice.setText(String.valueOf(menus.get(position).getPrice()));
         return convertView;
     }
 }

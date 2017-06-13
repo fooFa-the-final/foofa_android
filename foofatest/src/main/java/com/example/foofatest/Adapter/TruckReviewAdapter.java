@@ -63,18 +63,17 @@ public class TruckReviewAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.list_review_list, null);
         }
 
+        ImageView image = (ImageView) convertView.findViewById(R.id.reviewImage);
         TextView writerId = (TextView) convertView.findViewById(R.id.writerId);
-//        TextView reviewRecommendCount = (TextView) convertView.findViewById(R.id.reviewRecommendCount);
-        TextView reviewTruckName = (TextView) convertView.findViewById(R.id.reviewTruckName);
+        TextView truckName = (TextView) convertView.findViewById(R.id.reviewTruckName);
         TextView reviewContent = (TextView) convertView.findViewById(R.id.reviewContent);
-//        RatingBar truckReivewScore = (RatingBar) convertView.findViewById(R.id.reviewScore);
-//        ImageView image = (ImageView) convertView.findViewById(R.id.reviewImage);
+        RatingBar ratingBar = (RatingBar) convertView.findViewById(R.id.ratingBar1);
 
-        writerId.setText(reviews.get(position).getWriter().getMemberId());
-//        reviewRecommendCount.setText(reviews.get(position).getRecommand());
-        reviewTruckName.setText(reviews.get(position).getFoodtruck().getFoodtruckName());
+        writerId.setText(reviews.get(position).getReviewId());
+        truckName.setText(reviews.get(position).getFoodtruck().getFoodtruckId());
         reviewContent.setText(reviews.get(position).getContents());
-//        truckReivewScore.setRating(reviews.get(position).getScore());
+        ratingBar.setRating(reviews.get(position).getScore());
+        new ImageLoadingTask(image).execute(reviews.get(position).getImages().get(0).getFilename());
         
         return convertView;
     }

@@ -87,19 +87,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:text="메뉴"
-                android:textStyle="bold"
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <!--truck_menu.xml-->
 
             <ListView
-                android:id="@+id/truckInfoMenu"
+                android:id="@+id/menuTest"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"></ListView>
-
-            <!--truck_menu.xml-->
+                android:layout_height="wrap_content" />
 
 
         </LinearLayout>

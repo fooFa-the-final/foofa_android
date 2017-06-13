@@ -82,6 +82,22 @@ public class FoodtruckDetailAdapter extends BaseAdapter {
         truckHours.setText(foodtrucks.get(position).getOperationTime());
         truckLocation.setText(foodtrucks.get(position).getSpot());
 
+
+//        TextView menuName = (TextView) convertView.findViewById(R.id.menuName);
+//        TextView menuPrice = (TextView) convertView.findViewById(R.id.menuPrice);
+//        TextView menuState = (TextView) convertView.findViewById(R.id.menuState);
+//
+//
+//        for(int i = 0 ; i < foodtrucks.get(position).getMenus().size() ; i++) {
+//        menuName.setText(foodtrucks.get(position).getMenus().get(i).getMenuName());
+//        if(foodtrucks.get(position).getMenus().get(i).isMenuState() == true) {
+//            menuState.setText("판매중");
+//        } else {
+//            menuState.setText("매진");
+//        }
+//        menuPrice.setText(String.valueOf(foodtrucks.get(position).getMenus().get(i).getPrice()));
+//
+//        }
         new ImageLoadingTask(image).execute(foodtrucks.get(position).getFoodtruckImg());
         return convertView;
     }
