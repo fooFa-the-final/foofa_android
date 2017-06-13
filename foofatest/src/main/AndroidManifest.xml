@@ -38,7 +38,7 @@
         <activity android:name=".TruckRegisterActivity" />
         <activity android:name=".MemberProfileActivity" />
         <activity android:name=".ReviewDetailActivity" />
-        <activity android:name=".RegisterActivity" />
+        <activity android:name=".MemberRegisterActivity" />
         <activity android:name=".MembeDetailActivity" />
         <activity android:name=".MemberModifyActivity" />
         <activity android:name=".TruckBefore" />
