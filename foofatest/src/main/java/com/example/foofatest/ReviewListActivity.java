@@ -3,9 +3,13 @@ package com.example.foofatest;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
 
 import com.example.foofatest.Adapter.ReviewListAdapter;
+import com.example.foofatest.dto.Foodtruck;
+import com.example.foofatest.dto.Image;
+import com.example.foofatest.dto.Member;
 import com.example.foofatest.dto.Review;
 
 import org.w3c.dom.Document;
@@ -18,6 +22,7 @@ import org.xml.sax.SAXException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -37,11 +42,15 @@ public class ReviewListActivity extends AppCompatActivity {
         ListView list = (ListView) findViewById(R.id.reviewList);
 
         final ReviewLoadingTask task = new ReviewLoadingTask();
-        task.execute("http://localhost:8888/FoodtruckFinderProject/mobile/review/member/list.do?memberId=momo");
+        task.execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/review/member/list.do?memberId=momo");
+
+        data = new ArrayList<>();
+        adapter = new ReviewListAdapter(data, this);
+
+        list.setAdapter(adapter);
     }
 
     private class ReviewLoadingTask extends AsyncTask<String, Void, Void>{
-
         @Override
         protected Void doInBackground(String... params) {
             try {
@@ -50,19 +59,30 @@ public class ReviewListActivity extends AppCompatActivity {
                 DocumentBuilder builder = factory.newDocumentBuilder();
                 Document document = builder.parse(new InputSource(url.openStream()));
 
-                NodeList nodeList = document.getElementsByTagName("Review");
+                NodeList nodeList = document.getElementsByTagName("review");
                 for(int i=0;i<nodeList.getLength();i++){
                     Review review = new Review();
+                    Foodtruck foodtruck = new Foodtruck();
+                    Member writer = new Member();
+                    List<Image> images = new ArrayList<>();
+                    Image image = new Image();
 
                     Node node = nodeList.item(i);
                     Element element = (Element)node;
-
+                    String src = "http://10.0.2.2:8888/FoodtruckFinderProject/resources/img/reviewImg/"+getTagValue("filename", element);
+                    image.setFilename(src);
+                    images.add(image);
+                    review.setImages(images);
                     review.setReviewId(getTagValue("reviewId", element));
-                    review.getFoodtruck().setFoodtruckId(getTagValue("foodtruckId", element));
-                    review.getFoodtruck().setFoodtruckName(getTagValue("foodtruckName", element));
+                    foodtruck.setFoodtruckId(getTagValue("foodtruckId", element));
+                    foodtruck.setFoodtruckName(getTagValue("foodtruckName", element));
                     review.setContents(getTagValue("contents", element));
-                    review.getWriter().setMemberId(getTagValue("memberId", element));
-                    review.setScore(Integer.parseInt(getTagValue("score", element)));
+                    writer.setMemberId(getTagValue("memberId", element));
+                    NodeList list = element.getElementsByTagName("score").item(1).getChildNodes();
+                    review.setScore(Integer.parseInt(list.item(0).getNodeValue()));
+                    review.setFoodtruck(foodtruck);
+                    review.setWriter(writer);
+
                     data.add(review);
                 }
             } catch (MalformedURLException e) {
@@ -84,8 +104,13 @@ public class ReviewListActivity extends AppCompatActivity {
     }
 
     private static String getTagValue(String tag, Element element){
-        NodeList list = element.getElementsByTagName(tag).item(0).getChildNodes();
-        Node value = (Node)list.item(0);
-        return value.getNodeValue();
+     try {
+         NodeList list = element.getElementsByTagName(tag).item(0).getChildNodes();
+         Node value = (Node)list.item(0);
+         return value.getNodeValue();
+     } catch(NullPointerException e){
+         e.printStackTrace();
+     }
+     return "";
     }
 }

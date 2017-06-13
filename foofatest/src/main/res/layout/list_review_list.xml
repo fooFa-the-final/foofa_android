@@ -66,9 +66,13 @@
 
                 <RatingBar
                     style="?android:attr/ratingBarStyleSmall"
-                    android:numStars="5"
+                    android:id="@+id/ratingBar1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true"
+                    android:stepSize="1"
+                    android:numStars="5"
+                    android:max="5" />
 
 
                 <TextView

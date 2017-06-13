@@ -3,12 +3,14 @@ package com.example.foofatest.Adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Rating;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.foofatest.R;
@@ -62,11 +64,13 @@ public class ReviewListAdapter extends BaseAdapter{
         TextView writerId = (TextView) convertView.findViewById(R.id.writerId);
         TextView truckName = (TextView) convertView.findViewById(R.id.reviewTruckName);
         TextView reviewContent = (TextView) convertView.findViewById(R.id.reviewContent);
+        RatingBar ratingBar = (RatingBar) convertView.findViewById(R.id.ratingBar1);
+
         writerId.setText(data.get(position).getReviewId());
         truckName.setText(data.get(position).getFoodtruck().getFoodtruckId());
         reviewContent.setText(data.get(position).getContents());
-
-        //new ImageLoadingTask(image).execute(data.get(position).getImages().get(0));
+        ratingBar.setRating(data.get(position).getScore());
+        new ImageLoadingTask(image).execute(data.get(position).getImages().get(0).getFilename());
 
         return convertView;
     }
