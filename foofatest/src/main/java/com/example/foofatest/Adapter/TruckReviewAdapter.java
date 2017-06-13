@@ -131,4 +131,6 @@ public class TruckReviewAdapter extends BaseAdapter {
 
 
 
+
+
 }

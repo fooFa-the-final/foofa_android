@@ -31,12 +31,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+
+
                 <!-- 첫 번째 페이지. 트럭info -->
              <LinearLayout
              
                  android:id="@+id/truckInfo1"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content">
+
+             <Button
+                 android:text="수정"
+                 android:id="@+id/truckTestButton"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content" />
 
              <ListView
               android:id="@+id/truckDetail"
@@ -51,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <ListView
-                        android:id="@+id/mylist"
+                        android:id="@+id/truckReviewListlist"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"></ListView>
 
