@@ -12,7 +12,7 @@ public class Review {
     private String reviewId;
     private Foodtruck foodtruck;
     private String contents;
-    private int score;
+    private float score;
     private List<Image> images;
     private Member writer;
     private int recommand;
@@ -42,11 +42,11 @@ public class Review {
         this.contents = contents;
     }
 
-    public int getScore() {
+    public float getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(Float score) {
         this.score = score;
     }
 
