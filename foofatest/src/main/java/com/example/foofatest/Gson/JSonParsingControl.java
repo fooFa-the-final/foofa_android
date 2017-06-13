@@ -26,7 +26,7 @@ import java.net.URL;
  * Created by juhee on 2017. 6. 13..
  */
 
-public class GSonParsingControl {
+public class JSonParsingControl {
 
     public static String POST(String url, Object javaObject) {
         InputStream is = null;

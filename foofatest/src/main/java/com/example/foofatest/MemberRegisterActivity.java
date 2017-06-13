@@ -2,7 +2,6 @@ package com.example.foofatest;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,23 +13,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-import com.example.foofatest.Gson.GSonParsingControl;
+import com.example.foofatest.Gson.JSonParsingControl;
 import com.example.foofatest.dto.Member;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import org.json.JSONObject;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 public class MemberRegisterActivity extends AppCompatActivity {
 
@@ -82,7 +66,7 @@ public class MemberRegisterActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(Object... params) {
                 Member member = (Member) params[1];
-                return GSonParsingControl.POST((String) params[0], member);
+                return JSonParsingControl.POST((String) params[0], member);
         }
 
         @Override
