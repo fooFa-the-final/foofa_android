@@ -7,18 +7,26 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.foofatest.Adapter.FoodtruckDetailAdapter;
 import com.example.foofatest.Adapter.FoodtruckDetailMenuAdapter;
 import com.example.foofatest.Adapter.TruckReviewAdapter;
+import com.example.foofatest.Json.JsonParsingControl;
+import com.example.foofatest.dto.Advertise;
 import com.example.foofatest.dto.Foodtruck;
 import com.example.foofatest.dto.Image;
 import com.example.foofatest.dto.Member;
@@ -37,7 +45,10 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -63,6 +74,16 @@ public class TruckInfoActivity extends AppCompatActivity {
     private List<Review> reviews;
     private Button changeBtn;
 
+
+
+    private DatePicker mdate;
+    private TextView advtext;
+    private RadioGroup radioGroup;
+    private Date startDay;
+    private String period;
+    private int realDay;
+    private String sellerId;
+    private Advertise advertise;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +118,7 @@ public class TruckInfoActivity extends AppCompatActivity {
         findViewById(R.id.truckChange).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(TruckInfoActivity.this, TruckModifyActivity.class);
+                Intent intent = new Intent(TruckInfoActivity.this, TruckOpenActivity.class);
                 startActivity(intent);
             }
         });
@@ -130,7 +151,8 @@ public class TruckInfoActivity extends AppCompatActivity {
                                          @Override
                                          public void onClick(View v) {
                                              if(text.toString() != "영업시작") {
-                                                 Intent intent = new Intent(TruckInfoActivity.this, TruckModifyActivity.class);
+                                                 Intent intent = new Intent(TruckInfoActivity.this, TruckOpenActivity.class);
+                                                 foodtrucks.get(0).setMenus(menus1);
                                                  intent.putExtra("foodtruck", (Serializable) foodtrucks);
                                                  text.setText("영업종료");
                                                  startActivity(intent);
@@ -144,6 +166,64 @@ public class TruckInfoActivity extends AppCompatActivity {
                                      }
 
         );
+
+        mdate = (DatePicker) findViewById(R.id.startAd);
+        advtext = (TextView) findViewById(R.id.advDate);
+
+        mdate.init(mdate.getYear(), mdate.getMonth(), mdate.getDayOfMonth(),
+                new DatePicker.OnDateChangedListener() {
+
+                    @Override
+                    public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+
+                        advtext.setText(String.format("%d%d%d", year, monthOfYear + 1, dayOfMonth));
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.set(year, monthOfYear, dayOfMonth);
+                        SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
+                        String strDate = format.format(calendar.getTime());
+                        SimpleDateFormat transFormat1 = new SimpleDateFormat("yyyy-MM-dd");
+                        try {
+                            startDay = transFormat1.parse(strDate);
+                            //아주굿
+//                            Log.d("1111", String.valueOf(to1));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+
+        RadioGroup rg = (RadioGroup) findViewById(R.id.radioGroup);
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+                RadioButton radio_btn = (RadioButton) findViewById(checkedId);
+                RadioGroup rg = (RadioGroup) findViewById(R.id.radioGroup); // 라디오그룹 객체 맵핑
+                RadioButton selectedRdo = (RadioButton) findViewById(rg.getCheckedRadioButtonId()); // rg 라디오그룹의 체크된(getCheckedRadioButtonId) 라디오버튼 객체 맵핑
+                period = selectedRdo.getText().toString(); // 해당 라디오버튼 객체의 값 가져오기
+            }
+        });
+
+        findViewById(R.id.advbtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Advertise advertise = new Advertise();
+                Log.d("1111", String.valueOf(startDay));
+                period = period.substring(0, period.length() - 1);
+                Log.d("1111", period);
+
+                realDay = Integer.parseInt(period);
+
+                Log.d("1111", String.valueOf(realDay));
+                advertise.setAdvId(sellerId);
+                advertise.setStartdate(startDay);
+                advertise.setPeriod(realDay);
+
+                new AdvertiseTask().execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/advertiseRegister.do", advertise);
+
+            }
+        });
 
 
     }
@@ -162,7 +242,6 @@ public class TruckInfoActivity extends AppCompatActivity {
                 NodeList nodeList = doc.getElementsByTagName("menu");
                 for (int i = 0; i < nodeList.getLength(); i++) {
                     Menu menu = new Menu();
-                    Foodtruck foodtruck = new Foodtruck();
                     Node node = nodeList.item(i);
                     Element element = (Element) node;
                     menu.setMenuId(getTagValue("menuId", element));
@@ -276,14 +355,18 @@ public class TruckInfoActivity extends AppCompatActivity {
                     foodtruck.setReviewCount(Integer.parseInt(getTagValue("reviewCount", element)));
                     foodtruck.setScore(Double.parseDouble(getTagValue("score", element)));
                     List<Menu> menus1 = new ArrayList<>();
-                    for (int k = 0; k < doc.getElementsByTagName("menus").getLength(); k++) {
-                        Menu menu = new Menu();
-                        menu.setMenuName(getTagValue("menuName", element));
-                        menu.setPrice(Integer.parseInt(getTagValue("favoriteCount", element)));
-                        menu.setMenuState(Boolean.parseBoolean(getTagValue("menuState", element)));
-                        menu.setFoodtruckId(getTagValue("menuId", element));
-                        menus1.add(menu);
-                    }
+                    NodeList list1 = element.getElementsByTagName("menus").item(i).getChildNodes();
+                    Log.d("1111", String.valueOf(list1.getLength()));
+//                    int k = list1.getLength();
+//
+//                    for (int a = 0; a <= k; a++) {
+//                        Menu menu = new Menu();
+//                        menu.setMenuName(getTagValue("menuName", element));
+//                        menu.setPrice(Integer.parseInt(getTagValue("favoriteCount", element)));
+//                        menu.setMenuState(Boolean.parseBoolean(getTagValue("menuState", element)));
+//                        menu.setMenuId(getTagValue("menuId", element));
+//                        menus1.add(menu);
+//                    }
                     foodtruck.setMenus(menus1);
                     foodtruck.setFoodtruckImg("http://foofa.crabdance.com:8888/FoodtruckFinderProject/resources/img/food/" + getTagValue("foodtruckImg", element));
                     foodtrucks.add(foodtruck);
@@ -306,6 +389,41 @@ public class TruckInfoActivity extends AppCompatActivity {
         }
     }
 
+
+    private class AdvertiseTask extends AsyncTask<Object, Void, String> {
+        @Override
+        protected String doInBackground(Object... params) {
+            Advertise advertise = (Advertise) params[1];
+            return JsonParsingControl.POST((String) params[0], advertise);
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            Log.d("life", "result" + result);
+
+            Intent intent = null;
+            switch (result) {
+                case "true":
+                    Toast.makeText(TruckInfoActivity.this, "광고 등록에 성공했습니다.", Toast.LENGTH_SHORT).show();
+
+                    intent = new Intent(TruckInfoActivity.this, TruckInfoActivity.class);
+                    break;
+                case "false":
+                    Toast.makeText(TruckInfoActivity.this, "광고 등록에 실패하였습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
+                    intent = new Intent(TruckInfoActivity.this, TruckInfoActivity.class);
+                    break;
+            }
+            if (intent != null) {
+                intent = new Intent(TruckInfoActivity.this, TruckInfoActivity.class);
+                startActivity(intent);
+            }
+
+        }
+
+
+    }
+
+
     private static String getTagValue(String tag, Element element) {
         try {
             NodeList list = element.getElementsByTagName(tag).item(0).getChildNodes();
@@ -316,5 +434,4 @@ public class TruckInfoActivity extends AppCompatActivity {
         }
         return "";
     }
-
 }
