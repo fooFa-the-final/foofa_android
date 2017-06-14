@@ -102,6 +102,7 @@ public class TruckInfoActivity extends AppCompatActivity {
             }
         });
 
+
         final ListView list = (ListView) findViewById(R.id.truckDetail);
         new FoodtruckDetailTask().execute("http://foofa.crabdance.com:8888/FoodtruckFinderProject/mobile/detail.do?id=" + loginUserId);
         list.setAdapter(adapter);
@@ -168,7 +169,7 @@ public class TruckInfoActivity extends AppCompatActivity {
                     menu.setFoodtruckId(getTagValue("foodtruckId", element));
                     menu.setMenuName(getTagValue("menuName", element));
                     menu.setPrice(Integer.parseInt(getTagValue("price", element)));
-                    menu.setMenuState(getTagBoolean("menuState", element));
+                    menu.setMenuState(Boolean.parseBoolean(getTagValue("menuState", element)));
                     menus1.add(menu);
                 }
             } catch (MalformedURLException e) {
@@ -266,25 +267,25 @@ public class TruckInfoActivity extends AppCompatActivity {
                     foodtruck.setCategory1(getTagValue("category1", element));
                     foodtruck.setCategory2(getTagValue("category2", element));
                     foodtruck.setCategory3(getTagValue("category3", element));
-                    foodtruck.setCard(getTagBoolean("card", element));
-                    foodtruck.setParking(getTagBoolean("parking", element));
-                    foodtruck.setDrinking(getTagBoolean("drinking", element));
-                    foodtruck.setCatering(getTagBoolean("catering", element));
-                    foodtruck.setState(getTagBoolean("state", element));
+                    foodtruck.setCard(Boolean.parseBoolean(getTagValue("card", element)));
+                    foodtruck.setParking(Boolean.parseBoolean(getTagValue("parking", element)));
+                    foodtruck.setDrinking(Boolean.parseBoolean(getTagValue("drinking", element)));
+                    foodtruck.setCatering(Boolean.parseBoolean(getTagValue("catering", element)));
+                    foodtruck.setState(Boolean.parseBoolean(getTagValue("state", element)));
                     foodtruck.setFavoriteCount(Integer.parseInt(getTagValue("favoriteCount", element)));
                     foodtruck.setReviewCount(Integer.parseInt(getTagValue("reviewCount", element)));
-//                    foodtruck.setScore(Double.parseDouble(getTagValue("score", element)));
+                    foodtruck.setScore(Double.parseDouble(getTagValue("score", element)));
                     List<Menu> menus1 = new ArrayList<>();
                     for (int k = 0; k < doc.getElementsByTagName("menus").getLength(); k++) {
                         Menu menu = new Menu();
                         menu.setMenuName(getTagValue("menuName", element));
                         menu.setPrice(Integer.parseInt(getTagValue("favoriteCount", element)));
-                        menu.setMenuState(getTagBoolean("menuState", element));
+                        menu.setMenuState(Boolean.parseBoolean(getTagValue("menuState", element)));
                         menu.setFoodtruckId(getTagValue("menuId", element));
                         menus1.add(menu);
                     }
                     foodtruck.setMenus(menus1);
-                    foodtruck.setFoodtruckImg("http://foofa.crabdance.com:8888/FoodtruckFinderProject/resources/food/" + getTagValue("foodtruckImg", element));
+                    foodtruck.setFoodtruckImg("http://foofa.crabdance.com:8888/FoodtruckFinderProject/resources/img/food/" + getTagValue("foodtruckImg", element));
                     foodtrucks.add(foodtruck);
                 }
             } catch (MalformedURLException e) {
@@ -315,13 +316,5 @@ public class TruckInfoActivity extends AppCompatActivity {
         }
         return "";
     }
-
-    private static Boolean getTagBoolean(String tag, Element element) {
-        NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
-        Node value = (Node) nodeList.item(0);
-        return value.hasChildNodes();
-//되는지 모르겠따;
-    }
-
 
 }
