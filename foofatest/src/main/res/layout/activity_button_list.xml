@@ -55,9 +55,10 @@
             android:text="f" />
 
         <Button
+            android:id="@+id/followButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="f" />
+            android:text="follow" />
 
     </LinearLayout>
 

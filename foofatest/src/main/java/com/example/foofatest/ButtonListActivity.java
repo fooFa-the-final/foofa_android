@@ -39,5 +39,13 @@ public class ButtonListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        findViewById(R.id.followButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ButtonListActivity.this, MemberFollowActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

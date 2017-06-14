@@ -1,5 +1,7 @@
 package com.example.foofatest.dto;
 
+import android.widget.TextView;
+
 import java.util.Date;
 
 /**
@@ -53,4 +55,6 @@ public class Advertise {
     public void setStartdate(Date startdate) {
         this.startdate = startdate;
     }
+
+
 }

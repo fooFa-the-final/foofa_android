@@ -53,7 +53,7 @@ public class TruckReviewListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_truck_review_list);
+//        setContentView(R.layout.activity_truck_review_list);
 
         prefs = getSharedPreferences("loginUserId", Context.MODE_PRIVATE);
         loginUserId= prefs.getString("id", "");
@@ -62,8 +62,8 @@ public class TruckReviewListActivity extends AppCompatActivity {
         reviews = new ArrayList<>();
         truckReviewAdapter = new TruckReviewAdapter(this, reviews);
         new ReviewDetialTask().execute("http://foofa.crabdance.com:8888/FoodtruckFinderProject/mobile/review/list/turck.do?id="+loginUserId);
-        final ListView reviewlist = (ListView) findViewById(R.id.truckReviewListlist);
-        reviewlist.setAdapter(truckReviewAdapter);
+//        final ListView reviewlist = (ListView) findViewById(R.id.truckReviewListlist);
+//        reviewlist.setAdapter(truckReviewAdapter);
 
     }
 

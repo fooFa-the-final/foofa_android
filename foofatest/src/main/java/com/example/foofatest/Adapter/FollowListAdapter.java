@@ -2,19 +2,29 @@ package com.example.foofatest.Adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.foofatest.MemberFollowActivity;
 import com.example.foofatest.R;
-import com.example.foofatest.dto.Follow;
+import com.example.foofatest.dto.Member;
 
 import org.w3c.dom.Text;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 
 /**
@@ -24,10 +34,11 @@ import java.util.List;
 public class FollowListAdapter extends BaseAdapter {
 
     private Context context;
-    private List<Follow> follows;
+    private List<Member> follows;
     private LayoutInflater inflater;
+    private Fragment followToId;
 
-    public FollowListAdapter(Context context, List<Follow> follows) {
+    public FollowListAdapter(Context context, List<Member> follows) {
         this.context = context;
         this.follows = follows;
         this.inflater = LayoutInflater.from(context);
@@ -54,18 +65,68 @@ public class FollowListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.follow_list_item, null);
-            TextView toId = (TextView) convertView.findViewById(R.id.toId);
-            TextView followCount = (TextView) convertView.findViewById(R.id.followcount);
+        }
+            final TextView memberId = (TextView) convertView.findViewById(R.id.toId);
+//            TextView followCount = (TextView) convertView.findViewById(R.id.followcount);
+//            TextView reviewCount = (TextView) convertView.findViewById(R.id.reviewconut);
+            TextView birthday = (TextView) convertView.findViewById(R.id.birthday);
+            ImageView profileImg = (ImageView) convertView.findViewById(R.id.profileImg);
+            Button ufbtn = (Button)convertView.findViewById(R.id.ufbtn);
 
-            toId.setText(follows.get(position).getToId());
-            followCount.setText(follows.get(position).getFollowCount());
 
+            memberId.setText(follows.get(position).getMemberId());
+            birthday.setText(follows.get(position).getBirthday());
+//            followCount.setText(follows.get(position).getFollowCount());
+//            reviewCount.setText(follows.get(position).getReviewCount());
+            new ImageLoadingTask(profileImg).execute(follows.get(position).getProfileImg());
 
+            return convertView;
         }
 
-        return convertView;
+        class ImageLoadingTask extends AsyncTask<String, Void, Bitmap>{
+            private final WeakReference<ImageView> imageViewWeakReference;
+
+            public ImageLoadingTask(ImageView img){
+                this.imageViewWeakReference = new WeakReference<ImageView>(img);
+            }
+            @Override
+            protected Bitmap doInBackground(String... params) {
+                URL url = null;
+
+                try {
+                    url = new URL(params[0]);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                return getRemoteImage(url);
+            }
+
+            @Override
+            protected void onPostExecute(Bitmap bitmap) {
+                if (isCancelled()) {
+                    bitmap = null;
+                }
+                if (imageViewWeakReference != null) {
+                    ImageView imageView = imageViewWeakReference.get();
+                    if (imageView != null) {
+                        imageView.setImageBitmap(bitmap);
+                    }
+                }
+            }
+        }
+
+    private Bitmap getRemoteImage(final URL url) {
+        Bitmap bitmap = null;
+        URLConnection conn;
+        try {
+            conn = url.openConnection();
+            conn.connect();
+            BufferedInputStream bis = new BufferedInputStream(conn.getInputStream());
+            bitmap = BitmapFactory.decodeStream(bis);
+            bis.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
     }
-
-
-
 }

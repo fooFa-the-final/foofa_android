@@ -8,6 +8,15 @@ public class Follow {
     private String toId;
     private String fromId;
     private String followCount;
+    private Member members;
+
+    public Member getMembers() {
+        return members;
+    }
+
+    public void setMembers(Member members) {
+        this.members = members;
+    }
 
     public String getFollowCount() {
         return followCount;
@@ -32,4 +41,5 @@ public class Follow {
     public void setFromId(String fromId) {
         this.fromId = fromId;
     }
-}
+
+    }
