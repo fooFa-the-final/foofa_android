@@ -1,9 +1,12 @@
 package com.example.foofatest;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.foofatest.Adapter.ReviewListAdapter;
@@ -48,6 +51,17 @@ public class ReviewListActivity extends AppCompatActivity {
         adapter = new ReviewListAdapter(data, this);
 
         list.setAdapter(adapter);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("log", "click");
+                Review review = data.get(position);
+                Intent intent = new Intent(ReviewListActivity.this, ReviewDetailActivity.class);
+                intent.putExtra("review", review);
+                startActivity(intent);
+            }
+        });
     }
 
     private class ReviewLoadingTask extends AsyncTask<String, Void, Void>{
@@ -64,11 +78,13 @@ public class ReviewListActivity extends AppCompatActivity {
                     Review review = new Review();
                     Foodtruck foodtruck = new Foodtruck();
                     Member writer = new Member();
-
+                    List<Image> images = new ArrayList<>();
+                    Image image = new Image();
                     Node node = nodeList.item(i);
                     Element element = (Element)node;
                     String src = "http://10.0.2.2:8888/FoodtruckFinderProject/resources/img/reviewImg/"+getTagValue("filename", element);
-                    review.setImg1(src);
+                    image.setFilename(src);
+                    images.add(image);
                     review.setReviewId(getTagValue("reviewId", element));
                     foodtruck.setFoodtruckId(getTagValue("foodtruckId", element));
                     foodtruck.setFoodtruckName(getTagValue("foodtruckName", element));
@@ -78,7 +94,7 @@ public class ReviewListActivity extends AppCompatActivity {
                     review.setScore(Integer.parseInt(list.item(0).getNodeValue()));
                     review.setFoodtruck(foodtruck);
                     review.setWriter(writer);
-
+                    review.setImages(images);
                     data.add(review);
                 }
             } catch (MalformedURLException e) {

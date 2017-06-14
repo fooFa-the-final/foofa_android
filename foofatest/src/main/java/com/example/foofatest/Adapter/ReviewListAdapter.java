@@ -68,9 +68,14 @@ public class ReviewListAdapter extends BaseAdapter{
 
         writerId.setText(data.get(position).getReviewId());
         truckName.setText(data.get(position).getFoodtruck().getFoodtruckName());
-        reviewContent.setText(data.get(position).getContents());
+        String contents = data.get(position).getContents();
+        if(contents.length() > 50){
+            contents = contents.substring(0, 49);
+            contents = contents + "...";
+        }
+        reviewContent.setText(contents);
         ratingBar.setRating(data.get(position).getScore());
-        new ImageLoadingTask(image).execute(data.get(position).getImg1());
+        new ImageLoadingTask(image).execute(data.get(position).getImages().get(0).getFilename());
 
         return convertView;
     }
