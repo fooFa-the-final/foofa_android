@@ -75,10 +75,10 @@ public class TruckOpenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_truck_open);
 
-        /*Intent intent = getIntent();
-        foodtruck = (Foodtruck)intent.getExtras().get("foodtruck");*/
+        Intent intent = getIntent();
+        foodtruck = (Foodtruck)intent.getExtras().get("foodtruck");
 
-        foodtruck = new Foodtruck();
+        /*foodtruck = new Foodtruck();
         foodtruck.setFoodtruckId("F1042");
         foodtruck.setSellerId("king1");
         foodtruck.setFoodtruckName("와이키키제주");
@@ -98,7 +98,7 @@ public class TruckOpenActivity extends AppCompatActivity {
             menu.setMenuState(true);
             menu.setPrice(i*1000);
             menus.add(menu);
-        }
+        }*/
 
         adapter = new FoodtruckOpenMenuAdapter(this, menus);
 
