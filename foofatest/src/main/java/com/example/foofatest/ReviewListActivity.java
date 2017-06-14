@@ -56,8 +56,6 @@ public class ReviewListActivity extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("log", "click");
-                Toast.makeText(ReviewListActivity.this, "ㅇㅇㅇ", Toast.LENGTH_SHORT).show();
                 Review review = data.get(position);
                 Intent intent = new Intent(ReviewListActivity.this, ReviewDetailActivity.class);
                 intent.putExtra("review", review);
