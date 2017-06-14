@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants">
 
     <!--영업시작시 메뉴리스트-->
 
@@ -11,12 +12,14 @@
         android:layout_weight="10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginLeft="20dp">
 
     <TextView
-        android:id="@+id/menuName"
+        android:id="@+id/modMenuName"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="20sp"/>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -25,41 +28,19 @@
 
             <TextView
                 android:layout_weight="2"
-                android:id="@+id/menuPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:id="@+id/modMenuPrice"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:inputType="number"/>
 
             <TextView
                 android:layout_weight="1"
-                android:id="@+id/menuState"
-                android:layout_width="wrap_content"
+                android:id="@+id/modMenuState"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
 
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:text="수정"
-            android:id="@+id/menuModBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-
-        <Button
-            android:text="삭제"
-            android:id="@+id/menuDelBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
-
 
 </LinearLayout>

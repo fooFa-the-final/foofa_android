@@ -2,6 +2,7 @@ package com.example.foofatest;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.icu.util.Calendar;
 import android.location.Address;
 import android.location.Geocoder;
@@ -16,46 +17,55 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.foofatest.Adapter.FoodtruckOpenMenuAdapter;
 import com.example.foofatest.dto.Foodtruck;
+import com.example.foofatest.dto.Menu;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class TruckOpenActivity extends AppCompatActivity {
+    private FoodtruckOpenMenuAdapter adapter;
     private Foodtruck foodtruck;
-    private int hour;
-    private int minute;
-    private int ampm;
+    private int hour, minute;
     private String Geolocation = "";
     private TextView locationText;
     private EditText location1;
+    private CheckBox card, drinking, parking, catering;
+    private EditText notice, mName, mPrice;
+    private TimePicker startTime, endTime;
+    private List<Menu> menus;
+    private Button addBtn;
+    private Spinner spinner;
+    private String select_item;
+
+    private AdapterView.AdapterContextMenuInfo info;
 
     final Geocoder geocoder = new Geocoder(this);
 
@@ -69,7 +79,7 @@ public class TruckOpenActivity extends AppCompatActivity {
         foodtruck = (Foodtruck)intent.getExtras().get("foodtruck");*/
 
         foodtruck = new Foodtruck();
-        foodtruck.setFoodtruckId("F1041");
+        foodtruck.setFoodtruckId("F1042");
         foodtruck.setSellerId("king1");
         foodtruck.setFoodtruckName("와이키키제주");
         foodtruck.setLocation("제주시 애월읍");
@@ -78,30 +88,120 @@ public class TruckOpenActivity extends AppCompatActivity {
         foodtruck.setDrinking(true);
         foodtruck.setParking(false);
         foodtruck.setCatering(true);
+        menus = new ArrayList<>();
+
+        for(int i = 1; i < 10; i++){
+            Menu menu = new Menu();
+            menu.setMenuId("M" + i);
+            menu.setFoodtruckId("F1041");
+            menu.setMenuName("Menu" + i);
+            menu.setMenuState(true);
+            menu.setPrice(i*1000);
+            menus.add(menu);
+        }
+
+        adapter = new FoodtruckOpenMenuAdapter(this, menus);
+
+        ListView list = (ListView)findViewById(R.id.modMenus);
+        list.setOnTouchListener(new ListView.OnTouchListener(){
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        // Disallow ScrollView to intercept touch events.
+                        v.getParent().requestDisallowInterceptTouchEvent(true);
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        // Allow ScrollView to intercept touch events.
+                        v.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
+                }
+
+                // Handle ListView touch events.
+                v.onTouchEvent(event);
+                return true;
+            }
+        });
+
+        list.setAdapter(adapter);
+        registerForContextMenu(list);
+
 
         locationText = (TextView) findViewById(R.id.locationText);
         location1 = (EditText) findViewById(R.id.myLocation);
-        final EditText notice = (EditText) findViewById(R.id.modNotice);
-        /*final TimePicker startTime = (TimePicker)findViewById(R.id.modStartTime);
-        final TimePicker endTime = (TimePicker)findViewById(R.id.modEndTime);*/
-        final CheckBox card = (CheckBox) findViewById(R.id.modAcceptCard);
-        final CheckBox alchol = (CheckBox) findViewById(R.id.modAlchol);
-        final CheckBox parking = (CheckBox) findViewById(R.id.modParking);
-        final CheckBox catering = (CheckBox) findViewById(R.id.modCatering);
+        notice = (EditText) findViewById(R.id.modNotice);
+        startTime = (TimePicker)findViewById(R.id.modStartTime);
+        startTime.setIs24HourView(true);
+        endTime = (TimePicker)findViewById(R.id.modEndTime);
+        endTime.setIs24HourView(true);
+        card = (CheckBox) findViewById(R.id.modAcceptCard);
+        drinking = (CheckBox) findViewById(R.id.modAlchol);
+        parking = (CheckBox) findViewById(R.id.modParking);
+        catering = (CheckBox) findViewById(R.id.modCatering);
+        mName = (EditText)findViewById(R.id.inputMenuName);
+        mPrice = (EditText)findViewById(R.id.inputMenuPrice);
+        addBtn = (Button)findViewById(R.id.add);
+        spinner = (Spinner)findViewById(R.id.inputMenuState);
+        ArrayAdapter<CharSequence> sAdapter = ArrayAdapter.createFromResource(this, R.array.spinner_menu_state, android.R.layout.simple_spinner_item);
+        sAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(sAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                select_item = (String)spinner.getSelectedItem();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Button button = (Button)v;
+
+                Menu m = new Menu();
+                try {
+                    if(select_item.equals("판매중")){
+                        m.setMenuState(true);
+                    } else {
+                        m.setMenuState(false);
+                    }
+                    m.setMenuName(mName.getText().toString());
+                    m.setPrice(Integer.parseInt(mPrice.getText().toString()));
+
+                } catch (NumberFormatException e){
+                    e.printStackTrace();
+                }
+
+                if(button.getText().equals("ADD")){
+                    adapter.add(0, m);
+                } else {
+                    adapter.modify(info.position, m);
+                    addBtn.setText("ADD");
+                }
+                mName.setText("");
+                mPrice.setText("");
+            }
+        });
 
         final Calendar cal = Calendar.getInstance();
         hour = cal.get(Calendar.HOUR_OF_DAY);
         minute = cal.get(Calendar.MINUTE);
-        ampm = cal.get(Calendar.AM_PM);
 
 
         notice.setText(foodtruck.getNotice());
-        /*startTime.setHour(hour);
+        startTime.setHour(hour);
         startTime.setMinute(minute);
         endTime.setHour(hour);
-        endTime.setMinute(minute);*/
+        endTime.setMinute(minute);
         card.setChecked(foodtruck.isCard());
-        alchol.setChecked(foodtruck.isDrinking());
+        drinking.setChecked(foodtruck.isDrinking());
         parking.setChecked(foodtruck.isParking());
         catering.setChecked(foodtruck.isCatering());
 
@@ -124,9 +224,11 @@ public class TruckOpenActivity extends AppCompatActivity {
                 foodtruck.setLocation(location1.getText().toString());
                 foodtruck.setNotice(notice.getText().toString());
                 foodtruck.setCard(card.isChecked());
-                foodtruck.setDrinking(alchol.isChecked());
+                foodtruck.setDrinking(drinking.isChecked());
                 foodtruck.setParking(parking.isChecked());
                 foodtruck.setCatering(catering.isChecked());
+                foodtruck.setOperationTime(getTime(startTime.getHour(), startTime.getMinute(), endTime.getHour(), endTime.getMinute()));
+                foodtruck.setMenus(menus);
 
 
                 HttpAsyncTask httpTask = new HttpAsyncTask(TruckOpenActivity.this);
@@ -205,6 +307,16 @@ public class TruckOpenActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
+
+            if(result.equals("ok")){
+                Intent intent = new Intent(TruckOpenActivity.this, TruckInfoActivity.class);
+                startActivity(intent);
+                finish();
+
+            } else {
+                Toast.makeText(TruckOpenActivity.this, "다시 시도해주세요.", Toast.LENGTH_SHORT).show();
+            }
+
         }
     }
 
@@ -283,4 +395,64 @@ public class TruckOpenActivity extends AppCompatActivity {
 
         return result;
     }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(android.view.Menu.NONE, 1, android.view.Menu.NONE, "Delete");
+        menu.add(android.view.Menu.NONE, 2, android.view.Menu.NONE, "Modify");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+
+        switch(item.getItemId()){
+            case 1:
+                adapter.delete(info.position);
+                break;
+            case 2:
+                Menu menu = menus.get(info.position);
+                mName.setText(menu.getMenuName());
+                mPrice.setText(menu.getPrice() + "");
+                if(menu.isMenuState()){
+                    spinner.setSelection(0);
+                } else {
+                    spinner.setSelection(1);
+                }
+
+                addBtn.setText("MODIFY");
+
+                adapter.modify(info.position, menu);
+        }
+
+        return super.onContextItemSelected(item);
+    }
+
+
+    private String getTime(int sHour, int sMin, int eHour, int eMin){
+        String sAP;
+        String eAP;
+
+        if(sHour > 12){
+            sAP = "pm";
+            sHour -= 12;
+        } else {
+            sAP = "am";
+        }
+
+        if(eHour > 12){
+            eAP = "pm";
+            eHour -= 12;
+        } else {
+            eAP = "am";
+        }
+
+        return sHour + ":" + sMin + sAP + "/" + eHour + ":" + eMin + eAP;
+    }
+
+
+
 }
+
+
