@@ -40,10 +40,17 @@ public class ButtonListActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.followButton).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.foodtruckInfoButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ButtonListActivity.this, MemberFollowActivity.class);
+                Intent intent = new Intent(ButtonListActivity.this, TruckInfoActivity.class);
+                startActivity(intent);
+            }
+        });
+        findViewById(R.id.memberReview).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ButtonListActivity.this, ReviewListActivity.class);
                 startActivity(intent);
             }
         });

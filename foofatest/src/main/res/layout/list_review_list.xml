@@ -30,7 +30,8 @@
                 android:id="@+id/writerId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textSize="20dp"/>
 
             <View
                 android:layout_width="0dp"
@@ -66,9 +67,13 @@
 
                 <RatingBar
                     style="?android:attr/ratingBarStyleSmall"
-                    android:numStars="5"
+                    android:id="@+id/ratingBar1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:isIndicator="true"
+                    android:stepSize="1"
+                    android:numStars="5"
+                    android:max="5" />
 
 
                 <TextView

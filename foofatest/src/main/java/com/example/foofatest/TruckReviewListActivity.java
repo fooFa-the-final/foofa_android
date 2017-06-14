@@ -29,6 +29,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -86,7 +87,7 @@ public class TruckReviewListActivity extends AppCompatActivity {
                     Node node = nodeList.item(i);
                     Element element = (Element) node;
                     review.setContents(getTagValue("contents", element));
-                    review.setScore(Float.valueOf(getTagValue("score", element)));
+                    //review.setScore(Float.valueOf(getTagValue("score", element)));
                     review.setRecommand(Integer.parseInt(getTagValue("recommand", element)));
                     review.setReviewId(getTagValue("reviewId", element));
 //                    review.setWriteDate(DataFormatException(getTagValue("writeDate", element)));
@@ -99,8 +100,8 @@ public class TruckReviewListActivity extends AppCompatActivity {
                     foodtruck.setNotice(getTagValue("notice", element));
                     foodtruck.setLocation(getTagValue("location", element));
                     foodtruck.setCategory1(getTagValue("category1", element));
-//                    foodtruck.setCategory2(getTagValue("category2", element));
-//                    foodtruck.setCategory3(getTagValue("category3", element));
+                    foodtruck.setCategory2(getTagValue("category2", element));
+                    foodtruck.setCategory3(getTagValue("category3", element));
                     foodtruck.setCard(getTagBoolean("card", element));
                     foodtruck.setParking(getTagBoolean("parking", element));
                     foodtruck.setDrinking(getTagBoolean("drinking", element));
@@ -108,7 +109,7 @@ public class TruckReviewListActivity extends AppCompatActivity {
                     foodtruck.setState(getTagBoolean("state", element));
                     foodtruck.setFavoriteCount(Integer.parseInt(getTagValue("favoriteCount", element)));
                     foodtruck.setReviewCount(Integer.parseInt(getTagValue("reviewCount", element)));
-                    foodtruck.setScore(Double.parseDouble(getTagValue("score", element)));
+                    //review.setScore(Float.valueOf((getTagValue("score", element))));
                     NodeList nodeList1 = doc.getElementsByTagName("menus");
                     foodtruck.setFoodtruckImg("http://foofa.crabdance.com:8888/FoodtruckFinderProject/resources/img/food/"+getTagValue("foodtruckImg", element));
                     review.setWriter(writer);
@@ -136,6 +137,9 @@ public class TruckReviewListActivity extends AppCompatActivity {
     private static String getTagValue(String tag, Element element) {
         NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
         Node value = (Node) nodeList.item(0);
+        if(value.getNodeValue() == null) {
+            Objects.equals(value.getNodeValue(), "");
+        }
         return value.getNodeValue();
     }
 

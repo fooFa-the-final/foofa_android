@@ -3,6 +3,7 @@ package com.example.foofatest.Adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Rating;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.foofatest.R;
-import com.example.foofatest.dto.Foodtruck;
 import com.example.foofatest.dto.Review;
 
 import java.io.BufferedInputStream;
@@ -25,31 +25,28 @@ import java.net.URLConnection;
 import java.util.List;
 
 /**
- * Created by kosta on 2017-06-12.
+ * Created by BillGates on 2017-06-13.
  */
 
-public class TruckReviewAdapter extends BaseAdapter {
-
+public class ReviewListAdapter extends BaseAdapter{
+    private List<Review> data;
     private Context context;
     private LayoutInflater inflater;
-    private List<Review> reviews;
 
-    public TruckReviewAdapter(Context context, List<Review> reviews) {
+    public ReviewListAdapter(List<Review> data, Context context) {
+        this.data = data;
         this.context = context;
-        this.reviews = reviews;
         this.inflater = LayoutInflater.from(context);
-
     }
-
 
     @Override
     public int getCount() {
-        return reviews.size();
+        return data.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return reviews.get(position);
+        return data.get(position);
     }
 
     @Override
@@ -69,29 +66,29 @@ public class TruckReviewAdapter extends BaseAdapter {
         TextView reviewContent = (TextView) convertView.findViewById(R.id.reviewContent);
         RatingBar ratingBar = (RatingBar) convertView.findViewById(R.id.ratingBar1);
 
-        writerId.setText(reviews.get(position).getReviewId());
-        truckName.setText(reviews.get(position).getFoodtruck().getFoodtruckId());
-        reviewContent.setText(reviews.get(position).getContents());
-        ratingBar.setRating(reviews.get(position).getScore());
-        new ImageLoadingTask(image).execute(reviews.get(position).getImages().get(0).getFilename());
-        
+        writerId.setText(data.get(position).getReviewId());
+        truckName.setText(data.get(position).getFoodtruck().getFoodtruckName());
+        String contents = data.get(position).getContents();
+        if(contents.length() > 50){
+            contents = contents.substring(0, 49);
+            contents = contents + "...";
+        }
+        reviewContent.setText(contents);
+        ratingBar.setRating(data.get(position).getScore());
+        new ImageLoadingTask(image).execute(data.get(position).getImages().get(0).getFilename());
+
         return convertView;
     }
 
+    private class ImageLoadingTask extends AsyncTask<String, Void, Bitmap>{
 
-    private class ImageLoadingTask extends AsyncTask<String, Void, Bitmap> {
-
-        private final WeakReference<ImageView> imageViewWeakReference;
-
-        public ImageLoadingTask(ImageView img) {
-            this.imageViewWeakReference = new WeakReference<ImageView>(img);
+        private final WeakReference<ImageView> imageViewReference;
+        public ImageLoadingTask(ImageView img){
+            this.imageViewReference = new WeakReference<ImageView>(img);
         }
-
-
         @Override
         protected Bitmap doInBackground(String... params) {
             URL url = null;
-
             try {
                 url = new URL(params[0]);
             } catch (MalformedURLException e) {
@@ -102,24 +99,28 @@ public class TruckReviewAdapter extends BaseAdapter {
 
         @Override
         protected void onPostExecute(Bitmap bitmap) {
-            if (isCancelled()) {
+            if(isCancelled()){
                 bitmap = null;
             }
-            if (imageViewWeakReference != null) {
-                ImageView imageView = imageViewWeakReference.get();
-                if (imageView != null) {
+
+            if(imageViewReference != null){
+                ImageView imageView = imageViewReference.get();
+                if(imageView != null){
                     imageView.setImageBitmap(bitmap);
                 }
             }
         }
     }
 
-    private Bitmap getRemoteImage(final URL url) {
+    private Bitmap getRemoteImage(final URL url){
         Bitmap bitmap = null;
         URLConnection conn;
+
+
         try {
             conn = url.openConnection();
             conn.connect();
+
             BufferedInputStream bis = new BufferedInputStream(conn.getInputStream());
             bitmap = BitmapFactory.decodeStream(bis);
             bis.close();
@@ -128,10 +129,4 @@ public class TruckReviewAdapter extends BaseAdapter {
         }
         return bitmap;
     }
-
-
-
-
-
-
 }

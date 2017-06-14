@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-import com.example.foofatest.Gson.JSonParsingControl;
+import com.example.foofatest.Json.JsonParsingControl;
 import com.example.foofatest.dto.Member;
 
 public class MemberRegisterActivity extends AppCompatActivity {
@@ -66,7 +66,7 @@ public class MemberRegisterActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(Object... params) {
                 Member member = (Member) params[1];
-                return JSonParsingControl.POST((String) params[0], member);
+                return JsonParsingControl.POST((String) params[0], member);
         }
 
         @Override

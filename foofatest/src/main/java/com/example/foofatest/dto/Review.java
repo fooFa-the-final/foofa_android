@@ -1,5 +1,6 @@
 package com.example.foofatest.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -7,12 +8,12 @@ import java.util.List;
  * Created by kosta on 2017-06-12.
  */
 
-public class Review {
+public class Review implements Serializable{
 
     private String reviewId;
     private Foodtruck foodtruck;
     private String contents;
-    private float score;
+    private int score;
     private List<Image> images;
     private Member writer;
     private int recommand;
@@ -42,11 +43,11 @@ public class Review {
         this.contents = contents;
     }
 
-    public float getScore() {
+    public int getScore() {
         return score;
     }
 
-    public void setScore(Float score) {
+    public void setScore(int score) {
         this.score = score;
     }
 
@@ -81,4 +82,5 @@ public class Review {
     public void setWriteDate(Date writeDate) {
         this.writeDate = writeDate;
     }
+
 }

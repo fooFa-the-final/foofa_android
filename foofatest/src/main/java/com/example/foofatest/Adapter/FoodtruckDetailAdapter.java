@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.foofatest.R;
@@ -71,16 +72,44 @@ public class FoodtruckDetailAdapter extends BaseAdapter {
         TextView truckHours = (TextView) convertView.findViewById(R.id.truckHours);
         TextView truckLocation = (TextView) convertView.findViewById(R.id.truckLocation);
         ImageView image = (ImageView) convertView.findViewById(R.id.truckimg);
+        RatingBar ratingBar = (RatingBar) convertView.findViewById(R.id.ratingBar2);
 
+        TextView truckCard = (TextView) convertView.findViewById(R.id.truckCard);
+        TextView truckAlchol = (TextView) convertView.findViewById(R.id.truckAlchol);
+        TextView truckParking = (TextView) convertView.findViewById(R.id.truckParking);
+        TextView truckCatering = (TextView) convertView.findViewById(R.id.truckCatering);
 
         truckName.setText(foodtrucks.get(position).getFoodtruckName());
         truckCategory.setText(foodtrucks.get(position).getCategory1());
         truckArea.setText(foodtrucks.get(position).getLocation());
-//        truckFavorite.setText(foodtrucks.get(position).getFavoriteCount());
-//        truckReviewCount.setText(foodtrucks.get(position).getReviewCount());
+        truckFavorite.setText(String.valueOf(foodtrucks.get(position).getFavoriteCount()));
+        truckReviewCount.setText(String.valueOf(foodtrucks.get(position).getReviewCount()));
         truckNotice.setText(foodtrucks.get(position).getNotice());
         truckHours.setText(foodtrucks.get(position).getOperationTime());
         truckLocation.setText(foodtrucks.get(position).getSpot());
+        ratingBar.setRating((float) foodtrucks.get(position).getScore());
+        if(foodtrucks.get(position).isCard() == true) {
+            truckCard.setText("가능");
+        } else {
+            truckCard.setText("불가");
+        }
+
+        if(foodtrucks.get(position).isCatering() == true) {
+            truckCatering.setText("가능");
+        } else {
+            truckCatering.setText("불가");
+        }
+        if(foodtrucks.get(position).isDrinking() == true) {
+            truckAlchol.setText("가능");
+        } else {
+            truckAlchol.setText("불가");
+        }
+        if(foodtrucks.get(position).isParking() == true) {
+            truckParking.setText("가능");
+        } else {
+            truckParking.setText("불가");
+        }
+
 
         new ImageLoadingTask(image).execute(foodtrucks.get(position).getFoodtruckImg());
         return convertView;

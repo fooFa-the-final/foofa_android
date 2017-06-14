@@ -1,8 +1,7 @@
-package com.example.foofatest.Gson;
+package com.example.foofatest.Json;
 
 import android.util.Log;
 
-import com.example.foofatest.Adapter.FavoriteListlAdapter;
 import com.example.foofatest.dto.Advertise;
 import com.example.foofatest.dto.Follow;
 import com.example.foofatest.dto.Foodtruck;
@@ -26,7 +25,7 @@ import java.net.URL;
  * Created by juhee on 2017. 6. 13..
  */
 
-public class JSonParsingControl {
+public class JsonParsingControl {
 
     public static String POST(String url, Object javaObject) {
         InputStream is = null;
