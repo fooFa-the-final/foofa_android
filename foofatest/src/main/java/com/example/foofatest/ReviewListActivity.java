@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.foofatest.Adapter.ReviewListAdapter;
 import com.example.foofatest.dto.Foodtruck;
@@ -42,7 +43,7 @@ public class ReviewListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_list);
 
-        ListView list = (ListView) findViewById(R.id.reviewList);
+        ListView list = (ListView)findViewById(R.id.list);
 
         final ReviewLoadingTask task = new ReviewLoadingTask();
         task.execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/review/member/list.do?memberId=nayeon");
@@ -56,6 +57,7 @@ public class ReviewListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("log", "click");
+                Toast.makeText(ReviewListActivity.this, "ㅇㅇㅇ", Toast.LENGTH_SHORT).show();
                 Review review = data.get(position);
                 Intent intent = new Intent(ReviewListActivity.this, ReviewDetailActivity.class);
                 intent.putExtra("review", review);

@@ -1,10 +1,12 @@
 package com.example.foofatest.dto;
 
+import java.io.Serializable;
+
 /**
  * Created by kosta on 2017-06-12.
  */
 
-public class Member {
+public class Member implements Serializable{
 
     private String memberId;
     private String password;

@@ -283,7 +283,7 @@ public class TruckInfoActivity extends AppCompatActivity {
                     Review review = new Review();
                     Foodtruck foodtruck = new Foodtruck();
                     Member writer = new Member();
-                    List<Image> images = new ArrayList<>();
+                    ArrayList<Image> images = new ArrayList<>();
                     Image image = new Image();
                     Node node = nodeList.item(i);
                     Element element = (Element) node;
