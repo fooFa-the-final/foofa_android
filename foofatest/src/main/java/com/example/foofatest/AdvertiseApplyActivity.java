@@ -15,7 +15,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.foofatest.Gson.JSonParsingControl;
+import com.example.foofatest.Json.JsonParsingControl;
 import com.example.foofatest.dto.Advertise;
 
 import java.text.ParseException;
@@ -129,7 +129,7 @@ public class AdvertiseApplyActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(Object... params) {
             Advertise advertise = (Advertise) params[1];
-            return JSonParsingControl.POST((String) params[0], advertise);
+            return JsonParsingControl.POST((String) params[0], advertise);
         }
 
         @Override
