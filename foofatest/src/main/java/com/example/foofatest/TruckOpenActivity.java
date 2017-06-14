@@ -47,7 +47,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 public class TruckOpenActivity extends AppCompatActivity {
@@ -78,29 +77,9 @@ public class TruckOpenActivity extends AppCompatActivity {
         Intent intent = getIntent();
         foodtruck = (Foodtruck)intent.getExtras().get("foodtruck");
 
-        /*foodtruck = new Foodtruck();
-        foodtruck.setFoodtruckId("F1042");
-        foodtruck.setSellerId("king1");
-        foodtruck.setFoodtruckName("와이키키제주");
-        foodtruck.setLocation("제주시 애월읍");
-        foodtruck.setNotice("오늘도 역시 재료 소진시 영업마감합니다. 보통 2-3시에 마감하니 들리시기 직전 영업상태를 다시한번 확인해주세요!");
-        foodtruck.setCard(true);
-        foodtruck.setDrinking(true);
-        foodtruck.setParking(false);
-        foodtruck.setCatering(true);
-        menus = new ArrayList<>();
-
-        for(int i = 1; i < 10; i++){
-            Menu menu = new Menu();
-            menu.setMenuId("M" + i);
-            menu.setFoodtruckId("F1041");
-            menu.setMenuName("Menu" + i);
-            menu.setMenuState(true);
-            menu.setPrice(i*1000);
-            menus.add(menu);
-        }*/
-
+        menus = foodtruck.getMenus();
         adapter = new FoodtruckOpenMenuAdapter(this, menus);
+
 
         ListView list = (ListView)findViewById(R.id.modMenus);
         list.setOnTouchListener(new ListView.OnTouchListener(){
@@ -174,6 +153,7 @@ public class TruckOpenActivity extends AppCompatActivity {
                     }
                     m.setMenuName(mName.getText().toString());
                     m.setPrice(Integer.parseInt(mPrice.getText().toString()));
+                    m.setFoodtruckId(foodtruck.getFoodtruckId());
 
                 } catch (NumberFormatException e){
                     e.printStackTrace();
@@ -234,7 +214,7 @@ public class TruckOpenActivity extends AppCompatActivity {
                 HttpAsyncTask httpTask = new HttpAsyncTask(TruckOpenActivity.this);
                 httpTask.execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/foodtruck/modify.do", foodtruck);
                 Toast.makeText(getBaseContext(), "conntection", Toast.LENGTH_LONG).show();
-                lm.removeUpdates(mLocationListener);  //  미수신할때는 반드시 자원해체를 해주어야 한다.
+                //lm.removeUpdates(mLocationListener);  //  미수신할때는 반드시 자원해체를 해주어야 한다.
             }
         });
 
