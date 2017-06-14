@@ -153,7 +153,7 @@ public class TruckInfoActivity extends AppCompatActivity {
                                              if(text.toString() != "영업시작") {
                                                  Intent intent = new Intent(TruckInfoActivity.this, TruckOpenActivity.class);
                                                  foodtrucks.get(0).setMenus(menus1);
-                                                 intent.putExtra("foodtruck", (Serializable) foodtrucks);
+                                                 intent.putExtra("foodtruck", (Serializable) foodtrucks.get(0));
                                                  text.setText("영업종료");
                                                  startActivity(intent);
                                              } else if(text.toString()!="영업종료") {
