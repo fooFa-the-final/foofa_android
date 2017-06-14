@@ -1,10 +1,12 @@
 package com.example.foofatest.dto;
 
+import java.io.Serializable;
+
 /**
  * Created by kosta on 2017-06-12.
  */
 
-public class Image {
+public class Image implements Serializable{
     private String imageId;
     private String category;
     private String categoryId;
