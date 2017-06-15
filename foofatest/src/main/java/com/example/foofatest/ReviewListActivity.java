@@ -46,7 +46,7 @@ public class ReviewListActivity extends AppCompatActivity {
         ListView list = (ListView)findViewById(R.id.list);
 
         final ReviewLoadingTask task = new ReviewLoadingTask();
-        task.execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/review/member/list.do?memberId=nayeon");
+        task.execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/review/member/list.do?memberId=momo");
 
         data = new ArrayList<>();
         adapter = new ReviewListAdapter(data, this);
@@ -97,6 +97,7 @@ public class ReviewListActivity extends AppCompatActivity {
                     review.setImages(images);
                     data.add(review);
                 }
+                Log.d("log", ""+data.size());
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (SAXException e) {

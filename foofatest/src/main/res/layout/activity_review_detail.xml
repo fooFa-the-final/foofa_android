@@ -41,13 +41,6 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_weight="1" />
-                <TextView
-                    android:id="@+id/imageCount"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="5/5"
-                    android:layout_gravity="right"
-                    android:textSize="20sp"/>
 
                 <ImageButton
                     android:id="@+id/reviewCreateRecommand"

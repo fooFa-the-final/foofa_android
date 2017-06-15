@@ -58,7 +58,7 @@ public class ReviewDetailActivity extends AppCompatActivity {
         ((RatingBar)findViewById(R.id.reviewScore)).setRating(review.getScore());
 
         ImageLoadingTask task = new ImageLoadingTask();
-        task.execute("http://192.168.0.87:8888/FoodtruckFinderProject/mobile/review/detail.do?reviewId=R1");
+        task.execute("http://192.168.0.87:8888/FoodtruckFinderProject/mobile/review/detail.do?reviewId=" + review.getReviewId());
 
 
     }
