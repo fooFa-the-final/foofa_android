@@ -1,12 +1,16 @@
 package com.example.foofatest;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
@@ -15,14 +19,31 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
+import com.example.foofatest.dto.Foodtruck;
+import com.example.foofatest.dto.Member;
+import com.example.foofatest.dto.Review;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class ReviewCreateActivity extends AppCompatActivity {
 
@@ -43,7 +64,8 @@ public class ReviewCreateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_review_create);
         imageview1 = (ImageView)findViewById(R.id.imageView1);
         imageview2 = (ImageView)findViewById(R.id.imageView2);
-
+        final EditText contents = (EditText)findViewById(R.id.contents);
+        final RatingBar score = (RatingBar)findViewById(R.id.score);
 
         imageview1.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -63,7 +85,24 @@ public class ReviewCreateActivity extends AppCompatActivity {
             }
         });
 
-
+        Button submit = (Button)findViewById(R.id.submit);
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Review review = new Review();
+                Member writer = new Member();
+                Foodtruck foodtruck = new Foodtruck();
+                writer.setMemberId("nayeon");
+                foodtruck.setFoodtruckId("F123");
+                foodtruck.setFoodtruckName("sampleTruck102");
+                review.setScore((int)score.getRating());
+                review.setContents(contents.getText().toString());
+                review.setWriter(writer);
+                review.setFoodtruck(foodtruck);
+                HttpAsyncTask task = new HttpAsyncTask(ReviewCreateActivity.this);
+                task.execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/review/create.do", review);
+            }
+        });
     }
 
     // 앨범, 사진 촬영 선택창
@@ -206,5 +245,93 @@ public class ReviewCreateActivity extends AppCompatActivity {
         startActivityForResult(cropIntent, REQUEST_IMAGE_CROP);
     }
 
+    // post 전송
 
+    private class HttpAsyncTask extends AsyncTask<Object, Void, String> {
+
+        private ReviewCreateActivity reviewCreateActivity;
+        private Review review;
+
+        HttpAsyncTask(ReviewCreateActivity reviewCreateActivity) {
+            this.reviewCreateActivity = reviewCreateActivity;
+        }
+
+        @Override
+        protected String doInBackground(Object... objects) {
+
+            review = (Review) objects[1];
+
+            return POST((String) objects[0], review);
+        }
+
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        protected void onPostExecute(String result) {
+            Log.d("log", "reviewId : " + result);
+            Toast.makeText(ReviewCreateActivity.this, "리뷰가 작성되었습니다.", Toast.LENGTH_SHORT);
+            Intent intent = new Intent(ReviewCreateActivity.this, ReviewDetailActivity.class);
+            review.setReviewId(result);
+            intent.putExtra("review", review);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+
+    private static String convertInputStreamToString(InputStream inputStream) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+        String line = "";
+        String result = "";
+        while ((line = bufferedReader.readLine()) != null)
+            result += line;
+
+        inputStream.close();
+        return result;
+
+    }
+
+    public static String POST(String url, Review review) {
+        InputStream is = null;
+        String result = "";
+        try {
+            URL urlCon = new URL(url);
+            HttpURLConnection httpCon = (HttpURLConnection) urlCon.openConnection();
+
+            // build jsonObject
+            JSONObject jsonObject = new JSONObject();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+            String json = gson.toJson(review);
+
+            httpCon.setRequestProperty("Accept", "application/json");
+            httpCon.setRequestProperty("Content-type", "application/json");
+
+            // OutputStream으로 POST 데이터를 넘겨주겠다는 옵션.
+            httpCon.setDoOutput(true);
+            // InputStream으로 서버로 부터 응답을 받겠다는 옵션.
+            httpCon.setDoInput(true);
+
+            OutputStream os = httpCon.getOutputStream();
+            os.write(json.getBytes("utf-8"));
+            os.flush();
+            try {
+                is = httpCon.getInputStream();
+                // convert inputstream to string
+                if (is != null)
+                    result = convertInputStreamToString(is);
+                else
+                    result = "Did not work!";
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                httpCon.disconnect();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            Log.d("log", e.getLocalizedMessage());
+        }
+
+        return result;
+    }
 }
