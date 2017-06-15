@@ -57,15 +57,11 @@ public class AdvertiseApplyActivity extends AppCompatActivity {
                     public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
 
-                        //날짜 잘 찍히나 확인 월에는 1을 더해줘야댐  0값이 1이라서
                         advtext.setText(String.format("%d%d%d", year, monthOfYear + 1, dayOfMonth));
-                        //캘린더 찎은거 받아와야대서 캘린더씀
                         Calendar calendar = Calendar.getInstance();
                         calendar.set(year, monthOfYear, dayOfMonth);
-                        //스트링으로 받기
                         SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
                         String strDate = format.format(calendar.getTime());
-                        //다시 Date타입으로 바꾸기
                         SimpleDateFormat transFormat1 = new SimpleDateFormat("yyyy-MM-dd");
                         try {
                             startDay = transFormat1.parse(strDate);
@@ -83,25 +79,9 @@ public class AdvertiseApplyActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 RadioButton radio_btn = (RadioButton) findViewById(checkedId);
-                //함찍어봄
-//                Toast.makeText(AdvertiseApplyActivity.this, radio_btn.getText() + "체크", Toast.LENGTH_LONG).show();
-//                switch (checkedId) {
-//                    case R.id.radio0:
-//                        break;
-//                    case R.id.radio1:
-//                        break;
-//                    case R.id.radio2:
-//                        break;
-//                    case R.id.radio3:
-//                        break;
-//                }
-
-
                 RadioGroup rg = (RadioGroup) findViewById(R.id.radioGroup); // 라디오그룹 객체 맵핑
                 RadioButton selectedRdo = (RadioButton) findViewById(rg.getCheckedRadioButtonId()); // rg 라디오그룹의 체크된(getCheckedRadioButtonId) 라디오버튼 객체 맵핑
                 period = selectedRdo.getText().toString(); // 해당 라디오버튼 객체의 값 가져오기
-                //아주굿
-//                Log.d("1111", period);
             }
         });
 
@@ -115,7 +95,7 @@ public class AdvertiseApplyActivity extends AppCompatActivity {
 
                 Log.d("1111", String.valueOf(realDay));
                 advertise.setAdvId(sellerId);
-                advertise.setStartdate(startDay);
+//                advertise.setStartdate(startDay);
                 advertise.setPeriod(realDay);
 
                 new AdvertiseApplyActivity.AdvertiseTask().execute("경-로", advertise);

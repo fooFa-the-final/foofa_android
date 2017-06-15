@@ -39,18 +39,8 @@ public class JsonParsingControl {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
             String json ="";
-            if(javaObject instanceof Member){
-                json = gson.toJson((Member)javaObject);
-            }else if(javaObject instanceof Foodtruck){
-                json = gson.toJson((Foodtruck)javaObject);
-            }else if(javaObject instanceof Follow){
-                json = gson.toJson((Follow)javaObject);
-            }else if(javaObject instanceof Advertise){
+          if(javaObject instanceof Advertise){
                 json = gson.toJson((Advertise)javaObject);
-            }else if(javaObject instanceof Menu){
-                json = gson.toJson((Menu)javaObject);
-            }else if(javaObject instanceof Review){
-                json = gson.toJson((Review)javaObject);
             }
 
             Log.d("InputStream", jsonObject.toString());

@@ -46,7 +46,7 @@ public class ReviewListActivity extends AppCompatActivity {
         ListView list = (ListView)findViewById(R.id.list);
 
         final ReviewLoadingTask task = new ReviewLoadingTask();
-        task.execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/review/member/list.do?memberId=nayeon");
+        task.execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/review/member/list.do?memberId=momo");
 
         data = new ArrayList<>();
         adapter = new ReviewListAdapter(data, this);
@@ -56,8 +56,6 @@ public class ReviewListActivity extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("log", "click");
-                Toast.makeText(ReviewListActivity.this, "ㅇㅇㅇ", Toast.LENGTH_SHORT).show();
                 Review review = data.get(position);
                 Intent intent = new Intent(ReviewListActivity.this, ReviewDetailActivity.class);
                 intent.putExtra("review", review);
@@ -99,6 +97,7 @@ public class ReviewListActivity extends AppCompatActivity {
                     review.setImages(images);
                     data.add(review);
                 }
+                Log.d("log", ""+data.size());
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (SAXException e) {

@@ -57,6 +57,29 @@
                         android:layout_marginLeft="20dp"></ListView>
 
 
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_marginLeft="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:text="Today Location"
+                            android:textStyle="bold"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <LinearLayout
+                            android:id="@+id/truckLocation"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:layout_alignParentEnd="true"
+                            android:orientation="horizontal"></LinearLayout>
+
+                    </LinearLayout>
+
+
+
                     <Button
                         android:id="@+id/truckChange"
                         android:layout_width="wrap_content"
@@ -107,27 +130,34 @@
                         android:id="@+id/startAd"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="-40dp"
                         android:layout_marginLeft="-60.0dp"
                         android:layout_marginTop="-40.0dp"
+                        android:layout_marginBottom="-40dp"
                         android:datePickerMode="spinner"
                         android:scaleX="0.60"
                         android:scaleY="0.50" />
 
                     <TextView
+                        android:id="@+id/advDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginLeft="20.0dp"
+                        android:layout_marginBottom="10dp"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20.0dp"
+                        android:layout_marginBottom="10dp"
                         android:text="광고 기간" />
 
 
                     <RadioGroup
-                        android:id="@+id/radioGroup1"
+                        android:id="@+id/radioGroup"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="70dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_marginLeft="70dp">
 
                         <RadioButton
                             android:id="@+id/radio0"
@@ -146,7 +176,8 @@
                             android:id="@+id/radio2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="14일" />
+                            android:text="14일"/>
+
 
                         <RadioButton
                             android:id="@+id/radio3"
@@ -156,22 +187,15 @@
 
                     </RadioGroup>
 
-                    <LinearLayout
+
+                    <Button
+                        android:id="@+id/advbtn"
+                        android:text="결제"
+                        android:layout_marginTop="20dp"
+                        android:layout_gravity="center"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center">
+                        android:layout_height="wrap_content" />
 
-                        <Button
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="20dp"
-                            android:text="결제" />
-
-
-
-
-                    </LinearLayout>
                 </LinearLayout>
             </FrameLayout>
         </LinearLayout>
