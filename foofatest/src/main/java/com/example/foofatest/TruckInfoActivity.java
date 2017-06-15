@@ -96,7 +96,7 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
     // 맵 컨트롤러
     NMapController mMapController = null;
     // 맵을 추가할 레이아웃
-    LinearLayout MapContainer;
+    LinearLayout truckLocation;
 
 
     private SharedPreferences prefs;
@@ -132,8 +132,9 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.tab_seller);
         // 네이버 지도를 넣기 위한 LinearLayout 컴포넌트
-        MapContainer = (LinearLayout) findViewById(R.id.truckLocation);
+        truckLocation = (LinearLayout) findViewById(R.id.truckLocation);
 
         // 네이버 지도 객체 생성
         mMapView = new NMapView(this);
@@ -145,7 +146,7 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
         mMapView.setApiKey(API_KEY);
 
         // 생성된 네이버 지도 객체를 LinearLayout에 추가시킨다.
-        MapContainer.addView(mMapView);
+        truckLocation.addView(mMapView);
 
         // 지도를 터치할 수 있도록 옵션 활성화
         mMapView.setClickable(true);
@@ -167,6 +168,10 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
         mOverlayManager.setOnCalloutOverlayListener(onCalloutOverlayListener);
 
         int markerId = NMapPOIflagType.PIN;
+        Intent intent = getIntent();
+        foodtruck1 = (Foodtruck)intent.getExtras().get("foodtruck");
+        foodtruck1.setMenus(menus1);
+        loca = foodtruck1.getLocation();
 
         try {
             list = geocoder.getFromLocationName(loca, 10);
@@ -191,19 +196,13 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
 
 
 
-
-        Intent intent = getIntent();
-        foodtruck1 = (Foodtruck)intent.getExtras().get("foodtruck");
-        foodtruck1.setMenus(menus1);
-        loca = foodtruck1.getLocation();
-
         Log.d("1111", foodtruck1.toString());
 //        String truck = foodtruck.getFoodtruckName();
 //        Log.d("1111", truck);
 
 
 
-        setContentView(R.layout.tab_seller);
+
 
         TabHost tabHost1 = (TabHost) findViewById(R.id.tabHost1);
         LocalActivityManager oo = new LocalActivityManager(getParent(), true);

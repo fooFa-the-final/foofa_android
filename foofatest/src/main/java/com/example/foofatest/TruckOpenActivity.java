@@ -66,7 +66,7 @@ public class TruckOpenActivity extends AppCompatActivity {
 
     private AdapterView.AdapterContextMenuInfo info;
 
-    //final Geocoder geocoder = new Geocoder(this);
+    final Geocoder geocoder = new Geocoder(this);
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
