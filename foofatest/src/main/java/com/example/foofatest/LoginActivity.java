@@ -13,14 +13,32 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.foofatest.Adapter.FoodtruckDetailAdapter;
+import com.example.foofatest.dto.Foodtruck;
+import com.example.foofatest.dto.Menu;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -31,6 +49,9 @@ public class LoginActivity extends AppCompatActivity {
 
     private CheckBox sellerCheck;
     private CheckBox autoLoginCheck;
+    public List<Foodtruck> foodtrucks;
+
+    public FoodtruckDetailAdapter adapter;
 
 
     @Override
@@ -51,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
         sellerCheck = (CheckBox) findViewById(R.id.sellerCheck);
         autoLoginCheck = (CheckBox) findViewById(R.id.autoLoginCheck);
 
+
         findViewById(R.id.loginBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,6 +80,9 @@ public class LoginActivity extends AppCompatActivity {
                 if(sellerCheck.isChecked()){
                     new LoginCheckTask().execute("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/sellerlogin.do?id="
                             + idEdit.getText() + "&password=" + pwEdit.getText());
+                    String tempId ;
+                    tempId = idEdit.getText().toString();
+                    new FoodtruckDetailTask().execute("http://foofa.crabdance.com:8888/FoodtruckFinderProject/mobile/detail.do?id=" + tempId);
                 }else {
                     new LoginCheckTask().execute("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/memberlogin.do?id="
                             + idEdit.getText() + "&password=" + pwEdit.getText());
@@ -105,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 Intent intent;
                 if(sellerCheck.isChecked()){
-                    intent = new Intent(LoginActivity.this, TruckInfoActivity.class);
+                    finish();
                 }else {
                     intent = new Intent(LoginActivity.this, TruckInfoActivity.class);
                 }
@@ -122,6 +147,108 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     }
+
+
+
+    public class FoodtruckDetailTask extends AsyncTask<String, Void, Void> {
+
+
+
+
+        @Override
+        protected Void doInBackground(String... params) {
+
+            foodtrucks = new ArrayList<>();
+
+//            adapter = new FoodtruckDetailAdapter(this, foodtrucks);
+
+            try {
+                URL url = new URL((String) params[0]);
+                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder builder = factory.newDocumentBuilder();
+                Document doc = builder.parse(new InputSource(url.openStream()));
+                NodeList nodeList = doc.getElementsByTagName("foodtruck");
+                for (int i = 0; i < nodeList.getLength(); i++) {
+                    Foodtruck foodtruck = new Foodtruck();
+                    Node node = nodeList.item(i);
+                    Element element = (Element) node;
+                    foodtruck.setFoodtruckId(getTagValue("foodtruckId", element));
+                    foodtruck.setSellerId(getTagValue("sellerId", element));
+                    foodtruck.setFoodtruckName(getTagValue("foodtruckName", element));
+                    foodtruck.setOperationTime(getTagValue("operationTime", element));
+                    foodtruck.setSpot(getTagValue("spot", element));
+                    foodtruck.setNotice(getTagValue("notice", element));
+                    foodtruck.setLocation(getTagValue("location", element));
+                    foodtruck.setCategory1(getTagValue("category1", element));
+                    foodtruck.setCategory2(getTagValue("category2", element));
+                    foodtruck.setCategory3(getTagValue("category3", element));
+                    foodtruck.setCard(Boolean.parseBoolean(getTagValue("card", element)));
+                    foodtruck.setParking(Boolean.parseBoolean(getTagValue("parking", element)));
+                    foodtruck.setDrinking(Boolean.parseBoolean(getTagValue("drinking", element)));
+                    foodtruck.setCatering(Boolean.parseBoolean(getTagValue("catering", element)));
+                    foodtruck.setState(Boolean.parseBoolean(getTagValue("state", element)));
+                    foodtruck.setFavoriteCount(Integer.parseInt(getTagValue("favoriteCount", element)));
+                    foodtruck.setReviewCount(Integer.parseInt(getTagValue("reviewCount", element)));
+                    foodtruck.setScore(Double.parseDouble(getTagValue("score", element)));
+                    List<Menu> menus1 = new ArrayList<>();
+                    NodeList list1 = element.getElementsByTagName("menus").item(i).getChildNodes();
+                    Log.d("1111", String.valueOf(list1.getLength()));
+//                    int k = list1.getLength();
+//
+//                    for (int a = 0; a <= k; a++) {
+//                        Menu menu = new Menu();
+//                        menu.setMenuName(getTagValue("menuName", element));
+//                        menu.setPrice(Integer.parseInt(getTagValue("favoriteCount", element)));
+//                        menu.setMenuState(Boolean.parseBoolean(getTagValue("menuState", element)));
+//                        menu.setMenuId(getTagValue("menuId", element));
+//                        menus1.add(menu);
+//                    }
+                    foodtruck.setMenus(menus1);
+                    foodtruck.setFoodtruckImg("http://foofa.crabdance.com:8888/FoodtruckFinderProject/resources/img/food/" + getTagValue("foodtruckImg", element));
+                    foodtrucks.add(foodtruck);
+                }
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (ParserConfigurationException e) {
+                e.printStackTrace();
+            } catch (SAXException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            Intent intent;
+            intent = new Intent(LoginActivity.this, TruckInfoActivity.class);
+            Foodtruck foodturckPrime = new Foodtruck();
+            foodturckPrime = foodtrucks.get(0);
+            Log.d("1111", String.valueOf(foodtrucks.get(0).getFoodtruckId()));
+            intent.putExtra("foodtruck", (Serializable) foodturckPrime);
+            startActivity(intent);
+            finish();
+
+        }
+    }
+
+
+
+
+    private static String getTagValue(String tag, Element element) {
+        try {
+            NodeList list = element.getElementsByTagName(tag).item(0).getChildNodes();
+            Node value = (Node) list.item(0);
+            return value.getNodeValue();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+
+
 
 }
 

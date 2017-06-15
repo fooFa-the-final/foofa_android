@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.example.foofatest.LoginActivity;
 import com.example.foofatest.R;
 import com.example.foofatest.dto.Foodtruck;
 
@@ -70,7 +71,7 @@ public class FoodtruckDetailAdapter extends BaseAdapter {
         TextView truckReviewCount = (TextView) convertView.findViewById(R.id.truckReviewCount);
         TextView truckNotice = (TextView) convertView.findViewById(R.id.truckNotice);
         TextView truckHours = (TextView) convertView.findViewById(R.id.truckHours);
-        TextView truckLocation = (TextView) convertView.findViewById(R.id.truckLocation);
+//        TextView truckLocation = (Linerla) convertView.findViewById(R.id.truckLocation);
         ImageView image = (ImageView) convertView.findViewById(R.id.truckimg);
         RatingBar ratingBar = (RatingBar) convertView.findViewById(R.id.ratingBar2);
 
@@ -86,7 +87,7 @@ public class FoodtruckDetailAdapter extends BaseAdapter {
         truckReviewCount.setText(String.valueOf(foodtrucks.get(position).getReviewCount()));
         truckNotice.setText(foodtrucks.get(position).getNotice());
         truckHours.setText(foodtrucks.get(position).getOperationTime());
-        truckLocation.setText(foodtrucks.get(position).getSpot());
+//        truckLocation.setText(foodtrucks.get(position).getSpot());
         ratingBar.setRating((float) foodtrucks.get(position).getScore());
         if(foodtrucks.get(position).isCard() == true) {
             truckCard.setText("가능");

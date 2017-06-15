@@ -95,7 +95,7 @@ public class AdvertiseApplyActivity extends AppCompatActivity {
 
                 Log.d("1111", String.valueOf(realDay));
                 advertise.setAdvId(sellerId);
-                advertise.setStartdate(startDay);
+//                advertise.setStartdate(startDay);
                 advertise.setPeriod(realDay);
 
                 new AdvertiseApplyActivity.AdvertiseTask().execute("경-로", advertise);
