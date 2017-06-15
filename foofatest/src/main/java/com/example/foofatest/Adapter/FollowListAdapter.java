@@ -61,6 +61,7 @@ public class FollowListAdapter extends BaseAdapter {
         return position;
     }
 
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
@@ -70,12 +71,14 @@ public class FollowListAdapter extends BaseAdapter {
 //            TextView followCount = (TextView) convertView.findViewById(R.id.followcount);
 //            TextView reviewCount = (TextView) convertView.findViewById(R.id.reviewconut);
             TextView birthday = (TextView) convertView.findViewById(R.id.birthday);
+            TextView email = (TextView) convertView.findViewById(R.id.email);
             ImageView profileImg = (ImageView) convertView.findViewById(R.id.profileImg);
             Button ufbtn = (Button)convertView.findViewById(R.id.ufbtn);
 
 
             memberId.setText(follows.get(position).getMemberId());
             birthday.setText(follows.get(position).getBirthday());
+            email.setText(follows.get(position).getEmail());
 //            followCount.setText(follows.get(position).getFollowCount());
 //            reviewCount.setText(follows.get(position).getReviewCount());
             new ImageLoadingTask(profileImg).execute(follows.get(position).getProfileImg());
@@ -83,7 +86,7 @@ public class FollowListAdapter extends BaseAdapter {
             return convertView;
         }
 
-        class ImageLoadingTask extends AsyncTask<String, Void, Bitmap>{
+        public static class ImageLoadingTask extends AsyncTask<String, Void, Bitmap>{
             private final WeakReference<ImageView> imageViewWeakReference;
 
             public ImageLoadingTask(ImageView img){
@@ -115,7 +118,7 @@ public class FollowListAdapter extends BaseAdapter {
             }
         }
 
-    private Bitmap getRemoteImage(final URL url) {
+    private static Bitmap getRemoteImage(final URL url) {
         Bitmap bitmap = null;
         URLConnection conn;
         try {

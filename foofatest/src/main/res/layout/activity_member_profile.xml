@@ -9,13 +9,9 @@
 
     <ImageView
         android:id="@+id/myProfile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="90dp"
-        android:scaleX="4"
-        android:scaleY="4"
-        />
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
+    />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -26,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:text="My Name : " />
+            android:text="My Name :" />
 
         <TextView
             android:id="@+id/myId"
@@ -55,6 +51,24 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="생일 : " />
+
+
+        <TextView
+            android:id="@+id/mybirthday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
 
     <LinearLayout
@@ -81,9 +95,9 @@
 
 
         <TextView
+            android:id="@+id/memberReviewCount"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/memberReviewCount" />
+            android:layout_height="wrap_content" />
 
 
         <TextView
@@ -92,26 +106,20 @@
             android:text="단골 수: " />
 
 
-
         <TextView
             android:id="@+id/memberFavCount"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-
+            android:layout_height="wrap_content" />
 
 
     </LinearLayout>
 
 
-
-
-
     <Button
         android:id="@+id/modify"
-        android:layout_gravity="center"
-        android:text="modify"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="modify" />
 
 </LinearLayout>

@@ -1,22 +1,21 @@
 package com.example.foofatest;
 
+import android.app.Fragment;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.foofatest.dto.Foodtruck;
-import com.example.foofatest.dto.Menu;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
+import com.example.foofatest.Adapter.FollowListAdapter;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -25,54 +24,46 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 public class MemberProfileActivity extends AppCompatActivity {
 
-
-    public ImageView myProfile;
-    public TextView myId;
-    public TextView myEmail;
-    public TextView memberFollowerCount;
-    public TextView memberFavCount;
-
-
-
-
-
+    private Fragment extras;
+    private SharedPreferences prefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_member_profile);
 
 
-        myProfile.findViewById(R.id.myProfile);
-        myId.findViewById(R.id.myId);
-        myEmail.findViewById(R.id.myEmail);
-        memberFollowerCount.findViewById(R.id.memberFollowerCount);
-        memberFavCount.findViewById(R.id.memberFavCount);
+        TextView memberId = (TextView) findViewById(R.id.myId);
+        TextView birthday = (TextView) findViewById(R.id.mybirthday);
+        TextView email = (TextView) findViewById(R.id.myEmail);
+        ImageView img = (ImageView) findViewById(R.id.myProfile);
+        Button modify = (Button)findViewById(R.id.modify);
+        Intent intent = getIntent();
+        memberId.setText(intent.getStringExtra("memberId"));
+        birthday.setText(intent.getStringExtra("birthday"));
+        email.setText(intent.getStringExtra("email"));
+        Bundle extras = getIntent().getExtras();
+        Uri myUri = Uri.parse(extras.getString("profileImg"));
+        img.setImageURI(myUri);
+        new FollowListAdapter.ImageLoadingTask(img).execute(extras.getString("profileImg"));
 
-        myProfile.setTag("myId");
-//        myProfile.setImageBitmap();
-
-
-//        new ImageLoadingTask(myProfile).execute(member.getPr)
-
+        modify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),MemberModifyActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
     }
-
-    private class ImageLoadingTask extends AsyncTask<String, Void, Bitmap> {
-
+    class ImageLoadingTask extends AsyncTask<String, Void, Bitmap> {
         private final WeakReference<ImageView> imageViewWeakReference;
 
-        public ImageLoadingTask(ImageView img) {
+        public ImageLoadingTask(ImageView img){
             this.imageViewWeakReference = new WeakReference<ImageView>(img);
         }
-
-
         @Override
         protected Bitmap doInBackground(String... params) {
             URL url = null;
@@ -113,7 +104,4 @@ public class MemberProfileActivity extends AppCompatActivity {
         }
         return bitmap;
     }
-
-
-
 }

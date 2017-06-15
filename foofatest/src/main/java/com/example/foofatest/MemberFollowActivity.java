@@ -12,10 +12,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.foofatest.Adapter.FollowListAdapter;
 import com.example.foofatest.dto.Follow;
-import com.example.foofatest.dto.Foodtruck;
 import com.example.foofatest.dto.Member;
 
 import org.w3c.dom.Document;
@@ -37,14 +37,12 @@ import javax.xml.parsers.ParserConfigurationException;
 
 public class MemberFollowActivity extends AppCompatActivity {
 
-    private List<Member> members;
-    private List<Follow> follows;
+    private List<Member> members = new ArrayList<>();
     private ListView listView;
     private FollowListAdapter adapter;
     private SharedPreferences prefs;
     private String fromId;
     private String toId;
-    private AdapterView.AdapterContextMenuInfo info;
     private Button ufbtn;
 
 
@@ -58,34 +56,39 @@ public class MemberFollowActivity extends AppCompatActivity {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         }
-            members = new ArrayList<>();
-            new FollowLoadingTask().execute("http://foofa.crabdance.com:8888/FoodtruckFinderProject/mobile/follow/list.do?fromId=" + fromId);
-            listView = (ListView) findViewById(R.id.followList);
-            adapter = new FollowListAdapter(this, members);
-            listView.setAdapter(adapter);
-        Log.d("1111", String.valueOf(members.size()));
-        listView.setOnItemClickListener(new MemberFollowActivity.ListViewItemClickListener());
+        members = new ArrayList<>();
+        new FollowLoadingTask().execute("http://foofa.crabdance.com:8888/FoodtruckFinderProject/mobile/follow/list.do?fromId=" + fromId);
+        listView = (ListView) findViewById(R.id.followList);
+        adapter = new FollowListAdapter(this, members);
+        listView.setAdapter(adapter);
+
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+//            맴버아이디 나오나 확인
+//                Toast.makeText(MemberFollowActivity.this, members.get(position).getMemberId(), Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(),MemberProfileActivity.class);
+                intent.putExtra("memberId", members.get(position).getMemberId());
+                intent.putExtra("birthday", members.get(position).getBirthday());
+                intent.putExtra("email", members.get(position).getEmail());
+                intent.putExtra("profileImg", members.get(position).getProfileImg());
+                startActivity(intent);
+
+
+
+
+        }
+        });
 
 //        ufbtn.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
-//                new FollowLoadingTask().execute("http://foofa.crabdance.com:8888/FoodtruckFinderProject/mobile/follow/remove.do?fromId=" + fromId + "&toId=" + toId);
-//                adapter.notifyDataSetChanged();
+//
 //            }
 //        });
     }
-
-    private class ListViewItemClickListener implements AdapterView.OnItemClickListener {
-
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Intent intent = new Intent(MemberFollowActivity.this, MemberProfileActivity.class);
-            Member member = members.get(position);
-            startActivity(intent);
-        }
-    }
-
-
 
 
 
@@ -108,6 +111,7 @@ public class MemberFollowActivity extends AppCompatActivity {
                         Member member = new Member();
                         member.setMemberId(getTagValue("memberId", element));
                         member.setBirthday(getTagValue("birthday", element));
+                        member.setEmail(getTagValue("email", element));
 //                        member.setFollowCount(Integer.parseInt(getTagValue("followCount", element)));
 //                        member.setReviewCount(Integer.parseInt(getTagValue("reviewCount",element)));
                         member.setProfileImg("http://106.242.203.67:8888/FoodtruckFinderProject/resources/img/member/"+getTagValue("profileImg",element));
