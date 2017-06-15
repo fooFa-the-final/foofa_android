@@ -10,6 +10,12 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- GPS 사용권한 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 카메라 사용권한 -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <!-- 파일 읽기 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <!-- 파일 쓰기 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
