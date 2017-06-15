@@ -66,7 +66,7 @@ public class TruckOpenActivity extends AppCompatActivity {
 
     private AdapterView.AdapterContextMenuInfo info;
 
-    final Geocoder geocoder = new Geocoder(this);
+    //final Geocoder geocoder = new Geocoder(this);
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -185,7 +185,7 @@ public class TruckOpenActivity extends AppCompatActivity {
         parking.setChecked(foodtruck.isParking());
         catering.setChecked(foodtruck.isCatering());
 
-        final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        /*final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         try {
             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 1, mLocationListener);
@@ -193,7 +193,7 @@ public class TruckOpenActivity extends AppCompatActivity {
 
         } catch (SecurityException ex) {
 
-        }
+        }*/
 
 
         Button modifyBtn = (Button) findViewById(R.id.modTruckBtn);
@@ -212,7 +212,7 @@ public class TruckOpenActivity extends AppCompatActivity {
 
 
                 HttpAsyncTask httpTask = new HttpAsyncTask(TruckOpenActivity.this);
-                httpTask.execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/foodtruck/open.do", foodtruck);
+                httpTask.execute("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/foodtruck/open.do", foodtruck);
                 Toast.makeText(getBaseContext(), "conntection", Toast.LENGTH_LONG).show();
                 //lm.removeUpdates(mLocationListener);  //  미수신할때는 반드시 자원해체를 해주어야 한다.
             }
@@ -220,7 +220,7 @@ public class TruckOpenActivity extends AppCompatActivity {
 
     }
 
-    private final LocationListener mLocationListener = new LocationListener() {
+    /*private final LocationListener mLocationListener = new LocationListener() {
         public void onLocationChanged(Location location) {
             //여기서 위치값이 갱신되면 이벤트가 발생한다.
             //값은 Location 형태로 리턴되며 좌표 출력 방법은 다음과 같다.
@@ -265,7 +265,7 @@ public class TruckOpenActivity extends AppCompatActivity {
             // 변경시
             Log.d("test", "onStatusChanged, provider:" + provider + ", status:" + status + " ,Bundle:" + extras);
         }
-    };
+    };*/
 
     private class HttpAsyncTask extends AsyncTask<Object, Void, String> {
 
