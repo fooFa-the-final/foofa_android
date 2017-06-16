@@ -219,7 +219,7 @@ public class TruckModifyActivity extends AppCompatActivity {
                 HttpAsyncTask2 httpTask = new HttpAsyncTask2(TruckModifyActivity.this);
                 httpTask.execute("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/foodtruck/modify.do", foodtruck);
                 Toast.makeText(getBaseContext(), "conntection", Toast.LENGTH_LONG).show();
-                //lm.removeUpdates(mLocationListener);  //  미수신할때는 반드시 자원해체를 해주어야 한다.
+                lm.removeUpdates(mLocationListener);  //  미수신할때는 반드시 자원해체를 해주어야 한다.
             }
         });
 
