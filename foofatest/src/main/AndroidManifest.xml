@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.foofatest"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.foofatest">
 
     <!-- WIFI 상태활용시 추가 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -11,21 +11,21 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- GPS 사용권한 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <!-- 쓰기 권한-->
+    <!-- 쓰기 권한 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!-- 읽기 권한-->
+    <!-- 읽기 권한 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <!-- 카메라 권한-->
+    <!-- 카메라 권한 -->
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
-        tools:replace="icon, label"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="Foodtruck Finder"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="icon, label">
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,7 +39,7 @@
         <activity android:name=".SellerRegisterActivity" />
         <activity android:name=".TruckInfoActivity" />
         <activity android:name=".TruckDetailActivity" />
-        <activity android:name=".TruckOpenActivity"/>
+        <activity android:name=".TruckOpenActivity" />
         <activity android:name=".TruckClosedActivity" />
         <activity android:name=".SellerModifyActivity" />
         <activity android:name=".TruckRegisterActivity" />
@@ -48,13 +48,13 @@
         <activity android:name=".MemberRegisterActivity" />
         <activity android:name=".MembeDetailActivity" />
         <activity android:name=".MemberModifyActivity" />
-        <activity android:name=".ReviewListActivity"/>
+        <activity android:name=".ReviewListActivity" />
         <activity android:name=".TruckBefore" />
-        <activity android:name=".ReportActivity"/>
+        <activity android:name=".ReportActivity" />
         <activity android:name=".MemberFavListActivity" />
         <activity android:name=".ReviewCreateActivity" />
         <activity android:name=".MemberFollowActivity" />
-        <activity android:name=".ButtonListActivity"/>
+        <activity android:name=".ButtonListActivity" />
         <activity android:name=".AdvertiseApplyActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -62,7 +62,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".SurveyActivity"></activity>
     </application>
 
 </manifest>
