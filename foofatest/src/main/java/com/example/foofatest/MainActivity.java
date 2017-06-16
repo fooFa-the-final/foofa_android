@@ -1,20 +1,15 @@
 package com.example.foofatest;
 
 import android.content.Intent;
-import android.location.Address;
-import android.location.Geocoder;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -22,21 +17,11 @@ import android.widget.Toast;
 import com.example.foofatest.Adapter.SearchTruckListAdapter;
 import com.example.foofatest.Json.JsonParsingControl;
 import com.example.foofatest.dto.Foodtruck;
-import com.example.foofatest.forMap.NMapPOIflagType;
-import com.example.foofatest.forMap.NMapViewerResourceProvider;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.nhn.android.maps.NMapActivity;
-import com.nhn.android.maps.NMapController;
-import com.nhn.android.maps.NMapView;
-import com.nhn.android.maps.maplib.NGeoPoint;
-import com.nhn.android.maps.nmapmodel.NMapError;
-import com.nhn.android.maps.overlay.NMapPOIdata;
-import com.nhn.android.mapviewer.overlay.NMapOverlayManager;
-import com.nhn.android.mapviewer.overlay.NMapPOIdataOverlay;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -62,31 +47,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-public class MainActivity extends NMapActivity implements NMapView.OnMapStateChangeListener {
-
-    final private Geocoder geocoder = new Geocoder(MainActivity.this);
-    private double lat = 0;
-    private double lon = 0;
-    private List<Double> lats;
-    private List<Double> lons;
-    private String loca = "";//트럭 주소 입력
-    private List<String> locas;//트럭 주소들
-    private List<Address> list_loc = new ArrayList<>();
-    private NMapViewerResourceProvider mMapViewerResourceProvider = null;
-    private NMapOverlayManager mOverlayManager;
-    private NMapPOIdataOverlay.OnStateChangeListener onPOIdataStateChangeListener = null;
-    private NMapOverlayManager.OnCalloutOverlayListener onCalloutOverlayListener;
-    // API-KEY
-    public static final String API_KEY = "noUvsaR702FX6WH5un5h";  //<---맨위에서 발급받은 본인 ClientID 넣으세요.
-    // 네이버 맵 객체
-    NMapView mMapView = null;
-    // 맵 컨트롤러
-    NMapController mMapController = null;
-    // 맵을 추가할 레이아웃
-    LinearLayout truckLocation;
-    private int markerId;
-
-    ///////////////////////////////////////////////////////naver Map용 Field
+public class MainActivity extends AppCompatActivity {
     private SearchTruckListAdapter adapter;
     private List<Foodtruck> foodtrucks;
     private EditText key, loc;
@@ -98,76 +59,8 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // 네이버 지도를 넣기 위한 LinearLayout 컴포넌트
-        truckLocation = (LinearLayout) findViewById(R.id.truckLocation);
 
-
-        // 네이버 지도 객체 생성
-        mMapView = new NMapView(this);
-
-        // 지도 객체로부터 컨트롤러 추출
-        mMapController = mMapView.getMapController();
-
-        // 네이버 지도 객체에 APIKEY 지정
-        mMapView.setApiKey(API_KEY);
-
-        // 생성된 네이버 지도 객체를 LinearLayout에 추가시킨다.
-        truckLocation.addView(mMapView);
-
-        // 지도를 터치할 수 있도록 옵션 활성화
-        mMapView.setClickable(true);
-
-        // 확대/축소를 위한 줌 컨트롤러 표시 옵션 활성화
-        mMapView.setBuiltInZoomControls(true, null);
-
-        mMapView.setScalingFactor(2f);//맵 확대 레벨 업
-
-        // 지도에 대한 상태 변경 이벤트 연결
-        mMapView.setOnMapStateChangeListener(this);
-
-//         create resource provider
-
-        mMapViewerResourceProvider = new NMapViewerResourceProvider(this);
-
-        mOverlayManager = new NMapOverlayManager(this, mMapView, mMapViewerResourceProvider);
-
-        mOverlayManager.setOnCalloutOverlayListener(onCalloutOverlayListener);
-        markerId = NMapPOIflagType.PIN;
-        mMapView.setOnMapViewTouchEventListener(new NMapView.OnMapViewTouchEventListener() {
-            @Override
-            public void onLongPress(NMapView nMapView, MotionEvent motionEvent) {
-
-            }
-
-            @Override
-            public void onLongPressCanceled(NMapView nMapView) {
-
-            }
-
-            @Override
-            public void onTouchDown(NMapView nMapView, MotionEvent motionEvent) {
-
-            }
-
-            @Override
-            public void onTouchUp(NMapView nMapView, MotionEvent motionEvent) {
-
-            }
-
-            @Override
-            public void onScroll(NMapView nMapView, MotionEvent motionEvent, MotionEvent motionEvent1) {
-
-            }
-
-            @Override
-            public void onSingleTapUp(NMapView nMapView, MotionEvent motionEvent) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://map.naver.com/index.nhn?enc=utf8&level=2&lng=" + lons.get(0) + "&lat=" + lats.get(0) + "&pinTitle=" + loca)));
-            }
-        });
-
-///////////////////////////////////////naver map source
-
-        Spinner spinner = (Spinner) findViewById(R.id.spinner_sort);
+        Spinner spinner = (Spinner)findViewById(R.id.spinner_sort);
         ArrayAdapter<CharSequence> sAdapter = ArrayAdapter.createFromResource(this, R.array.sort, android.R.layout.simple_spinner_item);
         sAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(sAdapter);
@@ -176,7 +69,7 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
         adapter = new SearchTruckListAdapter(this, foodtrucks);
         truck4search = new Foodtruck();
 
-        list = (ListView) findViewById(R.id.searchTruckList);
+        list = (ListView)findViewById(R.id.searchTruckList);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -186,11 +79,11 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
             }
         });
 
-        loc = (EditText) findViewById(R.id.searchLoc);
+        loc = (EditText)findViewById(R.id.searchLoc);
         loc.setText("Current Location");
-        key = (EditText) findViewById(R.id.searchKey);
+        key = (EditText)findViewById(R.id.searchKey);
 
-        go = (Button) findViewById(R.id.search_go_btn);
+        go = (Button)findViewById(R.id.search_go_btn);
         go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -198,43 +91,16 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
                 truck4search.setLocation("서울");
 
                 HttpAsyncTask httpAsyncTask = new HttpAsyncTask(MainActivity.this);
-                httpAsyncTask.execute("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/foodtruck/search.do", truck4search);
-
+                httpAsyncTask.execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/foodtruck/search.do", truck4search);
             }
         });
-
 
         list.setAdapter(adapter);
 
 
     }
 
-    @Override
-    public void onMapInitHandler(NMapView nMapView, NMapError nMapError) {
-
-    }
-
-    @Override
-    public void onMapCenterChange(NMapView nMapView, NGeoPoint nGeoPoint) {
-
-    }
-
-    @Override
-    public void onMapCenterChangeFine(NMapView nMapView) {
-
-    }
-
-    @Override
-    public void onZoomLevelChange(NMapView nMapView, int i) {
-
-    }
-
-    @Override
-    public void onAnimationStateChange(NMapView nMapView, int i, int i1) {
-
-    }
-
-    private class HttpAsyncTask extends AsyncTask<Object, Void, String> {
+    private class HttpAsyncTask extends AsyncTask<Object, Void, String>{
         private MainActivity mainActivity;
 
         public HttpAsyncTask(MainActivity mainActivity) {
@@ -243,9 +109,9 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
 
         @Override
         protected String doInBackground(Object... params) {
-            Foodtruck foodtruck = (Foodtruck) params[1];
+            Foodtruck foodtruck = (Foodtruck)params[1];
 
-            return JsonParsingControl.POST((String) params[0], foodtruck);
+            return JsonParsingControl.POST((String)params[0], foodtruck);
         }
 
         // onPostExecute displays the results of the AsyncTask.
@@ -253,45 +119,14 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
         protected void onPostExecute(String result) {
             //Log.d("test", "onPostExecute: "+result);
             method(result);
-            locas = new ArrayList<>();
-            lats = new ArrayList<>();
-            lons = new ArrayList<>();
-
-            for (Foodtruck fd : foodtrucks) {
-                loca = fd.getLocation();
-                locas.add(loca);
-            }
-
-
-            NMapPOIdata poiData = new NMapPOIdata(2, mMapViewerResourceProvider);
-            poiData.beginPOIdata(2);
-            for (String loc1 : locas) {
-                try {
-                    list_loc = geocoder.getFromLocationName(loc1, 10);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                lat = list_loc.get(0).getLatitude();//위도
-                lon = list_loc.get(0).getLongitude();//경도
-                lats.add(lat);
-                lons.add(lon);
-                poiData.addPOIitem(lon, lat, loc1, markerId, 0);
-            }
-            poiData.endPOIdata();
-            NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
-
-            // poiDataOverlay.showAllPOIdata(0);
-            poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
-
-            //////////////////////////////////////////////////////
-
             //Log.d("test", "onPostExecute: " + foodtrucks.size());
             adapter.notifyDataSetChanged();
         }
     }
 
 
-    public void method(String data) {
+
+    public void method(String data){
         Gson gson = new GsonBuilder().create();
         List<Foodtruck> trucks = new ArrayList<>();
 
@@ -300,14 +135,14 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
 
             //JsonObject jsonObject = (JsonObject)jsonParser.parse(data);
 
-            JsonArray jsonArray = (JsonArray) jsonParser.parse(data);
+            JsonArray jsonArray = (JsonArray)jsonParser.parse(data);
 
-            for (int i = 0; i < jsonArray.size(); i++) {
+            for(int i = 0; i < jsonArray.size(); i++ ){
                 Foodtruck foodtruck = gson.fromJson(jsonArray.get(i), Foodtruck.class);
                 //Log.d("test", "method: "+foodtruck.toString());
                 String img = foodtruck.getFoodtruckImg();
-                Log.d("test", "method: " + img);
-                foodtruck.setFoodtruckImg("http://10.0.2.2:8888/FoodtruckFinderProject/resources/img/food/" + img);
+                Log.d("test", "method: "+img);
+                foodtruck.setFoodtruckImg("http://10.0.2.2:8888/FoodtruckFinderProject/resources/img/food/"+img);
                 foodtrucks.add(foodtruck);
             }
 
@@ -317,6 +152,7 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
 
         //return trucks;
     }
+
 
 
 }

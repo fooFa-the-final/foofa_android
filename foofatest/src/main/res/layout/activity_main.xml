@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,21 +9,21 @@
     tools:context="com.example.foofatest.MainActivity">
 
     <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_weight="9"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
             <EditText
                 android:id="@+id/searchKey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="search" />
+                android:hint="search"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -30,17 +31,17 @@
 
                 <EditText
                     android:id="@+id/searchLoc"
+                    android:layout_weight="4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:hint="location" />
+                    android:hint="location"/>
 
                 <ImageButton
+                    android:layout_weight="1"
+                    android:src="@drawable/gps_position_target"
                     android:layout_width="15dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/gps_position_target" />
+                    android:scaleType="fitCenter"/>
 
             </LinearLayout>
 
@@ -48,10 +49,10 @@
 
         <Button
             android:id="@+id/search_go_btn"
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="검색" />
+            android:text="검색"/>
 
     </LinearLayout>
 
@@ -66,28 +67,28 @@
             android:orientation="horizontal">
 
             <CheckBox
+                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="카드 결제" />
+                android:text="카드 결제"/>
 
             <CheckBox
+                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="알콜 판매" />
+                android:text="알콜 판매"/>
 
             <CheckBox
+                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="주차 가능" />
+                android:text="주차 가능"/>
 
             <CheckBox
+                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="케이터링" />
+                android:text="케이터링"/>
 
         </LinearLayout>
 
@@ -97,28 +98,28 @@
             android:orientation="horizontal">
 
             <Button
+                android:layout_weight="2"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:text="OPEN NOW" />
+                android:text="OPEN NOW"/>
 
             <Spinner
                 android:id="@+id/spinner_sort"
+                android:layout_weight="3"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="3" />
+                android:layout_height="match_parent" />
 
         </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/truckLocation"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_alignParentEnd="true"
-        android:orientation="horizontal"></LinearLayout>
-    <!--Map Needed-->
+        android:background="@drawable/border"
+        android:layout_marginTop="10dp">
+        <!--Map Needed-->
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="wrap_content"
