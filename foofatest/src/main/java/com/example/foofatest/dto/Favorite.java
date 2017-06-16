@@ -24,4 +24,12 @@ public class Favorite {
     public void setMemberId(String memberId) {
         this.memberId = memberId;
     }
+
+    @Override
+    public String toString() {
+        return "Favorite{" +
+                "foodtruckId='" + foodtruckId + '\'' +
+                ", memberId='" + memberId + '\'' +
+                '}';
+    }
 }
