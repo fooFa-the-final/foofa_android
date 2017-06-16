@@ -49,7 +49,7 @@
                     android:src="@mipmap/like" />
 
                 <TextView
-                    android:id="@+id/recommendCount"
+                    android:id="@+id/recommandCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 

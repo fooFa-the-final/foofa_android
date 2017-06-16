@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -43,7 +44,6 @@ public class ReviewDetailActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
     private MyPagerAdapter myPagerAdapter;
-    private List<String> images;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,12 +55,18 @@ public class ReviewDetailActivity extends AppCompatActivity {
         ((TextView)findViewById(R.id.writerId)).setText(review.getWriter().getMemberId());
         ((TextView)findViewById(R.id.reviewContent)).setText(review.getContents());
         ((TextView)findViewById(R.id.reviewTruckName)).setText(review.getFoodtruck().getFoodtruckName());
-        //((TextView)findViewById(R.id.recommandCount)).setText(review.getRecommand());
+        ((TextView)findViewById(R.id.recommandCount)).setText(review.getRecommand()+"");
         ((RatingBar)findViewById(R.id.reviewScore)).setRating(review.getScore());
-
         ImageLoadingTask task = new ImageLoadingTask();
         task.execute("http://192.168.0.87:8888/FoodtruckFinderProject/mobile/review/detail.do?reviewId=" + review.getReviewId());
 
+        findViewById(R.id.reviewReport).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ReviewDetailActivity.this, ReportActivity.class);
+                startActivityForResult(intent, 0);
+            }
+        });
 
     }
 

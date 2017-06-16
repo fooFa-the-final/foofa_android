@@ -3,6 +3,7 @@ package com.example.foofatest.Adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Rating;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.foofatest.R;
+import com.example.foofatest.ReportActivity;
 import com.example.foofatest.ReviewListActivity;
 import com.example.foofatest.dto.Review;
 
@@ -88,7 +90,6 @@ public class ReviewListAdapter extends BaseAdapter{
         reviewContent.setText(contents);
 
         recommandCount.setText("" + data.get(position).getRecommand());
-        Log.d("log", "position : " + position);
         ratingBar.setRating(data.get(position).getScore());
         new ImageLoadingTask(image).execute(data.get(position).getImages().get(0).getFilename());
 
@@ -105,6 +106,7 @@ public class ReviewListAdapter extends BaseAdapter{
 
         return convertView;
     }
+
     private class RecommandTask extends AsyncTask<Object, Void, String>{
         private TextView textView;
         @Override
@@ -196,7 +198,6 @@ public class ReviewListAdapter extends BaseAdapter{
     private Bitmap getRemoteImage(final URL url){
         Bitmap bitmap = null;
         URLConnection conn;
-
 
         try {
             conn = url.openConnection();
