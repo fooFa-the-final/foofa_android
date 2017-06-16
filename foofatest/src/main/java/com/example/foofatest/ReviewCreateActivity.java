@@ -56,7 +56,6 @@ public class ReviewCreateActivity extends AppCompatActivity {
 
     private Uri photoURI, albumURI = null;
     private Boolean album = false;
-    private String mCurrentPhotoPath;
 
     private String clickImageView = null;
     private ImageView imageview1 = null;

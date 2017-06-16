@@ -43,13 +43,13 @@
                     android:layout_weight="1" />
 
                 <ImageButton
-                    android:id="@+id/reviewCreateRecommand"
+                    android:id="@+id/createRecommand"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/like" />
 
                 <TextView
-                    android:id="@+id/reviewRecommendCount"
+                    android:id="@+id/recommendCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
