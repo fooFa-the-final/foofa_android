@@ -43,7 +43,7 @@
         <activity android:name=".TruckClosedActivity" />
         <activity android:name=".SellerModifyActivity" />
         <activity android:name=".TruckRegisterActivity" />
-        <activity android:name=".MemberProfileActivity" />
+        <activity android:name=".FollowProfileActivity" />
         <activity android:name=".ReviewDetailActivity" />
         <activity android:name=".MemberRegisterActivity" />
         <activity android:name=".MembeDetailActivity" />

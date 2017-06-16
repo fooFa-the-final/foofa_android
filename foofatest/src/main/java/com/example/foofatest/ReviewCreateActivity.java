@@ -141,11 +141,11 @@ public class ReviewCreateActivity extends AppCompatActivity {
     }
 
     // 설문조사 선택
-    private void surveyDialog() {
+    private void surveyDialog(final String reviewId) {
         final DialogInterface.OnClickListener surveyListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                doSurveyIntent();
+                doSurveyIntent(reviewId);
             }
         };
         final DialogInterface.OnClickListener cancelListener = new DialogInterface.OnClickListener() {
@@ -162,9 +162,9 @@ public class ReviewCreateActivity extends AppCompatActivity {
                 .show();
     }
 
-    private void doSurveyIntent(){
-        Intent intent = new Intent();
-
+    private void doSurveyIntent(String reviewId){
+        Intent intent = new Intent(ReviewCreateActivity.this, SurveyActivity.class);
+        intent.putExtra("reviewId", reviewId);
     }
     // 가져온 사진 뿌리기
     @Override
