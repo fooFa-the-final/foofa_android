@@ -1,22 +1,18 @@
 package com.example.foofatest;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.ExifInterface;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
+import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Environment;
-import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -31,19 +27,26 @@ import com.example.foofatest.dto.Review;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.FileBody;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
-import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.Charset;
+
+import static java.lang.System.currentTimeMillis;
 
 public class ReviewCreateActivity extends AppCompatActivity {
 
@@ -59,15 +62,18 @@ public class ReviewCreateActivity extends AppCompatActivity {
     private ImageView imageview1 = null;
     private ImageView imageview2 = null;
 
+    private File file1 = null;
+    private File file2 = null;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_create);
-        imageview1 = (ImageView)findViewById(R.id.imageView1);
-        imageview2 = (ImageView)findViewById(R.id.imageView2);
-        final EditText contents = (EditText)findViewById(R.id.contents);
-        final RatingBar score = (RatingBar)findViewById(R.id.score);
+        imageview1 = (ImageView) findViewById(R.id.imageView1);
+        imageview2 = (ImageView) findViewById(R.id.imageView2);
+        final EditText contents = (EditText) findViewById(R.id.contents);
+        final RatingBar score = (RatingBar) findViewById(R.id.score);
 
-        imageview1.setOnClickListener(new View.OnClickListener(){
+        imageview1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clickImageView = "imageview1";
@@ -85,7 +91,7 @@ public class ReviewCreateActivity extends AppCompatActivity {
             }
         });
 
-        Button submit = (Button)findViewById(R.id.submit);
+        Button submit = (Button) findViewById(R.id.submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,18 +101,18 @@ public class ReviewCreateActivity extends AppCompatActivity {
                 writer.setMemberId("nayeon");
                 foodtruck.setFoodtruckId("F123");
                 foodtruck.setFoodtruckName("sampleTruck102");
-                review.setScore((int)score.getRating());
+                review.setScore((int) score.getRating());
                 review.setContents(contents.getText().toString());
                 review.setWriter(writer);
                 review.setFoodtruck(foodtruck);
-                HttpAsyncTask task = new HttpAsyncTask(ReviewCreateActivity.this);
+                HttpAsyncTask task = new HttpAsyncTask();
                 task.execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/review/create.do", review);
             }
         });
     }
 
     // 앨범, 사진 촬영 선택창
-    private void createDialog(){
+    private void createDialog() {
         final DialogInterface.OnClickListener cameraListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -133,43 +139,60 @@ public class ReviewCreateActivity extends AppCompatActivity {
                 .setPositiveButton("취소", cancelListener)
                 .show();
     }
+
     // 가져온 사진 뿌리기
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         ImageView imageView = null;
-        if(clickImageView.equals("imageview1"))
+        File file = null;
+        if (clickImageView.equals("imageview1")) {
             imageView = imageview1;
-        else if(clickImageView.equals("imageview2"))
+        }
+        else if (clickImageView.equals("imageview2")) {
             imageView = imageview2;
+        }
 
-
-        if(resultCode != RESULT_OK){
+        if (resultCode != RESULT_OK) {
             Toast.makeText(getApplicationContext(), "onActivityResult : RESULT_NOT_OK", Toast.LENGTH_SHORT).show();
         } else {
             switch (requestCode) {
                 case REQUEST_TAKE_PHOTO: // 앨범 이미지 가져오기
-                    album = true;
+                    /*album = true;
                     File albumFile = null;
-                    try{
-                        albumFile = createImageFile();
-                    } catch (IOException e){
-                        e.printStackTrace();
-                    }
-                    if(albumFile != null){
-                        albumURI = Uri.fromFile(albumFile);
-                    }
-
-                    photoURI = data.getData();
-
-                    // imageView에 띄우기
-                    Bitmap image_Bitmap = null;
                     try {
-                        image_Bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), photoURI);
+                        albumFile = createImageFile();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+                    if (albumFile != null) {
+                        albumURI = Uri.fromFile(albumFile);
+                    }
+                    mCurrentPhotoPath = albumFile.getPath();
 
+                    photoURI = data.getData();
+                    Log.d("log", photoURI.toString());
+                    */
+                    String path = getPath(data.getData());
+                    file = new File(Environment.getExternalStorageDirectory(), path);
+                    if (clickImageView.equals("imageview1")) {
+                        file1 = file;
+                    }
+                    else if (clickImageView.equals("imageview2")) {
+                        file2 = file;
+                    }
+                    Log.d("log", "path : " + path);
+                    // imageView에 띄우기
+                    Bitmap image_Bitmap = null;
+                    try {
+                        image_Bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     imageView.setImageBitmap(image_Bitmap);
+
+
+                    /*ImageUploadTask task = new ImageUploadTask();
+                    task.execute(albumFile);*/
 
                     break; // REQUEST_IMAGE_CAPTURE로 전달하여 crop
                 case REQUEST_IMAGE_CAPTURE:
@@ -178,12 +201,20 @@ public class ReviewCreateActivity extends AppCompatActivity {
                     break;
                 case REQUEST_IMAGE_CROP:
                     Bitmap photo = BitmapFactory.decodeFile(photoURI.getPath());
+                    path = photoURI.toString().substring(photoURI.toString().lastIndexOf("/")+1, photoURI.toString().length());
+                    Log.d("log", "photouri : " + path);
+                    file = new File(Environment.getExternalStorageDirectory(), path);
+                    if (clickImageView.equals("imageview1")) {
+                        file1 = file;
+                    }
+                    else if (clickImageView.equals("imageview2")) {
+                        file2 = file;
+                    }
                     imageView.setImageBitmap(photo);
-
                     Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE); // 동기화
-                    if(album == false) {
+                    if (album == false) {
                         mediaScanIntent.setData(photoURI); // 동기화
-                    } else if(album == true){
+                    } else if (album == true) {
                         album = false;
                         mediaScanIntent.setData(albumURI); // 동기화
                     }
@@ -194,19 +225,32 @@ public class ReviewCreateActivity extends AppCompatActivity {
         }
     }
 
+    public String getPath(Uri data) {
+        String[] proj = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(data, proj, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
 
-    private void dispatchTakePictureIntent(){
+        cursor.moveToFirst();
+
+        String imgPath = cursor.getString(column_index);
+        String imgName = imgPath.substring(imgPath.lastIndexOf("/")+1);
+
+        return imgName;
+    }
+
+    private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if(takePictureIntent.resolveActivity(getPackageManager()) != null){
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
             File photoFile = null;
-            try{
+            try {
                 photoFile = createImageFile(); // 사진 찍은 후 저장할 임시 파일
-            } catch (IOException e){
+            } catch (IOException e) {
                 Toast.makeText(getApplicationContext(), "createImageFile failed", Toast.LENGTH_LONG).show();
             }
 
-            if(photoFile != null){
-                 photoURI = Uri.fromFile(photoFile);
+            if (photoFile != null) {
+                photoURI = Uri.fromFile(photoFile);
+                Log.d("log", "photoURI : " + photoURI);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
             }
@@ -216,30 +260,29 @@ public class ReviewCreateActivity extends AppCompatActivity {
     // 저장할 폴더 생성
     private File createImageFile() throws IOException {
 
-        // 특정 경로와 폴덜ㄹ 지정하지 않고, 메모리 최상위치에 저장장
-       String imageFileName = "tmp_" + String.valueOf(System.currentTimeMillis()) + ".jpg";
+        // 특정 경로와 폴더를 지정하지 않고, 메모리 최상위치에 저장함
+        String imageFileName = "tmp_" + String.valueOf(currentTimeMillis()) + ".jpg";
         File storageDir = new File(Environment.getExternalStorageDirectory(), imageFileName);
-        mCurrentPhotoPath = storageDir.getAbsolutePath();
         return storageDir;
     }
 
     //앨범 호출
-    private void doTakeAlbumAction(){
+    private void doTakeAlbumAction() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
         startActivityForResult(intent, REQUEST_TAKE_PHOTO);
     }
 
     //사진 편집? 자르기?
-    private void cropImage(){
+    private void cropImage() {
         Intent cropIntent = new Intent("com.android.camera.action.CROP");
 
         cropIntent.setDataAndType(photoURI, "image/*");
         cropIntent.putExtra("scale", true);
 
-        if(album == false)
+        if (album == false)
             cropIntent.putExtra("output", photoURI); // 크랍된 이미지를 해당 경로에 저장
-        else if(album == true)
+        else if (album == true)
             cropIntent.putExtra("output", albumURI);
 
         startActivityForResult(cropIntent, REQUEST_IMAGE_CROP);
@@ -249,12 +292,7 @@ public class ReviewCreateActivity extends AppCompatActivity {
 
     private class HttpAsyncTask extends AsyncTask<Object, Void, String> {
 
-        private ReviewCreateActivity reviewCreateActivity;
         private Review review;
-
-        HttpAsyncTask(ReviewCreateActivity reviewCreateActivity) {
-            this.reviewCreateActivity = reviewCreateActivity;
-        }
 
         @Override
         protected String doInBackground(Object... objects) {
@@ -287,10 +325,9 @@ public class ReviewCreateActivity extends AppCompatActivity {
 
         inputStream.close();
         return result;
-
     }
 
-    public static String POST(String url, Review review) {
+    public String POST(String url, Review review) {
         InputStream is = null;
         String result = "";
         try {
@@ -324,6 +361,7 @@ public class ReviewCreateActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
+                os.close();
                 httpCon.disconnect();
             }
         } catch (IOException e) {
@@ -332,6 +370,56 @@ public class ReviewCreateActivity extends AppCompatActivity {
             Log.d("log", e.getLocalizedMessage());
         }
 
+        if(file1 != null){
+            Log.d("log", "file1 is not null");
+            imageUpload(file1,result);
+        }
+        if(file2 != null) {
+            Log.d("log", "file2 is not null");
+            imageUpload(file2, result);
+        }
+        if(file1 == null && file2 == null)
+            Log.d("log", "both null");
         return result;
     }
+
+    private void imageUpload(Object... params) {
+        File file = (File)params[0];
+        String reviewId = (String)params[1].toString();
+        Log.d("log", "do in : " +file.getPath());
+        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+        builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+        builder.setCharset(Charset.forName("UTF-8"));
+        builder.addPart("file", new FileBody(file));
+        builder.addTextBody("reviewId", reviewId);
+        //builder.addTextBody("fileName", file.getPath());
+        //builder.addTextBody("STRING_KEY", "STRING_VALUE", ContentType.create("Multipart/related", "UTF-8"));
+
+        InputStream inputStream = null;
+        HttpClient httpClient = AndroidHttpClient.newInstance("Android");
+        HttpPost httpPost = new HttpPost("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/review/image.do");
+        httpPost.setEntity(builder.build());
+
+        try {
+            HttpResponse httpResponse = httpClient.execute(httpPost);
+            HttpEntity httpEntity = httpResponse.getEntity();
+            inputStream = httpEntity.getContent();
+            long resultSize = httpResponse.getEntity().getContentLength();
+            if(resultSize < 0){
+                StringBuilder stringBuilder = new StringBuilder();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpResponse.getEntity().getContent()), 65728);
+                String line = null;
+                while ((line = bufferedReader.readLine()) != null) {
+                    stringBuilder.append(line);
+                }
+                Log.d("log", stringBuilder.toString());
+                inputStream.close();
+                String result = stringBuilder.toString();
+                Log.d("log", "result : " + result);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
+

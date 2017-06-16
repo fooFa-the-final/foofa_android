@@ -122,6 +122,7 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
 
     private Foodtruck foodtruck1;
     private List<Menu> menus1;
+
     private List<Review> reviews;
     private Button changeBtn;
     private List<Foodtruck> foodtrucks;
