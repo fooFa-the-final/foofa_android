@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
         truck4search = new Foodtruck();
 
-        //truck4search.setFoodtruckName("양식");
+        truck4search.setFoodtruckName("양식");
         truck4search.setLocation("서울");
         /*truck4search.setFoodtruckName(key.getText().toString());
         truck4search.setLocation(key.getText().toString());*/
