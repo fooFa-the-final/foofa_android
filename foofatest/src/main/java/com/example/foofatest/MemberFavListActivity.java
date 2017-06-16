@@ -125,7 +125,7 @@ import javax.xml.parsers.ParserConfigurationException;
                     foodtruck.setLocation(getTagValue("location", element));
                     foodtruck.setCategory1(getTagValue("category1", element));
                     foodtruck.setCategory2(getTagValue("category2", element));
-                    foodtruck.setCategory3(getTagValue("category3", element));
+                    foodtruck.setCategory3(loginUserId);
                     foodtruck.setCard(Boolean.parseBoolean(getTagValue("card", element)));
                     foodtruck.setParking(Boolean.parseBoolean(getTagValue("parking", element)));
                     foodtruck.setDrinking(Boolean.parseBoolean(getTagValue("drinking", element)));

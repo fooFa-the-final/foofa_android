@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
@@ -17,7 +16,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -97,6 +95,8 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
     private NMapViewerResourceProvider mMapViewerResourceProvider = null;
     private NMapOverlayManager mOverlayManager;
     private NMapPOIdataOverlay.OnStateChangeListener onPOIdataStateChangeListener = null;
+
+    ///////////////////////////////////////////////////////naver Map용 Field
     private NMapOverlayManager.OnCalloutOverlayListener onCalloutOverlayListener;
     // API-KEY
     public static final String API_KEY = "noUvsaR702FX6WH5un5h";  //<---맨위에서 발급받은 본인 ClientID 넣으세요.
@@ -106,8 +106,6 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
     NMapController mMapController = null;
     // 맵을 추가할 레이아웃
     LinearLayout truckLocation;
-
-    ///////////////////////////////////////////////////////naver Map용 Field
 
 
     private SharedPreferences prefs;
@@ -208,39 +206,6 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
 
         // poiDataOverlay.showAllPOIdata(0);
         poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
-
-        mMapView.setOnMapViewTouchEventListener(new NMapView.OnMapViewTouchEventListener() {
-
-            @Override
-            public void onLongPress(NMapView nMapView, MotionEvent motionEvent) {
-
-            }
-
-            @Override
-            public void onLongPressCanceled(NMapView nMapView) {
-
-            }
-
-            @Override
-            public void onTouchDown(NMapView nMapView, MotionEvent motionEvent) {
-
-            }
-
-            @Override
-            public void onTouchUp(NMapView nMapView, MotionEvent motionEvent) {
-
-            }
-
-            @Override
-            public void onScroll(NMapView nMapView, MotionEvent motionEvent, MotionEvent motionEvent1) {
-
-            }
-
-            @Override
-            public void onSingleTapUp(NMapView nMapView, MotionEvent motionEvent) {//지도 클릭시 web naver map으로 이동
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://map.naver.com/index.nhn?enc=utf8&level=2&lng=" + lon + "&lat=" + lat + "&pinTitle=" + loca)));
-            }
-        });
 //
 //
 //        /////////////////////////////////////////////////naverMap용 source
@@ -344,7 +309,7 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
                                                          String today = sdf.format(date);
                                                          Log.d("Test_Alert_Dialog", value);
 
-                                                         new CloseTask().execute("http://192.168.0.27:8888/FoodtruckFinderProject/mobile/closeTruck.do?id="
+                                                         new CloseTask().execute("http://foofa.crabdance.com:8888/FoodtruckFinderProject/mobile/closeTruck.do?id="
                                                                  + loginUserId + "&revenue=" + value + "&today=" + today);//server 접근 방법 다시 !
 
                                                          Intent intent = new Intent(TruckInfoActivity.this, TruckInfoActivity.class);//main페이지 다시 출력
@@ -486,7 +451,7 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
     @Override
     public void onMapInitHandler(NMapView nMapView, NMapError nMapError) {
         if (nMapError == null) { // success
-            mMapController.setMapCenter(//지도 출력시 트럭위치를 중앙으로
+            mMapController.setMapCenter(//지도 출력시 맵 중앙 지정
                     new NGeoPoint(lon, lat), 11);
         } else { // fail
             android.util.Log.e("NMAP", "onMapInitHandler: error="

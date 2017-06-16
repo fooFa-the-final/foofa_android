@@ -1,6 +1,8 @@
 package com.example.foofatest;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -37,16 +39,22 @@ public class ReviewListActivity extends AppCompatActivity {
 
     private List<Review> data;
     private ReviewListAdapter adapter;
-
+    private SharedPreferences prefs;
+    private String memberId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_list);
-
         ListView list = (ListView)findViewById(R.id.list);
 
+        prefs = getSharedPreferences("loginUserId", Context.MODE_PRIVATE);
+        memberId = prefs.getString("loginId", "");
+        if (memberId.equals("")) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }
         final ReviewLoadingTask task = new ReviewLoadingTask();
-        task.execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/review/member/list.do?memberId=momo");
+        task.execute("http://foofa.crabdance.com:8888/FoodtruckFinderProject/mobile/review/member/list.do?memberId=" + memberId);
 
         data = new ArrayList<>();
         adapter = new ReviewListAdapter(data, this);
@@ -82,7 +90,7 @@ public class ReviewListActivity extends AppCompatActivity {
                     Image image = new Image();
                     Node node = nodeList.item(i);
                     Element element = (Element)node;
-                    String src = "http://10.0.2.2:8888/FoodtruckFinderProject/resources/img/reviewImg/"+getTagValue("filename", element);
+                    String src = "http://foofa.crabdance.com:8888/FoodtruckFinderProject/resources/img/reviewImg/"+getTagValue("filename", element);
                     image.setFilename(src);
                     images.add(image);
                     review.setReviewId(getTagValue("reviewId", element));
