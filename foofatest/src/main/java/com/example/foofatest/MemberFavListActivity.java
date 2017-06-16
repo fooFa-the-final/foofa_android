@@ -42,12 +42,12 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-public class MemberFavListActivity extends AppCompatActivity {
+    public class MemberFavListActivity extends AppCompatActivity {
 
-    private SharedPreferences pref;
-    private String loginUserId;
-    private ListView listView;
-    private FavoriteListlAdapter adapter;
+        private SharedPreferences pref;
+        private String loginUserId;
+        private ListView listView;
+        private FavoriteListlAdapter adapter;
     private List<Foodtruck> foodtrucks;
 
     @Override
