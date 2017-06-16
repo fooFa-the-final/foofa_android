@@ -3,6 +3,7 @@ package com.example.foofatest;
 import android.app.ActivityGroup;
 import android.app.LocalActivityManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Address;
@@ -10,13 +11,16 @@ import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -56,9 +60,14 @@ import org.w3c.dom.Text;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -129,11 +138,17 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
     private int realDay;
     private String sellerId;
     private Advertise advertise;
+    /////////////////////////////truck close 용 field
+    public static final String TAG = "Test_Alert_Dialog";
+    private long now;//종료시의 시간을 받아온다.
+    private Date date;//시간을 date 형태로 변환
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_seller);
+
+
         // 네이버 지도를 넣기 위한 LinearLayout 컴포넌트
         truckLocation = (LinearLayout) findViewById(R.id.truckLocation);
 
@@ -170,7 +185,7 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
 
         int markerId = NMapPOIflagType.PIN;
         Intent intent = getIntent();
-        foodtruck1 = (Foodtruck)intent.getExtras().get("foodtruck");
+        foodtruck1 = (Foodtruck) intent.getExtras().get("foodtruck");
         foodtruck1.setMenus(menus1);
         loca = foodtruck1.getLocation();
 
@@ -196,13 +211,9 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
 //        /////////////////////////////////////////////////naverMap용 source
 
 
-
         Log.d("1111", foodtruck1.toString());
 //        String truck = foodtruck.getFoodtruckName();
 //        Log.d("1111", truck);
-
-
-
 
 
         TabHost tabHost1 = (TabHost) findViewById(R.id.tabHost1);
@@ -258,25 +269,70 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
         final ListView menulist = (ListView) findViewById(R.id.truckInfoMenu1);
         menulist.setAdapter(foodtruckDetailMenuAdapter);
 
-
-        final TextView text = (TextView) findViewById(R.id.truckChange);
+        TextView text = (TextView) findViewById(R.id.truckChange);
         changeBtn = (Button) findViewById(R.id.truckChange);
+        if (foodtruck1.isState() == true) {
+            changeBtn.setText("영업시작");
+        } else {
+            changeBtn.setText("영업종료");
+        }
 
         changeBtn.setOnClickListener(new Button.OnClickListener() {
                                          @Override
                                          public void onClick(View v) {
-                                             if (text.toString() != "영업시작") {
+                                             if (changeBtn.getText().toString() == "영업시작") {
                                                  Intent intent = new Intent(TruckInfoActivity.this, TruckOpenActivity.class);
                                                  foodtrucks.get(0).setMenus(menus1);
                                                  intent.putExtra("foodtruck", (Serializable) foodtrucks.get(0));
-                                                 text.setText("영업종료");
                                                  startActivity(intent);
-                                             } else if (text.toString() != "영업종료") {
-                                                 Intent intent = new Intent(TruckInfoActivity.this, TruckClosedActivity.class);
-                                                 foodtrucks.get(0).setMenus(menus1);
-                                                 intent.putExtra("foodtruck", (Serializable) foodtrucks.get(0));
-                                                 text.setText("영업시작");
-                                                 startActivity(intent);
+                                             } else if (changeBtn.getText().toString() == "영업종료") {
+                                                 AlertDialog.Builder ad = new AlertDialog.Builder(TruckInfoActivity.this);
+                                                 ad.setTitle("영업종료");       // 제목 설정
+                                                 ad.setMessage("영업을 종료하시겠습니까?(매출을 입력해 주세요)");   // 내용 설정
+
+                                                 final EditText et = new EditText(TruckInfoActivity.this);
+
+                                                 et.setInputType(InputType.TYPE_CLASS_NUMBER);//숫자만 입력받기위한 부분
+
+                                                 ad.setView(et);
+                                                 ad.setPositiveButton("Insert", new DialogInterface.OnClickListener() {
+                                                     @Override
+                                                     public void onClick(DialogInterface dialog, int which) {
+                                                         Log.v("Test_Alert_Dialog", "Yes Btn Click");
+
+                                                         // Text 값 받아서 로그 남기기
+                                                         String value = et.getText().toString();
+                                                         now = System.currentTimeMillis();
+                                                         date = new Date(now);
+
+                                                         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+                                                         String today = sdf.format(date);
+                                                         Log.d("Test_Alert_Dialog", value);
+
+                                                         new CloseTask().execute("http://foofa.crabdance.com:8888/FoodtruckFinderProject/mobile/closeTruck.do?id="
+                                                                 + loginUserId + "&revenue=" + value + "&today=" + today);//server 접근 방법 다시 !
+
+                                                         Intent intent = new Intent(TruckInfoActivity.this, TruckInfoActivity.class);//main페이지 다시 출력
+                                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//페이지 넘어가기전에 main(영업종료누르기 전)페이지 삭제
+
+                                                         startActivity(intent);
+
+                                                         dialog.dismiss();     //닫기
+                                                         // Event
+                                                     }
+                                                 });
+                                                 ad.setNegativeButton("Cencle", new DialogInterface.OnClickListener() {
+                                                     @Override
+                                                     public void onClick(DialogInterface dialog, int which) {
+                                                         Log.d(TAG, "No Btn Click");
+
+                                                         dialog.dismiss();     //닫기
+                                                         // Event
+                                                     }
+                                                 });
+                                                 ad.show();
+
+
                                              }
                                          }
                                      }
@@ -355,6 +411,34 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
                 new AdvertiseTask().execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/advertiseRegister.do", advertise);
             }
         });
+    }
+
+    private class CloseTask extends AsyncTask<String, Void, String> {//truck close를 위한 class
+
+        @Override
+        protected String doInBackground(String... params) {
+            HttpURLConnection http = null;
+            InputStream is = null;
+            String checkStr = null;
+            URL url = null;
+            try {
+                url = new URL(params[0]);
+                http = (HttpURLConnection) url.openConnection();
+                http.setRequestMethod("GET");
+                http.connect();
+                is = http.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                //인코딩
+                checkStr = reader.readLine();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return checkStr;
+        }
     }
 
     private static java.sql.Date convertUtilToSql(java.util.Date uDate) {

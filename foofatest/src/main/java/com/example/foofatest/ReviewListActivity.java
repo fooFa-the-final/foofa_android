@@ -46,7 +46,7 @@ public class ReviewListActivity extends AppCompatActivity {
         ListView list = (ListView)findViewById(R.id.list);
 
         final ReviewLoadingTask task = new ReviewLoadingTask();
-        task.execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/review/member/list.do?memberId=momo");
+        task.execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/review/member/list.do?memberId=nayeon");
 
         data = new ArrayList<>();
         adapter = new ReviewListAdapter(data, this);
@@ -89,6 +89,7 @@ public class ReviewListActivity extends AppCompatActivity {
                     foodtruck.setFoodtruckId(getTagValue("foodtruckId", element));
                     foodtruck.setFoodtruckName(getTagValue("foodtruckName", element));
                     review.setContents(getTagValue("contents", element));
+                    review.setRecommand(Integer.parseInt(getTagValue("recommand", element)));
                     writer.setMemberId(getTagValue("memberId", element));
                     NodeList list = element.getElementsByTagName("score").item(1).getChildNodes();
                     review.setScore(Integer.parseInt(list.item(0).getNodeValue()));
@@ -97,7 +98,6 @@ public class ReviewListActivity extends AppCompatActivity {
                     review.setImages(images);
                     data.add(review);
                 }
-                Log.d("log", ""+data.size());
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (SAXException e) {

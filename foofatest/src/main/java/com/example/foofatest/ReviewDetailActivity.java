@@ -55,6 +55,7 @@ public class ReviewDetailActivity extends AppCompatActivity {
         ((TextView)findViewById(R.id.writerId)).setText(review.getWriter().getMemberId());
         ((TextView)findViewById(R.id.reviewContent)).setText(review.getContents());
         ((TextView)findViewById(R.id.reviewTruckName)).setText(review.getFoodtruck().getFoodtruckName());
+        //((TextView)findViewById(R.id.recommandCount)).setText(review.getRecommand());
         ((RatingBar)findViewById(R.id.reviewScore)).setRating(review.getScore());
 
         ImageLoadingTask task = new ImageLoadingTask();
@@ -84,7 +85,6 @@ public class ReviewDetailActivity extends AppCompatActivity {
                     taskimage.add("http://10.0.2.2:8888/FoodtruckFinderProject/resources/img/reviewImg/" +value.getNodeValue());
                     Log.d("log", "value : " + value.getNodeValue());
                 }
-                Log.d("log", "배열 다넣었을때 크기 : " + taskimage.size());
             } catch (ParserConfigurationException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -97,12 +97,10 @@ public class ReviewDetailActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            Log.d("log", "images size : " + taskimage.size());
             viewPager = (ViewPager)findViewById(R.id.reviewImage);
 
             myPagerAdapter = new MyPagerAdapter(getLayoutInflater(), taskimage);
             viewPager.setAdapter(myPagerAdapter);
-            Log.d("log", "setAdapter");
         }
     }
 
@@ -112,7 +110,6 @@ public class ReviewDetailActivity extends AppCompatActivity {
         public MyPagerAdapter(LayoutInflater inflater, List<String> images) {
             this.inflater = inflater;
             this.images = images;
-            Log.d("log", "list size = " + images.size());
         }
 
         @Override
