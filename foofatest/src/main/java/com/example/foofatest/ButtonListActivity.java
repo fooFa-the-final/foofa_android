@@ -96,6 +96,14 @@ public class ButtonListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        findViewById(R.id.memberNewsfeed).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (ButtonListActivity.this, MemberNewsfeedActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
 
 

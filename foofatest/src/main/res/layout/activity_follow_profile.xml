@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.foofatest.MemberProfileActivity">
+    tools:context="com.example.foofatest.FollowProfileActivity">
 
     <ImageView
         android:id="@+id/myProfile"
@@ -116,10 +116,10 @@
 
 
     <Button
-        android:id="@+id/modify"
+        android:id="@+id/follow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="modify" />
+        android:text="Follow" />
 
 </LinearLayout>

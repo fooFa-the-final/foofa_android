@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -24,21 +23,21 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-public class MemberProfileActivity extends AppCompatActivity {
+public class FollowProfileActivity extends AppCompatActivity {
 
     private Fragment extras;
     private SharedPreferences prefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_member_profile);
+        setContentView(R.layout.activity_follow_profile);
 
 
         TextView memberId = (TextView) findViewById(R.id.myId);
         TextView birthday = (TextView) findViewById(R.id.mybirthday);
         TextView email = (TextView) findViewById(R.id.myEmail);
         ImageView img = (ImageView) findViewById(R.id.myProfile);
-        Button modify = (Button)findViewById(R.id.modify);
+        Button follow = (Button)findViewById(R.id.follow);
         Intent intent = getIntent();
         memberId.setText(intent.getStringExtra("memberId"));
         birthday.setText(intent.getStringExtra("birthday"));
@@ -48,7 +47,7 @@ public class MemberProfileActivity extends AppCompatActivity {
         img.setImageURI(myUri);
         new FollowListAdapter.ImageLoadingTask(img).execute(extras.getString("profileImg"));
 
-        modify.setOnClickListener(new View.OnClickListener() {
+        follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(),MemberModifyActivity.class);

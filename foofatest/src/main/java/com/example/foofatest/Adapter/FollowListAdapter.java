@@ -1,10 +1,13 @@
 package com.example.foofatest.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +18,17 @@ import android.widget.TextView;
 
 import com.example.foofatest.MemberFollowActivity;
 import com.example.foofatest.R;
+import com.example.foofatest.dto.Follow;
+import com.example.foofatest.dto.Foodtruck;
 import com.example.foofatest.dto.Member;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -26,6 +37,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 /**
  * Created by kosta on 2017-06-12.
@@ -36,13 +51,12 @@ public class FollowListAdapter extends BaseAdapter {
     private Context context;
     private List<Member> follows;
     private LayoutInflater inflater;
-    private Fragment followToId;
+    private SharedPreferences pref;
 
     public FollowListAdapter(Context context, List<Member> follows) {
         this.context = context;
         this.follows = follows;
         this.inflater = LayoutInflater.from(context);
-
     }
 
 
@@ -63,7 +77,7 @@ public class FollowListAdapter extends BaseAdapter {
 
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.follow_list_item, null);
         }
@@ -74,7 +88,23 @@ public class FollowListAdapter extends BaseAdapter {
             TextView email = (TextView) convertView.findViewById(R.id.email);
             ImageView profileImg = (ImageView) convertView.findViewById(R.id.profileImg);
             Button ufbtn = (Button)convertView.findViewById(R.id.ufbtn);
+        ufbtn.setTag(position);
+        ufbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(parent.getContext(), MemberFollowActivity.class);
+                parent.getContext().startActivity(intent);
+                Member member = follows.get(position);
+                Follow follow = new Follow();
+                follow.setToId(member.getMemberId());
+                follow.setFromId(member.getGender());
+                Log.d("1111", follow.getFromId());
+                Log.d("1111", follow.getToId());
 
+                new FollowTask().execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/follow/remove.do?fromId=" +follow.getFromId() + "&toId="  + follow.getToId());
+
+            }
+        });
 
             memberId.setText(follows.get(position).getMemberId());
             birthday.setText(follows.get(position).getBirthday());
@@ -132,4 +162,54 @@ public class FollowListAdapter extends BaseAdapter {
         }
         return bitmap;
     }
+
+    private class FollowTask extends AsyncTask<String, Void, Void> {
+        @Override
+        protected Void doInBackground(String... params) {
+            try {
+                URL url = new URL((String)params[0]);
+
+                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder builder = factory.newDocumentBuilder();
+                Document doc = builder.parse(new InputSource(url.openStream()));
+
+                NodeList nodeList = doc.getElementsByTagName("Follow");
+                for(int i=0; i<nodeList.getLength(); i++){
+                    Follow follow = new Follow();
+                    Node node = nodeList.item(i);
+                    Element element = (Element)node;
+                    follow.setFromId(getTagValue("FromId", element));
+                    follow.setToId(getTagValue("toId", element));
+
+                }
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (ParserConfigurationException e) {
+                e.printStackTrace();
+            } catch (SAXException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+        }
+    }
+
+    private static String getTagValue(String tag, Element element){
+
+        if(element.getElementsByTagName(tag).item(0)==null){
+            return "";
+        }
+
+        NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
+        Node node = (Node)nodeList.item(0);
+        return  node.getNodeValue();
+    }
+
+
 }

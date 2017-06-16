@@ -35,7 +35,6 @@ public class MemberModifyActivity extends AppCompatActivity {
     private SharedPreferences prefs;
     private String memberId;
     private Member member;
-    private EditText passwordEdit, password1Edit, email;
     private TextView Id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,20 +45,28 @@ public class MemberModifyActivity extends AppCompatActivity {
         memberId = prefs.getString("loginId", "");
 
         Id = (TextView)findViewById(R.id.memberId);
-        passwordEdit = (EditText)findViewById(R.id.passwordEdit);
-        password1Edit= (EditText)findViewById(R.id.password1Edit);
-        email = (EditText)findViewById(R.id.email);
+        final EditText passwordEdit = (EditText) findViewById(R.id.passwordEdit);
+        final EditText password1Edit = (EditText) findViewById(R.id.password1Edit);
+        final EditText email = (EditText) findViewById(R.id.email);
         Id.setText(memberId);
         Button submitBtn = (Button)findViewById(R.id.modify);
 
         submitBtn.setOnClickListener(new View.OnClickListener() {
+
+
             @Override
             public void onClick(View v) {
-                member.setPassword(passwordEdit.getText().toString());
-                member.setEmail(email.getText().toString());
-                Log.d("1111",member.toString());
 
-                new MemberModifyActivity.ModifyTask().execute("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/modify.do", member);
+                if (passwordEdit.getText().toString().equals(password1Edit.getText().toString())) {
+                    Toast.makeText(MemberModifyActivity.this, "회원수정", Toast.LENGTH_SHORT).show();
+                    member = new Member();
+                    member.setMemberId(memberId);
+                    member.setPassword(passwordEdit.getText().toString());
+                    member.setEmail(email.getText().toString());
+                    new MemberModifyActivity.ModifyTask().execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/member/modify.do", member);
+                } else {
+                    Toast.makeText(MemberModifyActivity.this, "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
+                }
             }
     });
     }
@@ -73,7 +80,7 @@ public class MemberModifyActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             Intent intent = null;
-            intent = new Intent(MemberModifyActivity.this, MemberModifyActivity.class);
+            intent = new Intent(MemberModifyActivity.this, MemberFollowActivity.class);
             startActivity(intent);
         }
 
