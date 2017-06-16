@@ -220,28 +220,7 @@ public class FavoriteListlAdapter extends BaseAdapter {
                     Node node = nodeList.item(i);
                     Element element = (Element)node;
                     foodtruck.setFoodtruckId(getTagValue("foodtruckId", element));
-                    foodtruck.setSellerId(getTagValue("sellerId", element));
-                    foodtruck.setFoodtruckName(getTagValue("foodtruckName", element));
-                    foodtruck.setOperationTime(getTagValue("operationTime", element));
-                    foodtruck.setSpot(getTagValue("spot", element));
-                    foodtruck.setNotice(getTagValue("notice", element));
-                    foodtruck.setLocation(getTagValue("location", element));
-                    foodtruck.setCategory1(getTagValue("category1", element));
-                    foodtruck.setCategory2(getTagValue("category2", element));
-//                    foodtruck.setCategory3(loginUserId);
-                    foodtruck.setCard(Boolean.parseBoolean(getTagValue("card", element)));
-                    foodtruck.setParking(Boolean.parseBoolean(getTagValue("parking", element)));
-                    foodtruck.setDrinking(Boolean.parseBoolean(getTagValue("drinking", element)));
-                    foodtruck.setCatering(Boolean.parseBoolean(getTagValue("catering", element)));
-                    foodtruck.setState(Boolean.parseBoolean(getTagValue("state", element)));
-                    foodtruck.setFavoriteCount(Integer.parseInt(getTagValue("favoriteCount", element)));
-                    foodtruck.setReviewCount(Integer.parseInt(getTagValue("reviewCount", element)));
-                    foodtruck.setScore(Double.parseDouble(getTagValue("score", element)));
-//                    List<Menu> menus1 = new ArrayList<>();
-//                    NodeList list1 = element.getElementsByTagName("menus").item(i).getChildNodes();
-//                    Log.d("1111", String.valueOf(list1.getLength()));
-                    foodtruck.setFoodtruckImg("http://106.242.203.67:8888/FoodtruckFinderProject/resources/img/food/"+getTagValue("foodtruckImg",element));
-//                    foodtrucks.add(foodtruck);
+
                 }
             } catch (MalformedURLException e) {
                 e.printStackTrace();
