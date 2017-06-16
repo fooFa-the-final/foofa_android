@@ -22,42 +22,56 @@
         android:layout_marginLeft="5dp"
         android:text="신고 사유를 선택해주세요"/>
 
-
-    <RadioButton
+    <RadioGroup
+        android:id="@+id/radioGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="욕설이 포함된 리뷰"/>
+        android:orientation="vertical" >
+        <RadioButton
+            android:id="@+id/option1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="욕설이 포함된 리뷰"/>
 
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="음란성 리뷰"/>
+        <RadioButton
+            android:id="@+id/option2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="음란성 리뷰"/>
 
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="광고성 리뷰"/>
+        <RadioButton
+            android:id="@+id/option3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="광고성 리뷰"/>
 
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="부적절한 리뷰"/>
+        <RadioButton
+            android:id="@+id/option4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="부적절한 리뷰"/>
 
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="직접 작성"/>
-
+        <RadioButton
+            android:id="@+id/direct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="직접 작성"/>
+    </RadioGroup>
     <EditText
+        android:id="@+id/reason"
         android:background="@drawable/border"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="10dp"
         android:layout_width="300dp"
         android:layout_height="150dp"
         android:hint="신고 내용을 작성해주세요"
+        android:clickable="false"
+        android:enabled="false"
         android:gravity="top"/>
 
     <Button
+        android:id="@+id/submit"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
