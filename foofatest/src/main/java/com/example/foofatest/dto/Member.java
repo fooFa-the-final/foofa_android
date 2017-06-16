@@ -80,4 +80,7 @@ public class Member implements Serializable{
     public void setReviewCount(int reviewCount) {
         this.reviewCount = reviewCount;
     }
+
+
+
 }
