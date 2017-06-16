@@ -33,4 +33,13 @@ public class SurveyReply {
     public void setSurveyId(String surveyId) {
         this.surveyId = surveyId;
     }
+
+    @Override
+    public String toString() {
+        return "SurveyReply{" +
+                "itemId='" + itemId + '\'' +
+                ", score=" + score +
+                ", surveyId='" + surveyId + '\'' +
+                '}';
+    }
 }

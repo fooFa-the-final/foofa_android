@@ -14,6 +14,11 @@
         android:layout_weight="1"
         android:orientation="vertical">
     </LinearLayout>
+    <EditText
+        android:id="@+id/suggestion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="기타 의견 사항을 적으세요"/>
     <Button
         android:id="@id/submit"
         android:layout_width="match_parent"
