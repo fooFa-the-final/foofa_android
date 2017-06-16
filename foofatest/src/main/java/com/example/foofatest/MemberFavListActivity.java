@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.foofatest.Adapter.FavoriteListlAdapter;
 import com.example.foofatest.dto.Foodtruck;
+import com.example.foofatest.dto.Menu;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -72,6 +74,10 @@ public class MemberFavListActivity extends AppCompatActivity {
         adapter = new FavoriteListlAdapter(this, foodtrucks);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new ListViewItemClickListener());
+
+
+
+
     }
 
     private class ListViewItemClickListener implements AdapterView.OnItemClickListener {
@@ -79,11 +85,21 @@ public class MemberFavListActivity extends AppCompatActivity {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Intent intent = new Intent(MemberFavListActivity.this, TruckDetailActivity.class);
+            Log.d("1111", String.valueOf(position));
             Foodtruck foodtruck = foodtrucks.get(position);
+            Log.d("1111", foodtruck.toString());
+
+            String sellerId = foodtruck.getSellerId();
             intent.putExtra("foodtruck", foodtruck);
+            intent.putExtra("foodtruckId", sellerId);
+
             startActivity(intent);
         }
     }
+
+
+
+
 
     private class FavoriteTask extends AsyncTask<String, Void, Void> {
         @Override
@@ -99,16 +115,29 @@ public class MemberFavListActivity extends AppCompatActivity {
                 for(int i=0; i<nodeList.getLength(); i++){
                     Foodtruck foodtruck = new Foodtruck();
                     Node node = nodeList.item(i);
-
                     Element element = (Element)node;
-
-                    foodtruck.setFoodtruckName(getTagValue("foodtruckName",element));
+                    foodtruck.setFoodtruckId(getTagValue("foodtruckId", element));
+                    foodtruck.setSellerId(getTagValue("sellerId", element));
+                    foodtruck.setFoodtruckName(getTagValue("foodtruckName", element));
+                    foodtruck.setOperationTime(getTagValue("operationTime", element));
+                    foodtruck.setSpot(getTagValue("spot", element));
+                    foodtruck.setNotice(getTagValue("notice", element));
+                    foodtruck.setLocation(getTagValue("location", element));
                     foodtruck.setCategory1(getTagValue("category1", element));
                     foodtruck.setCategory2(getTagValue("category2", element));
                     foodtruck.setCategory3(getTagValue("category3", element));
-
+                    foodtruck.setCard(Boolean.parseBoolean(getTagValue("card", element)));
+                    foodtruck.setParking(Boolean.parseBoolean(getTagValue("parking", element)));
+                    foodtruck.setDrinking(Boolean.parseBoolean(getTagValue("drinking", element)));
+                    foodtruck.setCatering(Boolean.parseBoolean(getTagValue("catering", element)));
+                    foodtruck.setState(Boolean.parseBoolean(getTagValue("state", element)));
+                    foodtruck.setFavoriteCount(Integer.parseInt(getTagValue("favoriteCount", element)));
+                    foodtruck.setReviewCount(Integer.parseInt(getTagValue("reviewCount", element)));
+                    foodtruck.setScore(Double.parseDouble(getTagValue("score", element)));
+//                    List<Menu> menus1 = new ArrayList<>();
+//                    NodeList list1 = element.getElementsByTagName("menus").item(i).getChildNodes();
+//                    Log.d("1111", String.valueOf(list1.getLength()));
                     foodtruck.setFoodtruckImg("http://106.242.203.67:8888/FoodtruckFinderProject/resources/img/food/"+getTagValue("foodtruckImg",element));
-
                     foodtrucks.add(foodtruck);
                 }
             } catch (MalformedURLException e) {
