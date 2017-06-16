@@ -290,6 +290,7 @@ public class TruckOpenActivity extends AppCompatActivity {
 
             if(result.equals("ok")){
                 Intent intent = new Intent(TruckOpenActivity.this, TruckInfoActivity.class);
+                intent.putExtra("foodtruck", foodtruck);
                 startActivity(intent);
                 finish();
 

@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -47,13 +49,14 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
     private SearchTruckListAdapter adapter;
     private List<Foodtruck> foodtrucks;
     private EditText key, loc;
     private Button go;
     private Foodtruck truck4search;
     private ListView list;
+    private CheckBox card, drinking, parking, catering;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,10 +67,18 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> sAdapter = ArrayAdapter.createFromResource(this, R.array.sort, android.R.layout.simple_spinner_item);
         sAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(sAdapter);
+        card = (CheckBox)findViewById(R.id.filter_card);
+        drinking = (CheckBox)findViewById(R.id.filter_drinking);
+        parking = (CheckBox)findViewById(R.id.filter_parking);
+        catering = (CheckBox)findViewById(R.id.filter_catering);
+        card.setOnCheckedChangeListener(this);
+        drinking.setOnCheckedChangeListener(this);
+        parking.setOnCheckedChangeListener(this);
+        catering.setOnCheckedChangeListener(this);
+
         foodtrucks = new ArrayList<>();
 
         adapter = new SearchTruckListAdapter(this, foodtrucks);
-        truck4search = new Foodtruck();
 
         list = (ListView)findViewById(R.id.searchTruckList);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -87,17 +98,22 @@ public class MainActivity extends AppCompatActivity {
         go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                truck4search.setFoodtruckName("양식");
-                truck4search.setLocation("서울");
-
+                truck4search = justBeforeSerch();
                 HttpAsyncTask httpAsyncTask = new HttpAsyncTask(MainActivity.this);
                 httpAsyncTask.execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/foodtruck/search.do", truck4search);
             }
         });
 
         list.setAdapter(adapter);
+    }
 
 
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        foodtrucks.clear();
+        truck4search = justBeforeSerch();
+        HttpAsyncTask httpAsyncTask = new HttpAsyncTask(MainActivity.this);
+        httpAsyncTask.execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/foodtruck/search.do", truck4search);
     }
 
     private class HttpAsyncTask extends AsyncTask<Object, Void, String>{
@@ -120,7 +136,8 @@ public class MainActivity extends AppCompatActivity {
             //Log.d("test", "onPostExecute: "+result);
             method(result);
             //Log.d("test", "onPostExecute: " + foodtrucks.size());
-            adapter.notifyDataSetChanged();
+            list.invalidateViews();
+            //adapter.notifyDataSetChanged();
         }
     }
 
@@ -136,7 +153,6 @@ public class MainActivity extends AppCompatActivity {
             //JsonObject jsonObject = (JsonObject)jsonParser.parse(data);
 
             JsonArray jsonArray = (JsonArray)jsonParser.parse(data);
-
             for(int i = 0; i < jsonArray.size(); i++ ){
                 Foodtruck foodtruck = gson.fromJson(jsonArray.get(i), Foodtruck.class);
                 //Log.d("test", "method: "+foodtruck.toString());
@@ -153,6 +169,29 @@ public class MainActivity extends AppCompatActivity {
         //return trucks;
     }
 
+    public Foodtruck justBeforeSerch(){
 
+        truck4search = new Foodtruck();
+
+        //truck4search.setFoodtruckName("양식");
+        truck4search.setLocation("서울");
+        /*truck4search.setFoodtruckName(key.getText().toString());
+        truck4search.setLocation(key.getText().toString());*/
+        if(card.isChecked()){
+            truck4search.setCard(true);
+        }
+        if(drinking.isChecked()){
+            truck4search.setDrinking(true);
+        }
+        if(parking.isChecked()){
+            truck4search.setParking(true);
+        }
+        if(catering.isChecked()){
+            truck4search.setCatering(true);
+        }
+
+
+     return truck4search;
+    }
 
 }
