@@ -195,12 +195,19 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
             e.printStackTrace();
         }
 
-        lat = list.get(0).getLatitude();//위도
-        lon = list.get(0).getLongitude();//경도
+        if (loca.equals(null)) {//영업전이면 위경도 안 받아옴
+
+        } else {
+            lat = list.get(0).getLatitude();//위도
+            lon = list.get(0).getLongitude();//경도
+        }
+
 
         NMapPOIdata poiData = new NMapPOIdata(2, mMapViewerResourceProvider);
         poiData.beginPOIdata(2);
-        poiData.addPOIitem(lon, lat, "here", markerId, 0);    //요기 좌표 입력해주면, 그 좌표가 표시됩니다.
+        if (lat != 0 && lon != 0) {
+            poiData.addPOIitem(lon, lat, "here", markerId, 0);    //요기 좌표 입력해주면, 그 좌표가 표시됩니다.
+        }
         poiData.endPOIdata();
         NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
 
@@ -271,7 +278,7 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
 
         TextView text = (TextView) findViewById(R.id.truckChange);
         changeBtn = (Button) findViewById(R.id.truckChange);
-        if (foodtruck1.isState() == true) {
+        if (foodtruck1.isState() != true) {
             changeBtn.setText("영업시작");
         } else {
             changeBtn.setText("영업종료");
@@ -313,6 +320,7 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
                                                                  + loginUserId + "&revenue=" + value + "&today=" + today);//server 접근 방법 다시 !
 
                                                          Intent intent = new Intent(TruckInfoActivity.this, TruckInfoActivity.class);//main페이지 다시 출력
+
                                                          intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//페이지 넘어가기전에 main(영업종료누르기 전)페이지 삭제
 
                                                          startActivity(intent);

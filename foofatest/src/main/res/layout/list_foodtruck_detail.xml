@@ -112,6 +112,15 @@
             android:layout_marginLeft="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
+
+            <!--truck_menu.xml-->
+
+            <ListView
+                android:id="@+id/menuTest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
         </LinearLayout>
 
 
