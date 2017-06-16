@@ -3,6 +3,7 @@ package com.example.foofatest.Json;
 import android.util.Log;
 
 import com.example.foofatest.dto.Advertise;
+import com.example.foofatest.dto.Favorite;
 import com.example.foofatest.dto.Follow;
 import com.example.foofatest.dto.Foodtruck;
 import com.example.foofatest.dto.Member;
@@ -39,8 +40,20 @@ public class JsonParsingControl {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
             String json ="";
-          if(javaObject instanceof Advertise){
+            if(javaObject instanceof Member){
+                json = gson.toJson((Member)javaObject);
+            }else if(javaObject instanceof Foodtruck){
+                json = gson.toJson((Foodtruck)javaObject);
+            }else if(javaObject instanceof Follow){
+                json = gson.toJson((Follow)javaObject);
+            }else if(javaObject instanceof Advertise){
                 json = gson.toJson((Advertise)javaObject);
+            }else if(javaObject instanceof Menu){
+                json = gson.toJson((Menu)javaObject);
+            }else if(javaObject instanceof Review){
+                json = gson.toJson((Review)javaObject);
+            }else if(javaObject instanceof Favorite) {
+                json = gson.toJson((Favorite)javaObject);
             }
 
             Log.d("InputStream", jsonObject.toString());

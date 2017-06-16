@@ -71,7 +71,7 @@ public class FoodtruckDetailAdapter extends BaseAdapter {
         TextView truckReviewCount = (TextView) convertView.findViewById(R.id.truckReviewCount);
         TextView truckNotice = (TextView) convertView.findViewById(R.id.truckNotice);
         TextView truckHours = (TextView) convertView.findViewById(R.id.truckHours);
-//        TextView truckLocation = (Linerla) convertView.findViewById(R.id.truckLocation);
+//        TextView truckLocation = (Linerla) convertView.findViewById(R.id.truckLocationText);
         ImageView image = (ImageView) convertView.findViewById(R.id.truckimg);
         RatingBar ratingBar = (RatingBar) convertView.findViewById(R.id.ratingBar2);
 
