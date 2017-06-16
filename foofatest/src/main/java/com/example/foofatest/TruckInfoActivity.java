@@ -3,7 +3,6 @@ package com.example.foofatest;
 import android.app.ActivityGroup;
 import android.app.LocalActivityManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Address;
@@ -11,16 +10,13 @@ import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -60,14 +56,9 @@ import org.w3c.dom.Text;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.Serializable;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -87,25 +78,25 @@ import static com.example.foofatest.R.id.truckLocation;
 
 public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapStateChangeListener {
 
-    final private Geocoder geocoder = new Geocoder(TruckInfoActivity.this);
-    private double lat = 0;
-    private double lon = 0;
-    private String loca = "";//트럭 주소 입력
-    private List<Address> list = new ArrayList<>();
-    private NMapViewerResourceProvider mMapViewerResourceProvider = null;
-    private NMapOverlayManager mOverlayManager;
-    private NMapPOIdataOverlay.OnStateChangeListener onPOIdataStateChangeListener = null;
-
-    ///////////////////////////////////////////////////////naver Map용 Field
-    private NMapOverlayManager.OnCalloutOverlayListener onCalloutOverlayListener;
-    // API-KEY
-    public static final String API_KEY = "noUvsaR702FX6WH5un5h";  //<---맨위에서 발급받은 본인 ClientID 넣으세요.
-    // 네이버 맵 객체
-    NMapView mMapView = null;
-    // 맵 컨트롤러
-    NMapController mMapController = null;
-    // 맵을 추가할 레이아웃
-    LinearLayout truckLocation;
+//    final private Geocoder geocoder = new Geocoder(TruckInfoActivity.this);
+//    private double lat = 0;
+//    private double lon = 0;
+//    private String loca = "";//트럭 주소 입력
+//    private List<Address> list = new ArrayList<>();
+//    private NMapViewerResourceProvider mMapViewerResourceProvider = null;
+//    private NMapOverlayManager mOverlayManager;
+//    private NMapPOIdataOverlay.OnStateChangeListener onPOIdataStateChangeListener = null;
+//
+//    ///////////////////////////////////////////////////////naver Map용 Field
+//    private NMapOverlayManager.OnCalloutOverlayListener onCalloutOverlayListener;
+//    // API-KEY
+//    public static final String API_KEY = "noUvsaR702FX6WH5un5h";  //<---맨위에서 발급받은 본인 ClientID 넣으세요.
+//    // 네이버 맵 객체
+//    NMapView mMapView = null;
+//    // 맵 컨트롤러
+//    NMapController mMapController = null;
+//    // 맵을 추가할 레이아웃
+//    LinearLayout truckLocation;
 
 
     private SharedPreferences prefs;
@@ -138,82 +129,70 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
     private int realDay;
     private String sellerId;
     private Advertise advertise;
-    /////////////////////////////truck close 용 field
-    public static final String TAG = "Test_Alert_Dialog";
-    private long now;//종료시의 시간을 받아온다.
-    private Date date;//시간을 date 형태로 변환
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_seller);
 
-
-        // 네이버 지도를 넣기 위한 LinearLayout 컴포넌트
-        truckLocation = (LinearLayout) findViewById(R.id.truckLocation);
-
-        // 네이버 지도 객체 생성
-        mMapView = new NMapView(this);
-
-        // 지도 객체로부터 컨트롤러 추출
-        mMapController = mMapView.getMapController();
-
-        // 네이버 지도 객체에 APIKEY 지정
-        mMapView.setApiKey(API_KEY);
-
-        // 생성된 네이버 지도 객체를 LinearLayout에 추가시킨다.
-        truckLocation.addView(mMapView);
-
-        // 지도를 터치할 수 있도록 옵션 활성화
-        mMapView.setClickable(true);
-
-        // 확대/축소를 위한 줌 컨트롤러 표시 옵션 활성화
-        mMapView.setBuiltInZoomControls(true, null);
-
-        mMapView.setScalingFactor(2f);//맵 확대 레벨 업
-
-        // 지도에 대한 상태 변경 이벤트 연결
-        mMapView.setOnMapStateChangeListener(this);
-
-//         create resource provider
-
-        mMapViewerResourceProvider = new NMapViewerResourceProvider(this);
-
-        mOverlayManager = new NMapOverlayManager(this, mMapView, mMapViewerResourceProvider);
-
-        mOverlayManager.setOnCalloutOverlayListener(onCalloutOverlayListener);
-
-        int markerId = NMapPOIflagType.PIN;
+//        // 네이버 지도를 넣기 위한 LinearLayout 컴포넌트
+//        truckLocation = (LinearLayout) findViewById(R.id.truckLocation);
+//        // 네이버 지도 객체 생성
+//        mMapView = new NMapView(this);
+//        // 지도 객체로부터 컨트롤러 추출
+//        mMapController = mMapView.getMapController();
+//        // 네이버 지도 객체에 APIKEY 지정
+//        mMapView.setApiKey(API_KEY);
+//        // 생성된 네이버 지도 객체를 LinearLayout에 추가시킨다.
+//        truckLocation.addView(mMapView);
+//        // 지도를 터치할 수 있도록 옵션 활성화
+//        mMapView.setClickable(true);
+//        // 확대/축소를 위한 줌 컨트롤러 표시 옵션 활성화
+//        mMapView.setBuiltInZoomControls(true, null);
+//        mMapView.setScalingFactor(2f);//맵 확대 레벨 업
+//        // 지도에 대한 상태 변경 이벤트 연결
+//        mMapView.setOnMapStateChangeListener(this);
+////         create resource provider
+//        mMapViewerResourceProvider = new NMapViewerResourceProvider(this);
+//        mOverlayManager = new NMapOverlayManager(this, mMapView, mMapViewerResourceProvider);
+//        mOverlayManager.setOnCalloutOverlayListener(onCalloutOverlayListener);
+//        int markerId = NMapPOIflagType.PIN;
+//
         Intent intent = getIntent();
-        foodtruck1 = (Foodtruck) intent.getExtras().get("foodtruck");
+        foodtruck1 = (Foodtruck)intent.getExtras().get("foodtruck");
         foodtruck1.setMenus(menus1);
-        loca = foodtruck1.getLocation();
-
-        try {
-            list = geocoder.getFromLocationName(loca, 10);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        lat = list.get(0).getLatitude();//위도
-        lon = list.get(0).getLongitude();//경도
-
-        NMapPOIdata poiData = new NMapPOIdata(2, mMapViewerResourceProvider);
-        poiData.beginPOIdata(2);
-        poiData.addPOIitem(lon, lat, "here", markerId, 0);    //요기 좌표 입력해주면, 그 좌표가 표시됩니다.
-        poiData.endPOIdata();
-        NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
-
-        // poiDataOverlay.showAllPOIdata(0);
-        poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
+//
+//        loca = foodtruck1.getLocation();
+//
+//        try {
+//            list = geocoder.getFromLocationName(loca, 10);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        lat = list.get(0).getLatitude();//위도
+//        lon = list.get(0).getLongitude();//경도
+//
+//        NMapPOIdata poiData = new NMapPOIdata(2, mMapViewerResourceProvider);
+//        poiData.beginPOIdata(2);
+//        poiData.addPOIitem(lon, lat, "here", markerId, 0);    //요기 좌표 입력해주면, 그 좌표가 표시됩니다.
+//        poiData.endPOIdata();
+//        NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
+//
+//        // poiDataOverlay.showAllPOIdata(0);
+//        poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
 //
 //
 //        /////////////////////////////////////////////////naverMap용 source
 
 
+
         Log.d("1111", foodtruck1.toString());
 //        String truck = foodtruck.getFoodtruckName();
 //        Log.d("1111", truck);
+
+
+
 
 
         TabHost tabHost1 = (TabHost) findViewById(R.id.tabHost1);
@@ -239,14 +218,6 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
 
         Log.d(loginUserId, "id는 뭔가여");
 
-        findViewById(R.id.truckChange).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(TruckInfoActivity.this, TruckOpenActivity.class);
-                startActivity(intent);
-            }
-        });
-
         foodtrucks = new ArrayList<>();
         final ListView list = (ListView) findViewById(R.id.truckDetail);
 
@@ -269,11 +240,11 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
         final ListView menulist = (ListView) findViewById(R.id.truckInfoMenu1);
         menulist.setAdapter(foodtruckDetailMenuAdapter);
 
-        TextView text = (TextView) findViewById(R.id.truckChange);
+
         changeBtn = (Button) findViewById(R.id.truckChange);
-        if (foodtruck1.isState() == true) {
+        if(foodtruck1.isState() == true) {
             changeBtn.setText("영업시작");
-        } else {
+        }else {
             changeBtn.setText("영업종료");
         }
 
@@ -286,53 +257,10 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
                                                  intent.putExtra("foodtruck", (Serializable) foodtrucks.get(0));
                                                  startActivity(intent);
                                              } else if (changeBtn.getText().toString() == "영업종료") {
-                                                 AlertDialog.Builder ad = new AlertDialog.Builder(TruckInfoActivity.this);
-                                                 ad.setTitle("영업종료");       // 제목 설정
-                                                 ad.setMessage("영업을 종료하시겠습니까?(매출을 입력해 주세요)");   // 내용 설정
-
-                                                 final EditText et = new EditText(TruckInfoActivity.this);
-
-                                                 et.setInputType(InputType.TYPE_CLASS_NUMBER);//숫자만 입력받기위한 부분
-
-                                                 ad.setView(et);
-                                                 ad.setPositiveButton("Insert", new DialogInterface.OnClickListener() {
-                                                     @Override
-                                                     public void onClick(DialogInterface dialog, int which) {
-                                                         Log.v("Test_Alert_Dialog", "Yes Btn Click");
-
-                                                         // Text 값 받아서 로그 남기기
-                                                         String value = et.getText().toString();
-                                                         now = System.currentTimeMillis();
-                                                         date = new Date(now);
-
-                                                         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-                                                         String today = sdf.format(date);
-                                                         Log.d("Test_Alert_Dialog", value);
-
-                                                         new CloseTask().execute("http://foofa.crabdance.com:8888/FoodtruckFinderProject/mobile/closeTruck.do?id="
-                                                                 + loginUserId + "&revenue=" + value + "&today=" + today);//server 접근 방법 다시 !
-
-                                                         Intent intent = new Intent(TruckInfoActivity.this, TruckInfoActivity.class);//main페이지 다시 출력
-                                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//페이지 넘어가기전에 main(영업종료누르기 전)페이지 삭제
-
-                                                         startActivity(intent);
-
-                                                         dialog.dismiss();     //닫기
-                                                         // Event
-                                                     }
-                                                 });
-                                                 ad.setNegativeButton("Cencle", new DialogInterface.OnClickListener() {
-                                                     @Override
-                                                     public void onClick(DialogInterface dialog, int which) {
-                                                         Log.d(TAG, "No Btn Click");
-
-                                                         dialog.dismiss();     //닫기
-                                                         // Event
-                                                     }
-                                                 });
-                                                 ad.show();
-
-
+                                                 Intent intent = new Intent(TruckInfoActivity.this, TruckClosedActivity.class);
+                                                 foodtrucks.get(0).setMenus(menus1);
+                                                 intent.putExtra("foodtruck", (Serializable) foodtrucks.get(0));
+                                                 startActivity(intent);
                                              }
                                          }
                                      }
@@ -413,34 +341,6 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
         });
     }
 
-    private class CloseTask extends AsyncTask<String, Void, String> {//truck close를 위한 class
-
-        @Override
-        protected String doInBackground(String... params) {
-            HttpURLConnection http = null;
-            InputStream is = null;
-            String checkStr = null;
-            URL url = null;
-            try {
-                url = new URL(params[0]);
-                http = (HttpURLConnection) url.openConnection();
-                http.setRequestMethod("GET");
-                http.connect();
-                is = http.getInputStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-                //인코딩
-                checkStr = reader.readLine();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (ProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return checkStr;
-        }
-    }
-
     private static java.sql.Date convertUtilToSql(java.util.Date uDate) {
         java.sql.Date sDate = new java.sql.Date(uDate.getTime());
         return sDate;
@@ -450,13 +350,13 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
     ////////////////////////////////naverMap Method
     @Override
     public void onMapInitHandler(NMapView nMapView, NMapError nMapError) {
-        if (nMapError == null) { // success
-            mMapController.setMapCenter(//지도 출력시 맵 중앙 지정
-                    new NGeoPoint(lon, lat), 11);
-        } else { // fail
-            android.util.Log.e("NMAP", "onMapInitHandler: error="
-                    + nMapError.toString());
-        }
+//        if (nMapError == null) { // success
+//            mMapController.setMapCenter(//지도 출력시 맵 중앙 지정
+//                    new NGeoPoint(lon, lat), 11);
+//        } else { // fail
+//            android.util.Log.e("NMAP", "onMapInitHandler: error="
+//                    + nMapError.toString());
+//        }
     }
 
     @Override
@@ -572,74 +472,6 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
         }
     }
 
-
-//    public class FoodtruckDetailTask extends AsyncTask<String, Void, Void> {
-//
-//        @Override
-//        protected Void doInBackground(String... params) {
-//            try {
-//                URL url = new URL((String) params[0]);
-//                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-//                DocumentBuilder builder = factory.newDocumentBuilder();
-//                Document doc = builder.parse(new InputSource(url.openStream()));
-//                NodeList nodeList = doc.getElementsByTagName("foodtruck");
-//                for (int i = 0; i < nodeList.getLength(); i++) {
-//                    Foodtruck foodtruck = new Foodtruck();
-//                    Node node = nodeList.item(i);
-//                    Element element = (Element) node;
-//                    foodtruck.setFoodtruckId(getTagValue("foodtruckId", element));
-//                    foodtruck.setSellerId(getTagValue("sellerId", element));
-//                    foodtruck.setFoodtruckName(getTagValue("foodtruckName", element));
-//                    foodtruck.setOperationTime(getTagValue("operationTime", element));
-//                    foodtruck.setSpot(getTagValue("spot", element));
-//                    foodtruck.setNotice(getTagValue("notice", element));
-//                    foodtruck.setLocation(getTagValue("location", element));
-//                    foodtruck.setCategory1(getTagValue("category1", element));
-//                    foodtruck.setCategory2(getTagValue("category2", element));
-//                    foodtruck.setCategory3(getTagValue("category3", element));
-//                    foodtruck.setCard(Boolean.parseBoolean(getTagValue("card", element)));
-//                    foodtruck.setParking(Boolean.parseBoolean(getTagValue("parking", element)));
-//                    foodtruck.setDrinking(Boolean.parseBoolean(getTagValue("drinking", element)));
-//                    foodtruck.setCatering(Boolean.parseBoolean(getTagValue("catering", element)));
-//                    foodtruck.setState(Boolean.parseBoolean(getTagValue("state", element)));
-//                    foodtruck.setFavoriteCount(Integer.parseInt(getTagValue("favoriteCount", element)));
-//                    foodtruck.setReviewCount(Integer.parseInt(getTagValue("reviewCount", element)));
-//                    foodtruck.setScore(Double.parseDouble(getTagValue("score", element)));
-//                    List<Menu> menus1 = new ArrayList<>();
-//                    NodeList list1 = element.getElementsByTagName("menus").item(i).getChildNodes();
-//                    Log.d("1111", String.valueOf(list1.getLength()));
-////                    int k = list1.getLength();
-////
-////                    for (int a = 0; a <= k; a++) {
-////                        Menu menu = new Menu();
-////                        menu.setMenuName(getTagValue("menuName", element));
-////                        menu.setPrice(Integer.parseInt(getTagValue("favoriteCount", element)));
-////                        menu.setMenuState(Boolean.parseBoolean(getTagValue("menuState", element)));
-////                        menu.setMenuId(getTagValue("menuId", element));
-////                        menus1.add(menu);
-////                    }
-//                    foodtruck.setMenus(menus1);
-//                    foodtruck.setFoodtruckImg("http://foofa.crabdance.com:8888/FoodtruckFinderProject/resources/img/food/" + getTagValue("foodtruckImg", element));
-//                }
-//            } catch (MalformedURLException e) {
-//                e.printStackTrace();
-//            } catch (ParserConfigurationException e) {
-//                e.printStackTrace();
-//            } catch (SAXException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Void aVoid) {
-//            adapter.notifyDataSetChanged();
-//        }
-//    }
-
-
     private class AdvertiseTask extends AsyncTask<Object, Void, String> {
         @Override
         protected String doInBackground(Object... params) {
@@ -657,10 +489,12 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
                     Toast.makeText(TruckInfoActivity.this, "광고 등록에 성공했습니다.", Toast.LENGTH_SHORT).show();
 
                     intent = new Intent(TruckInfoActivity.this, TruckInfoActivity.class);
+                    intent.putExtra("foodtruck", (Serializable) foodtrucks.get(0));
                     break;
                 case "false":
                     Toast.makeText(TruckInfoActivity.this, "광고 등록에 실패하였습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
                     intent = new Intent(TruckInfoActivity.this, TruckInfoActivity.class);
+                    intent.putExtra("foodtruck", (Serializable) foodtrucks.get(0));
                     break;
             }
             if (intent != null) {
