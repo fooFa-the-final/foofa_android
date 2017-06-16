@@ -111,9 +111,10 @@
             android:text="f" />
 
         <Button
+            android:id="@+id/memberNewsfeed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="f" />
+            android:text="Newsfeed" />
 
         <Button
             android:id="@+id/memberProfile"
