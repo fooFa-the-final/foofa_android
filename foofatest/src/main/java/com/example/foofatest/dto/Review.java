@@ -83,4 +83,17 @@ public class Review implements Serializable{
         this.writeDate = writeDate;
     }
 
+    @Override
+    public String toString() {
+        return "Review{" +
+                "reviewId='" + reviewId + '\'' +
+                ", foodtruck=" + foodtruck +
+                ", contents='" + contents + '\'' +
+                ", score=" + score +
+                ", images=" + images +
+                ", writer=" + writer +
+                ", recommand=" + recommand +
+                ", writeDate=" + writeDate +
+                '}';
+    }
 }
