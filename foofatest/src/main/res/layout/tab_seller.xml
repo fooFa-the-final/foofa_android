@@ -24,181 +24,187 @@
                 android:layout_height="wrap_content" />
 
             <!-- FrameLayout의 id값이 반드시 "tabcontent"로 지정되어야 함. -->
-            <FrameLayout
-                android:id="@android:id/tabcontent"
+
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-
-                <!-- 첫 번째 페이지. 트럭info -->
-                <LinearLayout
-                    android:id="@+id/truckInfo1"
+                <FrameLayout
+                    android:id="@android:id/tabcontent"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <ListView
-                        android:id="@+id/truckDetail"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-
-                        android:text="메뉴"
-                        android:textStyle="bold" />
-
-                    <ListView
-                        android:id="@+id/truckInfoMenu1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"></ListView>
+                    android:layout_height="match_parent">
 
 
+                    <!-- 첫 번째 페이지. 트럭info -->
                     <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_marginLeft="20dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:id="@+id/truckInfo1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-                        <TextView
-                            android:text="Today Location"
-                            android:textStyle="bold"
-                            android:layout_width="wrap_content"
+                        <ListView
+                            android:id="@+id/truckDetail"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+
+                            android:text="메뉴"
+                            android:textStyle="bold" />
+
+                        <ListView
+                            android:id="@+id/truckInfoMenu1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"></ListView>
+
+
                         <LinearLayout
-                            android:id="@+id/truckLocation"
-                            android:layout_width="340dp"
-                            android:layout_height="100dp"
-                            android:layout_alignParentEnd="true"
-                            android:orientation="horizontal"></LinearLayout>
+                            android:orientation="vertical"
+                            android:layout_marginLeft="20dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:text="Today Location"
+                                android:textStyle="bold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+
+                            <LinearLayout
+                                android:id="@+id/truckLocation"
+                                android:layout_width="340dp"
+                                android:layout_height="200dp"
+                                android:layout_alignParentEnd="true"
+                                android:orientation="horizontal"></LinearLayout>
+
+                        </LinearLayout>
+
+
+
+                        <Button
+                            android:id="@+id/truckChange"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            />
+
+
+                        <Button
+                            android:id="@+id/truckMenuModify"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="20dp"
+                            android:text="푸드트럭메뉴수정" />
+
+
+                    </LinearLayout>
+                    <!-- 두 번째 페이지. content2 -->
+                    <LinearLayout
+                        android:id="@+id/truckReview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <ListView
+                            android:id="@+id/truckReviewListlist"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"></ListView>
+
 
                     </LinearLayout>
 
-
-
-                    <Button
-                        android:id="@+id/truckChange"
-                        android:layout_width="wrap_content"
+                    <!-- 세 번째 페이지. content3 -->
+                    <LinearLayout
+                        android:id="@+id/truckAdvertise"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        />
+                        android:orientation="vertical">
 
-
-                    <Button
-                        android:id="@+id/truckMenuModify"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="20dp"
-                        android:text="푸드트럭메뉴수정" />
-
-                </LinearLayout>
-                <!-- 두 번째 페이지. content2 -->
-                <LinearLayout
-                    android:id="@+id/truckReview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ListView
-                        android:id="@+id/truckReviewListlist"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"></ListView>
-
-
-                </LinearLayout>
-
-                <!-- 세 번째 페이지. content3 -->
-                <LinearLayout
-                    android:id="@+id/truckAdvertise"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20.0dp"
-                        android:layout_marginTop="20.0dp"
-                        android:text="광고 시작일" />
-
-                    <DatePicker
-                        android:id="@+id/startAd"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="-60.0dp"
-                        android:layout_marginTop="-40.0dp"
-                        android:layout_marginBottom="-40dp"
-                        android:datePickerMode="spinner"
-                        android:scaleX="0.60"
-                        android:scaleY="0.50" />
-
-                    <TextView
-                        android:id="@+id/advDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20.0dp"
-                        android:layout_marginBottom="10dp"
-                        />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20.0dp"
-                        android:layout_marginBottom="10dp"
-                        android:text="광고 기간" />
-
-
-                    <RadioGroup
-                        android:id="@+id/radioGroup"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginLeft="70dp">
-
-                        <RadioButton
-                            android:id="@+id/radio0"
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:checked="true"
-                            android:text="3일" />
+                            android:layout_marginLeft="20.0dp"
+                            android:layout_marginTop="20.0dp"
+                            android:text="광고 시작일" />
 
-                        <RadioButton
-                            android:id="@+id/radio1"
+                        <DatePicker
+                            android:id="@+id/startAd"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="7일" />
+                            android:layout_marginLeft="-60.0dp"
+                            android:layout_marginTop="-40.0dp"
+                            android:layout_marginBottom="-40dp"
+                            android:datePickerMode="spinner"
+                            android:scaleX="0.60"
+                            android:scaleY="0.50" />
 
-                        <RadioButton
-                            android:id="@+id/radio2"
+                        <TextView
+                            android:id="@+id/advDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="14일"/>
-
-
-                        <RadioButton
-                            android:id="@+id/radio3"
+                            android:layout_marginLeft="20.0dp"
+                            android:layout_marginBottom="10dp"
+                            />
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="30일" />
+                            android:layout_marginLeft="20.0dp"
+                            android:layout_marginBottom="10dp"
+                            android:text="광고 기간" />
 
-                    </RadioGroup>
+
+                        <RadioGroup
+                            android:id="@+id/radioGroup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginLeft="70dp">
+
+                            <RadioButton
+                                android:id="@+id/radio0"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="true"
+                                android:text="3일" />
+
+                            <RadioButton
+                                android:id="@+id/radio1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="7일" />
+
+                            <RadioButton
+                                android:id="@+id/radio2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="14일"/>
 
 
-                    <Button
-                        android:id="@+id/advbtn"
-                        android:text="결제"
-                        android:layout_marginTop="20dp"
-                        android:layout_gravity="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                            <RadioButton
+                                android:id="@+id/radio3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="30일" />
 
-                </LinearLayout>
-            </FrameLayout>
+                        </RadioGroup>
+
+
+                        <Button
+                            android:id="@+id/advbtn"
+                            android:text="결제"
+                            android:layout_marginTop="20dp"
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+                </FrameLayout>
+            </ScrollView>
         </LinearLayout>
     </TabHost>
 </LinearLayout>
-

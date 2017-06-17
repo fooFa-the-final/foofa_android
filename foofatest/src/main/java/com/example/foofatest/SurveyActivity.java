@@ -14,6 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.foofatest.Json.JsonParsingControl;
 import com.example.foofatest.dto.Review;
 import com.example.foofatest.dto.Survey;
 import com.example.foofatest.dto.SurveyItem;
@@ -77,7 +78,9 @@ public class SurveyActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(surveyTask.getStatus() == AsyncTask.Status.FINISHED){
                     //String reviewId = intent.getExtras().get("reviewId").toString();
-                    String reviewId = "R1";
+                    Review review = (Review)intent.getSerializableExtra("review");
+                    Log.d("log", "review : " + review.toString());
+                    String reviewId = review.getReviewId();
                     Log.d("log", "reviewId : " + reviewId);
                     replies = new ArrayList<SurveyReply>();
                     Log.d("log", "rgs Size : " + rgs.size());
@@ -96,9 +99,13 @@ public class SurveyActivity extends AppCompatActivity {
                     }
                     ReviewTask reviewTask = new ReviewTask();
                     reviewTask.execute(reviewId);
+                    Intent intent = new Intent(SurveyActivity.this, ReviewDetailActivity.class);
+                    intent.putExtra("review", review);
+                    startActivity(intent);
                 } else {
                     Toast.makeText(SurveyActivity.this, "잠시만 기다려주세요", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
     }
@@ -216,6 +223,8 @@ public class SurveyActivity extends AppCompatActivity {
             EditText suggestion = (EditText)findViewById(R.id.suggestion);
             survey.setSuggestion(suggestion.getText().toString());
             Log.d("log", "survey : " + survey.toString());
+            HttpTask httpTask = new HttpTask();
+            httpTask.execute();
         }
     }
 
@@ -233,4 +242,18 @@ public class SurveyActivity extends AppCompatActivity {
         return value.getNodeValue();
     }
 
+    private class HttpTask extends AsyncTask<Object, Void, Void>{
+
+        @Override
+        protected Void doInBackground(Object... params) {
+            JsonParsingControl jsonParsingControl = new JsonParsingControl();
+            jsonParsingControl.POST("http://192.168.0.87:8888/FoodtruckFinderProject/mobile/survey/create.do", survey);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            Toast.makeText(SurveyActivity.this, "설문이 완료되었습니다. 감사합니다.", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

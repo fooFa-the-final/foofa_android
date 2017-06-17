@@ -1,8 +1,10 @@
 package com.example.foofatest;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -95,10 +97,13 @@ public class ReviewCreateActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences prefs;
                 Review review = new Review();
                 Member writer = new Member();
                 Foodtruck foodtruck = new Foodtruck();
-                writer.setMemberId("nayeon");
+                prefs = getSharedPreferences("loginUserId", Context.MODE_PRIVATE);
+                String memberId = prefs.getString("loginId", "");
+                writer.setMemberId(memberId);
                 foodtruck.setFoodtruckId("F123");
                 foodtruck.setFoodtruckName("sampleTruck102");
                 review.setScore((int) score.getRating());
@@ -141,17 +146,20 @@ public class ReviewCreateActivity extends AppCompatActivity {
     }
 
     // 설문조사 선택
-    private void surveyDialog(final String reviewId) {
+    private void surveyDialog(final Review review) {
         final DialogInterface.OnClickListener surveyListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                doSurveyIntent(reviewId);
+                doSurveyIntent(review);
             }
         };
         final DialogInterface.OnClickListener cancelListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
+                Intent intent = new Intent(ReviewCreateActivity.this, ReviewDetailActivity.class);
+                intent.putExtra("review", review);
+                startActivity(intent);
+                finish();
             }
         };
 
@@ -162,9 +170,10 @@ public class ReviewCreateActivity extends AppCompatActivity {
                 .show();
     }
 
-    private void doSurveyIntent(String reviewId){
+    private void doSurveyIntent(Review review){
         Intent intent = new Intent(ReviewCreateActivity.this, SurveyActivity.class);
-        intent.putExtra("reviewId", reviewId);
+        intent.putExtra("review", review);
+        startActivity(intent);
     }
     // 가져온 사진 뿌리기
     @Override
@@ -333,11 +342,9 @@ public class ReviewCreateActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             Log.d("log", "reviewId : " + result);
             Toast.makeText(ReviewCreateActivity.this, "리뷰가 작성되었습니다.", Toast.LENGTH_SHORT);
-            Intent intent = new Intent(ReviewCreateActivity.this, ReviewDetailActivity.class);
             review.setReviewId(result);
-            intent.putExtra("review", review);
-            startActivity(intent);
-            finish();
+            surveyDialog(review);
+
         }
     }
 
