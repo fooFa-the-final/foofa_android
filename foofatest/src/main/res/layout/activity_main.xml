@@ -67,24 +67,28 @@
             android:orientation="horizontal">
 
             <CheckBox
+                android:id="@+id/filter_card"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="카드 결제"/>
 
             <CheckBox
+                android:id="@+id/filter_drinking"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="알콜 판매"/>
 
             <CheckBox
+                android:id="@+id/filter_parking"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="주차 가능"/>
 
             <CheckBox
+                android:id="@+id/filter_catering"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -97,7 +101,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <Button
+            <CheckBox
+                android:id="@+id/filter_nowOpen"
                 android:layout_weight="2"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"

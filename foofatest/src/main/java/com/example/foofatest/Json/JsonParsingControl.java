@@ -8,6 +8,7 @@ import com.example.foofatest.dto.Follow;
 import com.example.foofatest.dto.Foodtruck;
 import com.example.foofatest.dto.Member;
 import com.example.foofatest.dto.Menu;
+import com.example.foofatest.dto.Report;
 import com.example.foofatest.dto.Review;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -54,6 +55,8 @@ public class JsonParsingControl {
                 json = gson.toJson((Review)javaObject);
             }else if(javaObject instanceof Favorite) {
                 json = gson.toJson((Favorite)javaObject);
+            }else if(javaObject instanceof Report) {
+                json = gson.toJson((Report)javaObject);
             }
 
             Log.d("InputStream", jsonObject.toString());

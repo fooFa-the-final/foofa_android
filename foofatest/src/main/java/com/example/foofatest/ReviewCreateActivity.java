@@ -1,5 +1,6 @@
 package com.example.foofatest;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -139,6 +140,32 @@ public class ReviewCreateActivity extends AppCompatActivity {
                 .show();
     }
 
+    // 설문조사 선택
+    private void surveyDialog(final String reviewId) {
+        final DialogInterface.OnClickListener surveyListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                doSurveyIntent(reviewId);
+            }
+        };
+        final DialogInterface.OnClickListener cancelListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        };
+
+        new AlertDialog.Builder(ReviewCreateActivity.this)
+                .setTitle("설문에 응답하시겠습니까?")
+                .setNegativeButton("네", surveyListener)
+                .setPositiveButton("아니오", cancelListener)
+                .show();
+    }
+
+    private void doSurveyIntent(String reviewId){
+        Intent intent = new Intent(ReviewCreateActivity.this, SurveyActivity.class);
+        intent.putExtra("reviewId", reviewId);
+    }
     // 가져온 사진 뿌리기
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

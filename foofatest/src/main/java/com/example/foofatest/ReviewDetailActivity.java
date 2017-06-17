@@ -16,7 +16,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.foofatest.Json.JsonParsingControl;
+import com.example.foofatest.dto.Report;
 import com.example.foofatest.dto.Review;
 
 import org.w3c.dom.Document;
@@ -50,7 +53,7 @@ public class ReviewDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_review_detail);
 
         Intent intent = getIntent();
-        Review review = (Review) intent.getExtras().get("review");
+        final Review review = (Review) intent.getExtras().get("review");
 
         ((TextView)findViewById(R.id.writerId)).setText(review.getWriter().getMemberId());
         ((TextView)findViewById(R.id.reviewContent)).setText(review.getContents());
@@ -58,12 +61,13 @@ public class ReviewDetailActivity extends AppCompatActivity {
         ((TextView)findViewById(R.id.recommandCount)).setText(review.getRecommand()+"");
         ((RatingBar)findViewById(R.id.reviewScore)).setRating(review.getScore());
         ImageLoadingTask task = new ImageLoadingTask();
-        task.execute("http://192.168.0.87:8888/FoodtruckFinderProject/mobile/review/detail.do?reviewId=" + review.getReviewId());
+        task.execute("http://192.168.0.87:8888/FoodtruckFinderProject/mobile/review/imageList.do?reviewId=" + review.getReviewId());
 
         findViewById(R.id.reviewReport).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ReviewDetailActivity.this, ReportActivity.class);
+                intent.putExtra("reviewId", review.getReviewId());
                 startActivityForResult(intent, 0);
             }
         });
@@ -192,5 +196,38 @@ public class ReviewDetailActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return bitmap;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK){
+            ReportTask task = new ReportTask();
+            task.execute(data.getExtras().get("report"));
+        }
+    }
+
+    private class ReportTask extends AsyncTask<Object, Void, String>{
+
+        @Override
+        protected String doInBackground(Object... params) {
+            //URL url = new URL("http://192.168.0.87:8888/FoodtruckFinderProject/mobile/report/create.do");
+            Report report = (Report)params[0];
+            JsonParsingControl jsonParsingControl = new JsonParsingControl();
+            //jsonParsingControl.POST("http://192.168.0.87:8888/FoodtruckFinderProject/mobile/report/create.do", report);
+
+            return jsonParsingControl.POST("http://192.168.0.87:8888/FoodtruckFinderProject/mobile/report/create.do", report);
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            Log.d("log", "result : " + result);
+            if(result.equals("true")) {
+                Toast.makeText(ReviewDetailActivity.this, "신고가 완료 되었습니다.", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(ReviewDetailActivity.this, "이미 신고 된 리뷰입니다.", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

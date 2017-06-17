@@ -25,6 +25,7 @@
             android:text="f" />
 
         <Button
+            android:id="@+id/main_act"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="f" />
@@ -42,9 +43,10 @@
             android:text="리뷰작성" />
 
         <Button
+            android:id="@+id/survey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="f" />
+            android:text="설문" />
 
         <Button
             android:layout_width="wrap_content"

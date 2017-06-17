@@ -3,6 +3,7 @@ package com.example.foofatest.Adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -116,7 +117,9 @@ public class SearchTruckListAdapter extends BaseAdapter {
             conn.connect();
 
             BufferedInputStream bis = new BufferedInputStream(conn.getInputStream());
-            bitmap = BitmapFactory.decodeStream(bis);
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize = 16;
+            bitmap = BitmapFactory.decodeStream(bis, new Rect(1, 1, 1, 1), options);
             bis.close();
         } catch (IOException e) {
             e.printStackTrace();
