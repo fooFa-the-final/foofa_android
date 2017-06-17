@@ -184,7 +184,7 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
                 foodtrucks.clear();
                 truck4search = justBeforeSerch();
                 HttpAsyncTask httpAsyncTask = new HttpAsyncTask(MainActivity.this);
-                httpAsyncTask.execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/foodtruck/search.do", truck4search);
+                httpAsyncTask.execute("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/foodtruck/search.do", truck4search);
             }
         });
         card = (CheckBox)findViewById(R.id.filter_card);
@@ -225,7 +225,7 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
             public void onClick(View v) {
                 truck4search = justBeforeSerch();
                 HttpAsyncTask httpAsyncTask = new HttpAsyncTask(MainActivity.this);
-                httpAsyncTask.execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/foodtruck/search.do", truck4search);
+                httpAsyncTask.execute("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/foodtruck/search.do", truck4search);
             }
         });
 
@@ -265,7 +265,7 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
         foodtrucks.clear();
         truck4search = justBeforeSerch();
         HttpAsyncTask httpAsyncTask = new HttpAsyncTask(MainActivity.this);
-        httpAsyncTask.execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/foodtruck/search.do", truck4search);
+        httpAsyncTask.execute("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/foodtruck/search.do", truck4search);
     }
 
     @Override
@@ -275,7 +275,7 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
         if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && lastItemVisibleFlag) {
             truck4search = justBeforeSerch();
             HttpAsyncTask httpAsyncTask = new HttpAsyncTask(MainActivity.this);
-            httpAsyncTask.execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/foodtruck/search.do", truck4search);
+            httpAsyncTask.execute("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/foodtruck/search.do", truck4search);
         }
 
     }
@@ -305,7 +305,7 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(String result) {
-            //Log.d("test", "onPostExecute: " + result);
+            //Log.d("test", "onPostExecute: "+result);
             method(result);
             locas = new ArrayList<>();
             lats = new ArrayList<>();
@@ -361,7 +361,7 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
                 //Log.d("test", "method: "+foodtruck.toString());
                 String img = foodtruck.getFoodtruckImg();
                 Log.d("test", "method: " + img);
-                foodtruck.setFoodtruckImg("http://10.0.2.2:8888/FoodtruckFinderProject/resources/img/food/" + img);
+                foodtruck.setFoodtruckImg("http://106.242.203.67:8888/FoodtruckFinderProject/resources/img/food/" + img);
                 foodtrucks.add(foodtruck);
             }
 

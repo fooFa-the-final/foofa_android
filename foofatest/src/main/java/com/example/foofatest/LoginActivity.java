@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
                     tempId = idEdit.getText().toString();
                     new FoodtruckDetailTask().execute("http://foofa.crabdance.com:8888/FoodtruckFinderProject/mobile/detail.do?id=" + tempId);
                 }else {
-                    new LoginCheckTask().execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/memberlogin.do?id="
+                    new LoginCheckTask().execute("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/memberlogin.do?id="
                             + idEdit.getText() + "&password=" + pwEdit.getText());
                 }
             }

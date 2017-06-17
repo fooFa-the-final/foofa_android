@@ -39,12 +39,12 @@ import javax.xml.parsers.ParserConfigurationException;
 
 public class SurveyActivity extends AppCompatActivity {
     private List<SurveyItem> surveyItem;
-    List<SurveyReply> replies;
+    private List<SurveyReply> replies;
     private Survey survey;
     private LinearLayout container = null;
     private Button btn = null;
     private List<RadioGroup> rgs = null;
-    private List<Integer> scores = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +67,7 @@ public class SurveyActivity extends AppCompatActivity {
         }
         container.addView(rg);
         */
+
 
         final SurveyTask surveyTask = new SurveyTask();
         surveyTask.execute();
@@ -100,7 +101,6 @@ public class SurveyActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     private void createForm(){
