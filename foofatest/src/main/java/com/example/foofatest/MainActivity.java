@@ -67,7 +67,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 public class MainActivity extends NMapActivity implements NMapView.OnMapStateChangeListener, CompoundButton.OnCheckedChangeListener, AbsListView.OnScrollListener {
 
-    final private Geocoder geocoder = new Geocoder(MainActivity.this);
+//    final private Geocoder geocoder = new Geocoder(MainActivity.this);
     private double lat = 0;
     private double lon = 0;
     private List<Double> lats;
@@ -99,13 +99,13 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
     private Spinner spinner;
     private CheckBox card, drinking, parking, catering, nowOpen;
     private boolean lastItemVisibleFlag = false;
-
+    private int pageNum = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // 네이버 지도를 넣기 위한 LinearLayout 컴포넌트
+        /*// 네이버 지도를 넣기 위한 LinearLayout 컴포넌트
         truckLocation = (LinearLayout) findViewById(R.id.truckLocation);
 
 
@@ -172,7 +172,7 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
             }
         });
 
-///////////////////////////////////////naver map source
+///////////////////////////////////////naver map source*/
 
         spinner = (Spinner) findViewById(R.id.spinner_sort);
         ArrayAdapter<CharSequence> sAdapter = ArrayAdapter.createFromResource(this, R.array.sort, android.R.layout.simple_spinner_item);
@@ -181,10 +181,11 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //Log.d("test", "onItemSelected: " + position);
                 foodtrucks.clear();
-                truck4search = justBeforeSerch();
+                truck4search = justBeforeSearch();
                 HttpAsyncTask httpAsyncTask = new HttpAsyncTask(MainActivity.this);
-                httpAsyncTask.execute("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/foodtruck/search.do", truck4search);
+                httpAsyncTask.execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/foodtruck/search.do", truck4search);
             }
 
             @Override
@@ -228,9 +229,10 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
         go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                truck4search = justBeforeSerch();
+                foodtrucks.clear();
+                truck4search = justBeforeSearch();
                 HttpAsyncTask httpAsyncTask = new HttpAsyncTask(MainActivity.this);
-                httpAsyncTask.execute("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/foodtruck/search.do", truck4search);
+                httpAsyncTask.execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/foodtruck/search.do", truck4search);
             }
         });
 
@@ -268,9 +270,9 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         foodtrucks.clear();
-        truck4search = justBeforeSerch();
+        truck4search = justBeforeSearch();
         HttpAsyncTask httpAsyncTask = new HttpAsyncTask(MainActivity.this);
-        httpAsyncTask.execute("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/foodtruck/search.do", truck4search);
+        httpAsyncTask.execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/foodtruck/search.do", truck4search);
     }
 
     @Override
@@ -278,9 +280,10 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
         //OnScrollListener.SCROLL_STATE_IDLE은 스크롤이 이동하다가 멈추었을때 발생되는 스크롤 상태입니다.
         //즉 스크롤이 바닥에 닿아 멈춘 상태에 처리를 하겠다는 뜻
         if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && lastItemVisibleFlag) {
-            truck4search = justBeforeSerch();
+            truck4search = justBeforeSearch();
+            truck4search.setFavoriteCount(++pageNum);
             HttpAsyncTask httpAsyncTask = new HttpAsyncTask(MainActivity.this);
-            httpAsyncTask.execute("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/foodtruck/search.do", truck4search);
+            httpAsyncTask.execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/foodtruck/search.do", truck4search);
         }
 
     }
@@ -312,7 +315,7 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
         protected void onPostExecute(String result) {
             //Log.d("test", "onPostExecute: "+result);
             method(result);
-            locas = new ArrayList<>();
+            /*locas = new ArrayList<>();
             lats = new ArrayList<>();
             lons = new ArrayList<>();
 
@@ -343,7 +346,7 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
             poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
 
             //////////////////////////////////////////////////////
-
+*/
             //Log.d("test", "onPostExecute: " + foodtrucks.size());
             adapter.notifyDataSetChanged();
         }
@@ -365,8 +368,8 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
                 Foodtruck foodtruck = gson.fromJson(jsonArray.get(i), Foodtruck.class);
                 //Log.d("test", "method: "+foodtruck.toString());
                 String img = foodtruck.getFoodtruckImg();
-                Log.d("test", "method: " + img);
-                foodtruck.setFoodtruckImg("http://106.242.203.67:8888/FoodtruckFinderProject/resources/img/food/" + img);
+                //Log.d("test", "method: " + img);
+                foodtruck.setFoodtruckImg("http://10.0.2.2:8888/FoodtruckFinderProject/resources/img/food/" + img);
                 foodtrucks.add(foodtruck);
             }
 
@@ -377,14 +380,14 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
         //return trucks;
     }
 
-    public Foodtruck justBeforeSerch(){
+    public Foodtruck justBeforeSearch(){
 
         truck4search = new Foodtruck();
 
-        truck4search.setFoodtruckName("양식");
+        //truck4search.setFoodtruckName("양식");
         truck4search.setLocation("서울");
-        /*truck4search.setFoodtruckName(key.getText().toString());
-        truck4search.setLocation(loc.getText().toString());*/
+        truck4search.setFoodtruckName(key.getText().toString());
+        /*truck4search.setLocation(loc.getText().toString());*/
         if(card.isChecked()){
             truck4search.setCard(true);
         }
@@ -404,9 +407,9 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
         int sortPostion = spinner.getSelectedItemPosition();
 
         if(sortPostion==1){
-            truck4search.setFoodtruckId("reviewCount");
-        } else if(sortPostion==2){
             truck4search.setFoodtruckId("favoriteCount");
+        } else {
+            truck4search.setFoodtruckId("reviewCount");
         }
 
 

@@ -54,8 +54,8 @@
         <activity android:name=".MemberFavListActivity" />
         <activity android:name=".ReviewCreateActivity" />
         <activity android:name=".MemberFollowActivity" />
-        <activity android:name=".ButtonListActivity"/>
-        <activity android:name=".AdvertiseApplyActivity">
+        <activity android:name=".AdvertiseApplyActivity"/>
+        <activity android:name=".ButtonListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
