@@ -25,6 +25,7 @@
             android:text="f" />
 
         <Button
+            android:id="@+id/main_act"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="f" />

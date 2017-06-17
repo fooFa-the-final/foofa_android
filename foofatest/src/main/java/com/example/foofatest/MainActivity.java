@@ -305,7 +305,7 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(String result) {
-            //Log.d("test", "onPostExecute: "+result);
+            //Log.d("test", "onPostExecute: " + result);
             method(result);
             locas = new ArrayList<>();
             lats = new ArrayList<>();
