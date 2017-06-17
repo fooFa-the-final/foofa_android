@@ -119,7 +119,7 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
         mMapView.setApiKey(API_KEY);
 
         // 생성된 네이버 지도 객체를 LinearLayout에 추가시킨다.
-        truckLocation.addView(mMapView);
+        //truckLocation.addView(mMapView);
 
         // 지도를 터치할 수 있도록 옵션 활성화
         mMapView.setClickable(true);
@@ -178,13 +178,18 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
         ArrayAdapter<CharSequence> sAdapter = ArrayAdapter.createFromResource(this, R.array.sort, android.R.layout.simple_spinner_item);
         sAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(sAdapter);
-        spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 foodtrucks.clear();
                 truck4search = justBeforeSerch();
                 HttpAsyncTask httpAsyncTask = new HttpAsyncTask(MainActivity.this);
                 httpAsyncTask.execute("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/foodtruck/search.do", truck4search);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
         card = (CheckBox)findViewById(R.id.filter_card);

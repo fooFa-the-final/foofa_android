@@ -232,4 +232,5 @@ public class SurveyActivity extends AppCompatActivity {
         Node value = (Node)list.item(0);
         return value.getNodeValue();
     }
+
 }
