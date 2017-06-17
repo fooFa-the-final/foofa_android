@@ -50,7 +50,7 @@
         <activity android:name=".MemberModifyActivity" />
         <activity android:name=".ReviewListActivity" />
         <activity android:name=".TruckBefore" />
-        <activity android:name=".ReportActivity"/>
+        <activity android:name=".ReportActivity" />
         <activity android:name=".MemberFavListActivity" />
         <activity android:name=".ReviewCreateActivity" />
         <activity android:name=".MemberFollowActivity" />
@@ -62,7 +62,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MemberNewsfeedActivity"></activity>
+        <activity android:name=".MemberNewsfeedActivity" />
+        <activity android:name=".SurveyDetailActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

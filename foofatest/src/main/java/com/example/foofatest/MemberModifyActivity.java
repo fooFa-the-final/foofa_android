@@ -30,7 +30,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class MemberModifyActivity extends AppCompatActivity {
+public class MemberModifyActivity extends AppCompatActivity{
 
     private SharedPreferences prefs;
     private String memberId;

@@ -78,6 +78,8 @@ public class ButtonListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ButtonListActivity.this, ReviewListActivity.class);
+
+
                 startActivity(intent);
             }
         });
