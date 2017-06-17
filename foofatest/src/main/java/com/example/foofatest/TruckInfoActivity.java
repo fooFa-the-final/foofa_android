@@ -188,7 +188,6 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
         foodtruck1 = (Foodtruck) intent.getExtras().get("foodtruck");
         foodtruck1.setMenus(menus1);
         loca = foodtruck1.getLocation();
-
         try {
             list = geocoder.getFromLocationName(loca, 10);
         } catch (IOException e) {
@@ -284,6 +283,16 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
             changeBtn.setText("영업종료");
         }
 
+        Button button = (Button) findViewById(R.id.truckMenuModify);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TruckInfoActivity.this, TruckOpenActivity.class);
+                foodtrucks.get(0).setMenus(menus1);
+                intent.putExtra("foodtruck", (Serializable) foodtrucks.get(0));
+                startActivity(intent);
+            }
+        });
         changeBtn.setOnClickListener(new Button.OnClickListener() {
                                          @Override
                                          public void onClick(View v) {
@@ -322,7 +331,7 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
                                                          Intent intent = new Intent(TruckInfoActivity.this, TruckInfoActivity.class);//main페이지 다시 출력
 
                                                          intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);//페이지 넘어가기전에 main(영업종료누르기 전)페이지 삭제
-
+                                                         intent.putExtra("foodtruck", foodtrucks.get(0));
                                                          startActivity(intent);
 
                                                          dialog.dismiss();     //닫기
@@ -416,7 +425,7 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
                 advertise.setStartdate(String.valueOf(startDay1));
                 advertise.setPeriod(realDay);
                 advertise.setApprove(a);
-                new AdvertiseTask().execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/advertiseRegister.do", advertise);
+                new AdvertiseTask().execute("http://foofa.crabdance.com:8888/FoodtruckFinderProject/mobile/advertiseRegister.do", advertise);
             }
         });
     }

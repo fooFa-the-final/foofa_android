@@ -8,6 +8,14 @@
     tools:context="com.example.foofatest.TruckDetailActivity">
 
 
+
+    <Button
+        android:layout_gravity="right"
+        android:id="@+id/registerFavorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="단골추가"
+        />
     <ListView
         android:id="@+id/truckDetail"
         android:layout_width="wrap_content"
@@ -20,13 +28,6 @@
 
         android:text="메뉴"
         android:textStyle="bold" />
-
-    <LinearLayout
-        android:id="@+id/truckLocation"
-        android:layout_width="340dp"
-        android:layout_height="200dp"
-        android:layout_alignParentEnd="true"
-        android:orientation="horizontal"></LinearLayout>
 
     <ListView
         android:id="@+id/truckInfoMenu1"
@@ -55,7 +56,5 @@
             android:orientation="horizontal"></LinearLayout>
 
     </LinearLayout>
-
-
 
 </LinearLayout>

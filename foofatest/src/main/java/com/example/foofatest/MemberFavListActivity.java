@@ -30,6 +30,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.lang.reflect.Member;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -90,7 +91,7 @@ import javax.xml.parsers.ParserConfigurationException;
             Log.d("1111", foodtruck.toString());
 
             String sellerId = foodtruck.getSellerId();
-            intent.putExtra("foodtruck", foodtruck);
+            intent.putExtra("foodtruck", (Serializable) foodtruck);
             intent.putExtra("foodtruckId", sellerId);
 
             startActivity(intent);

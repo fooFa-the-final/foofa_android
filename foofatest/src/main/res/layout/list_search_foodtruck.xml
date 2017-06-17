@@ -100,7 +100,7 @@
             android:layout_marginLeft="50dp">
 
             <Button
-                android:id="@+id/followRemove"
+                android:id="@+id/favroiteRemove"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="단골해제" />

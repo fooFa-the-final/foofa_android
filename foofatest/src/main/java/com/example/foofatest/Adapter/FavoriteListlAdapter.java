@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -106,7 +107,7 @@ public class FavoriteListlAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.list_search_foodtruck, null);
         }
 
-        Button btn = (Button) convertView.findViewById(R.id.followRemove);
+        Button btn = (Button) convertView.findViewById(R.id.favroiteRemove);
 
         btn.setTag(position);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -119,7 +120,7 @@ public class FavoriteListlAdapter extends BaseAdapter {
                 Favorite favorite = new Favorite();
                 favorite.setFoodtruckId(food.getFoodtruckId());
                 favorite.setMemberId(food.getCategory3());
-                new FavoriteTask().execute("http://foofa.crabdance.com:8888/FoodtruckFinderProject/mobile/favorite/remove.do?memberId=" + food.getCategory3() + "&foodtruckId="  + food.getFoodtruckId());
+                new FavoriteTask().execute("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/favorite/remove.do?memberId=" + food.getCategory3() + "&foodtruckId="  + food.getFoodtruckId());
                 Log.d("1111", String.valueOf(v.getTag()));
                 Log.d("1111", favorite.toString());
             }
@@ -142,9 +143,6 @@ public class FavoriteListlAdapter extends BaseAdapter {
         truckArea.setText(favorites.get(position).getLocation());
         truckFavorite.setText(String.valueOf(favorites.get(position).getFavoriteCount()));
         truckReviewCount.setText(String.valueOf(favorites.get(position).getReviewCount()));
-//        truckNotice.setText(favorites.get(position).getNotice());
-//        truckHours.setText(favorites.get(position).getOperationTime());
-//        truckLocation.setText(favorites.get(position).getSpot());
         ratingBar.setRating((float) favorites.get(position).getScore());
         new ImageLoadingTask(image).execute(favorites.get(position).getFoodtruckImg());
         return convertView;
@@ -193,7 +191,10 @@ public class FavoriteListlAdapter extends BaseAdapter {
             conn = url.openConnection();
             conn.connect();
             BufferedInputStream bis = new BufferedInputStream(conn.getInputStream());
-            bitmap = BitmapFactory.decodeStream(bis);
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize = 16;
+            bitmap = BitmapFactory.decodeStream(bis, new Rect(1, 1, 1, 1), options);
+
             bis.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -220,7 +221,28 @@ public class FavoriteListlAdapter extends BaseAdapter {
                     Node node = nodeList.item(i);
                     Element element = (Element)node;
                     foodtruck.setFoodtruckId(getTagValue("foodtruckId", element));
-
+                    foodtruck.setSellerId(getTagValue("sellerId", element));
+                    foodtruck.setFoodtruckName(getTagValue("foodtruckName", element));
+                    foodtruck.setOperationTime(getTagValue("operationTime", element));
+                    foodtruck.setSpot(getTagValue("spot", element));
+                    foodtruck.setNotice(getTagValue("notice", element));
+                    foodtruck.setLocation(getTagValue("location", element));
+                    foodtruck.setCategory1(getTagValue("category1", element));
+                    foodtruck.setCategory2(getTagValue("category2", element));
+//                    foodtruck.setCategory3(loginUserId);
+                    foodtruck.setCard(Boolean.parseBoolean(getTagValue("card", element)));
+                    foodtruck.setParking(Boolean.parseBoolean(getTagValue("parking", element)));
+                    foodtruck.setDrinking(Boolean.parseBoolean(getTagValue("drinking", element)));
+                    foodtruck.setCatering(Boolean.parseBoolean(getTagValue("catering", element)));
+                    foodtruck.setState(Boolean.parseBoolean(getTagValue("state", element)));
+                    foodtruck.setFavoriteCount(Integer.parseInt(getTagValue("favoriteCount", element)));
+                    foodtruck.setReviewCount(Integer.parseInt(getTagValue("reviewCount", element)));
+                    foodtruck.setScore(Double.parseDouble(getTagValue("score", element)));
+//                    List<Menu> menus1 = new ArrayList<>();
+//                    NodeList list1 = element.getElementsByTagName("menus").item(i).getChildNodes();
+//                    Log.d("1111", String.valueOf(list1.getLength()));
+                    foodtruck.setFoodtruckImg("http://106.242.203.67:8888/FoodtruckFinderProject/resources/img/food/"+getTagValue("foodtruckImg",element));
+//                    foodtrucks.add(foodtruck);
                 }
             } catch (MalformedURLException e) {
                 e.printStackTrace();
