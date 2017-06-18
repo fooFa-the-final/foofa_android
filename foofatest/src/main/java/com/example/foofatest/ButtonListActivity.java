@@ -113,7 +113,7 @@ public class ButtonListActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.main_act).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.main_act1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent (ButtonListActivity.this, MainActivity.class);
