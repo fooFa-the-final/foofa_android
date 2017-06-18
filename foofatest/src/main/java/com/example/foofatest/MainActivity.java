@@ -314,7 +314,7 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
         @Override
         protected void onPostExecute(String result) {
 //            Log.d("test", "onPostExecute: "+result);
-//            method(result);
+            method(result);
 //            locas = new ArrayList<>();
 //            lats = new ArrayList<>();
 //            lons = new ArrayList<>();
