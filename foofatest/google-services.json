@@ -1,0 +1,50 @@
+{
+  "project_info": {
+    "project_number": "523035851566",
+    "firebase_url": "https://foofa-project.firebaseio.com",
+    "project_id": "foofa-project",
+    "storage_bucket": "foofa-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:523035851566:android:debee2201fd1ec45",
+        "android_client_info": {
+          "package_name": "com.example.foofatest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "523035851566-k2pm5u81bpejlqp7p951q7b6k393ognd.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "523035851566-fepi8b7bio35dgo0rmah2th0rbcmv832.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "523035851566-95a0kp8ed38b1mh7duumpu3vqeg6ak9d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjFJMoCh82KdhYlYPWR2oW0nZQ67FiUHE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
