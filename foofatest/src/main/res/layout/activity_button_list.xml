@@ -28,7 +28,7 @@
             android:id="@+id/main_act1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="f" />
+            android:text="MAIN ACTIVITY" />
 
         <Button
             android:id="@+id/memberReview"
