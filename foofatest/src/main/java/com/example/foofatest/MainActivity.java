@@ -65,8 +65,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-public class MainActivity extends NMapActivity implements NMapView.OnMapStateChangeListener, CompoundButton.OnCheckedChangeListener, AbsListView.OnScrollListener {
-
+//public class MainActivity extends NMapActivity implements NMapView.OnMapStateChangeListener, CompoundButton.OnCheckedChangeListener, AbsListView.OnScrollListener {
+public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, AbsListView.OnScrollListener{
 //    final private Geocoder geocoder = new Geocoder(MainActivity.this);
 //    private double lat = 0;
 //    private double lon = 0;
@@ -242,7 +242,7 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
 
     }
 
-    @Override
+   /* @Override
     public void onMapInitHandler(NMapView nMapView, NMapError nMapError) {
 
     }
@@ -265,7 +265,7 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
     @Override
     public void onAnimationStateChange(NMapView nMapView, int i, int i1) {
 
-    }
+    }*/
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -384,7 +384,7 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
         truck4search = new Foodtruck();
 
         //truck4search.setFoodtruckName("양식");
-        truck4search.setLocation("서울");
+        truck4search.setLocation("제주");
         truck4search.setFoodtruckName(key.getText().toString());
         /*truck4search.setLocation(loc.getText().toString());*/
         if(card.isChecked()){
