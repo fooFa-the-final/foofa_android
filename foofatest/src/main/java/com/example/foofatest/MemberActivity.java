@@ -21,35 +21,28 @@ public class MemberActivity extends TabActivity {
         Intent intent;
 
 
+        intent = new Intent(this, MainActivity.class);
 
-        intent = new Intent(this, ReviewListActivity.class);
-
-        spec = mTab.newTabSpec("OneTab").setIndicator("프로필").setContent(intent);
-
+        spec = mTab.newTabSpec("Tab").setIndicator("검색").setContent(intent);
         mTab.addTab(spec);
 
+
+        intent = new Intent(this, ReviewListActivity.class);
+        spec = mTab.newTabSpec("OneTab").setIndicator("프로필").setContent(intent);
+        mTab.addTab(spec);
 
 
         intent = new Intent(this, MemberFavListActivity.class);
-
         spec = mTab.newTabSpec("write").setIndicator("단골").setContent(intent);
-
         mTab.addTab(spec);
-
-
 
         intent = new Intent(this, MemberFollowActivity.class);
-
         spec = mTab.newTabSpec("friend").setIndicator("팔로우").setContent(intent);
-
         mTab.addTab(spec);
-
 
 
         intent = new Intent(this, MemberNewsfeedActivity.class);
-
         spec = mTab.newTabSpec("setting").setIndicator("뉴스피드").setContent(intent);
-
         mTab.addTab(spec);
 
 

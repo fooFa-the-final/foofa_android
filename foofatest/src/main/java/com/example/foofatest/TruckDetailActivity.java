@@ -21,12 +21,16 @@ import com.example.foofatest.Adapter.FavoriteListlAdapter;
 import com.example.foofatest.Adapter.FoodtruckDetailAdapter;
 import com.example.foofatest.Adapter.FoodtruckDetailMenuAdapter;
 import com.example.foofatest.Adapter.MemberFoodtruckDetailAdapter;
+import com.example.foofatest.Adapter.TruckReviewAdapter;
 import com.example.foofatest.Json.JsonParsingControl;
 import com.example.foofatest.dto.Advertise;
 import com.example.foofatest.dto.Favorite;
 import com.example.foofatest.dto.Follow;
 import com.example.foofatest.dto.Foodtruck;
+import com.example.foofatest.dto.Image;
+import com.example.foofatest.dto.Member;
 import com.example.foofatest.dto.Menu;
+import com.example.foofatest.dto.Review;
 import com.example.foofatest.forMap.NMapPOIflagType;
 import com.example.foofatest.forMap.NMapViewerResourceProvider;
 import com.nhn.android.maps.NMapActivity;
@@ -81,11 +85,13 @@ public class TruckDetailActivity extends NMapActivity implements NMapView.OnMapS
 //    // 맵을 추가할 레이아웃
 //    LinearLayout truckLocation;
 
+    private List<Review> reviews;
 
     private SharedPreferences prefs;
     private String loginUserId;
     private List<Foodtruck> foodtrucks;
     private List<Foodtruck> foodtrucks1;
+    private TruckReviewAdapter truckReviewAdapter;
 
     private Foodtruck foodtruck1;
     private List<Menu> menus1;
@@ -95,6 +101,7 @@ public class TruckDetailActivity extends NMapActivity implements NMapView.OnMapS
     private FavoriteListlAdapter favoriteListlAdapter;
     private List<Favorite> favorites;
     private Favorite favorite;
+    private String tempId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -223,6 +230,14 @@ public class TruckDetailActivity extends NMapActivity implements NMapView.OnMapS
         Log.d("1111", String.valueOf(menus1.size()));
 
 
+        reviews = new ArrayList<>();
+        truckReviewAdapter = new TruckReviewAdapter(this, reviews);
+
+        new ReviewDetialTask().execute("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/review/list/turckId.do?id=" + sellerId);
+        final ListView reviewlist = (ListView) findViewById(R.id.truckReviewListlist);
+        reviewlist.setAdapter(truckReviewAdapter);
+
+
         menulist.setOnTouchListener(new ListView.OnTouchListener(){
 
             @Override
@@ -247,6 +262,60 @@ public class TruckDetailActivity extends NMapActivity implements NMapView.OnMapS
         });
 
     }
+
+
+    public class ReviewDetialTask extends AsyncTask<String, Void, Void> {
+
+        @Override
+        protected Void doInBackground(String... params) {
+            try {
+                URL url = new URL((String) params[0]);
+                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder builder = factory.newDocumentBuilder();
+                Document doc = builder.parse(new InputSource(url.openStream()));
+                NodeList nodeList = doc.getElementsByTagName("review");
+                for (int i = 0; i < nodeList.getLength(); i++) {
+                    Review review = new Review();
+                    Foodtruck foodtruck = new Foodtruck();
+                    Member writer = new Member();
+                    ArrayList<Image> images = new ArrayList<>();
+                    Image image = new Image();
+                    Node node = nodeList.item(i);
+                    Element element = (Element) node;
+                    String src = "http://foofa.crabdance.com:8888/FoodtruckFinderProject/resources/img/reviewImg/" + getTagValue("filename", element);
+                    image.setFilename(src);
+                    images.add(image);
+                    review.setImages(images);
+                    review.setReviewId(getTagValue("reviewId", element));
+                    foodtruck.setFoodtruckId(getTagValue("foodtruckId", element));
+                    foodtruck.setFoodtruckName(getTagValue("foodtruckName", element));
+                    review.setContents(getTagValue("contents", element));
+                    writer.setMemberId(getTagValue("memberId", element));
+                    NodeList list = element.getElementsByTagName("score").item(1).getChildNodes();
+                    review.setScore(Integer.parseInt(list.item(0).getNodeValue()));
+                    review.setFoodtruck(foodtruck);
+                    review.setWriter(writer);
+
+                    reviews.add(review);
+                }
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (ParserConfigurationException e) {
+                e.printStackTrace();
+            } catch (SAXException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            truckReviewAdapter.notifyDataSetChanged();
+        }
+    }
+
 
     public class FoodtruckDetailTask extends AsyncTask<String, Void, Void> {
 
@@ -297,6 +366,7 @@ public class TruckDetailActivity extends NMapActivity implements NMapView.OnMapS
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            tempId = foodtrucks.get(0).getSellerId();
             adapter.notifyDataSetChanged();
         }
     }
@@ -481,7 +551,7 @@ public class TruckDetailActivity extends NMapActivity implements NMapView.OnMapS
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
+            truckReviewAdapter.notifyDataSetChanged();
         }
     }
 
