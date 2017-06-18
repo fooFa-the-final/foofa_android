@@ -233,33 +233,11 @@ public class TruckDetailActivity extends NMapActivity implements NMapView.OnMapS
         reviews = new ArrayList<>();
         truckReviewAdapter = new TruckReviewAdapter(this, reviews);
 
-        new ReviewDetialTask().execute("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/review/list/turckId.do?id=" + sellerId);
+        new ReviewDetialTask().execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/review/list/turckId.do?id=" + sellerId);
         final ListView reviewlist = (ListView) findViewById(R.id.truckReviewListlist);
         reviewlist.setAdapter(truckReviewAdapter);
 
 
-        menulist.setOnTouchListener(new ListView.OnTouchListener(){
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                int action = event.getAction();
-                switch (action) {
-                    case MotionEvent.ACTION_DOWN:
-                        // Disallow ScrollView to intercept touch events.
-                        v.getParent().requestDisallowInterceptTouchEvent(true);
-                        break;
-
-                    case MotionEvent.ACTION_UP:
-                        // Allow ScrollView to intercept touch events.
-                        v.getParent().requestDisallowInterceptTouchEvent(false);
-                        break;
-                }
-
-                // Handle ListView touch events.
-                v.onTouchEvent(event);
-                return true;
-            }
-        });
 
     }
 
