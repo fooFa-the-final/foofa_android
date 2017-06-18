@@ -19,13 +19,13 @@
             android:text="favoriteList" />
 
         <Button
-            android:id="@+id/f"
+            android:id="@+id/favoriteTest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="f" />
+            android:text="favoritetest" />
 
         <Button
-            android:id="@+id/main_act"
+            android:id="@+id/main_act1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="f" />

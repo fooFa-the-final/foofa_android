@@ -87,25 +87,25 @@ import static com.example.foofatest.R.id.truckLocation;
 
 public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapStateChangeListener {
 
-    final private Geocoder geocoder = new Geocoder(TruckInfoActivity.this);
-    private double lat = 0;
-    private double lon = 0;
-    private String loca = "";//트럭 주소 입력
-    private List<Address> list = new ArrayList<>();
-    private NMapViewerResourceProvider mMapViewerResourceProvider = null;
-    private NMapOverlayManager mOverlayManager;
-    private NMapPOIdataOverlay.OnStateChangeListener onPOIdataStateChangeListener = null;
-
-    ///////////////////////////////////////////////////////naver Map용 Field
-    private NMapOverlayManager.OnCalloutOverlayListener onCalloutOverlayListener;
-    // API-KEY
-    public static final String API_KEY = "noUvsaR702FX6WH5un5h";  //<---맨위에서 발급받은 본인 ClientID 넣으세요.
-    // 네이버 맵 객체
-    NMapView mMapView = null;
-    // 맵 컨트롤러
-    NMapController mMapController = null;
-    // 맵을 추가할 레이아웃
-    LinearLayout truckLocation;
+//    final private Geocoder geocoder = new Geocoder(TruckInfoActivity.this);
+//    private double lat = 0;
+//    private double lon = 0;
+//    private String loca = "";//트럭 주소 입력
+//    private List<Address> list = new ArrayList<>();
+//    private NMapViewerResourceProvider mMapViewerResourceProvider = null;
+//    private NMapOverlayManager mOverlayManager;
+//    private NMapPOIdataOverlay.OnStateChangeListener onPOIdataStateChangeListener = null;
+//
+//    ///////////////////////////////////////////////////////naver Map용 Field
+//    private NMapOverlayManager.OnCalloutOverlayListener onCalloutOverlayListener;
+//    // API-KEY
+//    public static final String API_KEY = "noUvsaR702FX6WH5un5h";  //<---맨위에서 발급받은 본인 ClientID 넣으세요.
+//    // 네이버 맵 객체
+//    NMapView mMapView = null;
+//    // 맵 컨트롤러
+//    NMapController mMapController = null;
+//    // 맵을 추가할 레이아웃
+//    LinearLayout truckLocation;
 
 
     private SharedPreferences prefs;
@@ -149,72 +149,76 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
         setContentView(R.layout.tab_seller);
 
 
-        // 네이버 지도를 넣기 위한 LinearLayout 컴포넌트
-        truckLocation = (LinearLayout) findViewById(R.id.truckLocation);
-
-        // 네이버 지도 객체 생성
-        mMapView = new NMapView(this);
-
-        // 지도 객체로부터 컨트롤러 추출
-        mMapController = mMapView.getMapController();
-
-        // 네이버 지도 객체에 APIKEY 지정
-        mMapView.setApiKey(API_KEY);
-
-        // 생성된 네이버 지도 객체를 LinearLayout에 추가시킨다.
-        truckLocation.addView(mMapView);
-
-        // 지도를 터치할 수 있도록 옵션 활성화
-        mMapView.setClickable(true);
-
-        // 확대/축소를 위한 줌 컨트롤러 표시 옵션 활성화
-        mMapView.setBuiltInZoomControls(true, null);
-
-        mMapView.setScalingFactor(2f);//맵 확대 레벨 업
-
-        // 지도에 대한 상태 변경 이벤트 연결
-        mMapView.setOnMapStateChangeListener(this);
-
-//         create resource provider
-
-        mMapViewerResourceProvider = new NMapViewerResourceProvider(this);
-
-        mOverlayManager = new NMapOverlayManager(this, mMapView, mMapViewerResourceProvider);
-
-        mOverlayManager.setOnCalloutOverlayListener(onCalloutOverlayListener);
-
-        int markerId = NMapPOIflagType.PIN;
+//        // 네이버 지도를 넣기 위한 LinearLayout 컴포넌트
+//        truckLocation = (LinearLayout) findViewById(R.id.truckLocation);
+//
+//        // 네이버 지도 객체 생성
+//        mMapView = new NMapView(this);
+//
+//        // 지도 객체로부터 컨트롤러 추출
+//        mMapController = mMapView.getMapController();
+//
+//        // 네이버 지도 객체에 APIKEY 지정
+//        mMapView.setApiKey(API_KEY);
+//
+//        // 생성된 네이버 지도 객체를 LinearLayout에 추가시킨다.
+//        truckLocation.addView(mMapView);
+//
+//        // 지도를 터치할 수 있도록 옵션 활성화
+//        mMapView.setClickable(true);
+//
+//        // 확대/축소를 위한 줌 컨트롤러 표시 옵션 활성화
+//        mMapView.setBuiltInZoomControls(true, null);
+//
+//        mMapView.setScalingFactor(2f);//맵 확대 레벨 업
+//
+//        // 지도에 대한 상태 변경 이벤트 연결
+//        mMapView.setOnMapStateChangeListener(this);
+//
+////         create resource provider
+//
+//        mMapViewerResourceProvider = new NMapViewerResourceProvider(this);
+//
+//        mOverlayManager = new NMapOverlayManager(this, mMapView, mMapViewerResourceProvider);
+//
+//        mOverlayManager.setOnCalloutOverlayListener(onCalloutOverlayListener);
+//
+//        int markerId = NMapPOIflagType.PIN;
         Intent intent = getIntent();
         foodtruck1 = (Foodtruck) intent.getExtras().get("foodtruck");
+
         foodtruck1.setMenus(menus1);
-        loca = foodtruck1.getLocation();
-        try {
-            list = geocoder.getFromLocationName(loca, 10);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        if (loca.equals(null)) {//영업전이면 위경도 안 받아옴
-
-        } else {
-            lat = list.get(0).getLatitude();//위도
-            lon = list.get(0).getLongitude();//경도
-        }
+        foodtruck1 = (Foodtruck) intent.getExtras().get("foodtruck");
 
 
-        NMapPOIdata poiData = new NMapPOIdata(2, mMapViewerResourceProvider);
-        poiData.beginPOIdata(2);
-        if (lat != 0 && lon != 0) {
-            poiData.addPOIitem(lon, lat, "here", markerId, 0);    //요기 좌표 입력해주면, 그 좌표가 표시됩니다.
-        }
-        poiData.endPOIdata();
-        NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
-
-        // poiDataOverlay.showAllPOIdata(0);
-        poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
+//        loca = foodtruck1.getLocation();
+//        try {
+//            list = geocoder.getFromLocationName(loca, 10);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        if (loca.equals(null)) {//영업전이면 위경도 안 받아옴
+//
+//        } else {
+//            lat = list.get(0).getLatitude();//위도
+//            lon = list.get(0).getLongitude();//경도
+//        }
 //
 //
-//        /////////////////////////////////////////////////naverMap용 source
+//        NMapPOIdata poiData = new NMapPOIdata(2, mMapViewerResourceProvider);
+//        poiData.beginPOIdata(2);
+//        if (lat != 0 && lon != 0) {
+//            poiData.addPOIitem(lon, lat, "here", markerId, 0);    //요기 좌표 입력해주면, 그 좌표가 표시됩니다.
+//        }
+//        poiData.endPOIdata();
+//        NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
+//
+//        // poiDataOverlay.showAllPOIdata(0);
+//        poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
+////
+////
+////        /////////////////////////////////////////////////naverMap용 source
 
 
         Log.d("1111", foodtruck1.toString());
@@ -267,21 +271,15 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
         final ListView reviewlist = (ListView) findViewById(R.id.truckReviewListlist);
         reviewlist.setAdapter(truckReviewAdapter);
 
-
-        menus1 = new ArrayList<>();
-        foodtruckDetailMenuAdapter = new FoodtruckDetailMenuAdapter(this, menus1);
-
-        new MenuDetailTask().execute("http://foofa.crabdance.com:8888/FoodtruckFinderProject/mobile/menu/detail.do?id=" + loginUserId);
         final ListView menulist = (ListView) findViewById(R.id.truckInfoMenu1);
+//        new MenuDetailTask().execute("http://foofa.crabdance.com:8888/FoodtruckFinderProject/mobile/menu/detail.do?id=" + loginUserId);
+        foodtruckDetailMenuAdapter = new FoodtruckDetailMenuAdapter(this, foodtruck1.getMenus());
         menulist.setAdapter(foodtruckDetailMenuAdapter);
+
 
         TextView text = (TextView) findViewById(R.id.truckChange);
         changeBtn = (Button) findViewById(R.id.truckChange);
-        if (foodtruck1.isState() != true) {
-            changeBtn.setText("영업시작");
-        } else {
-            changeBtn.setText("영업종료");
-        }
+
 
         Button button = (Button) findViewById(R.id.truckMenuModify);
         button.setOnClickListener(new View.OnClickListener() {
@@ -380,8 +378,6 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
                             startDay1 = convertUtilToSql(sd);
 
 
-                            Log.d("1111", String.valueOf(sd));
-                            Log.d("1111", String.valueOf(startDay1));
 
                         } catch (ParseException e) {
                             e.printStackTrace();
@@ -409,13 +405,9 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
             public void onClick(View v) {
                 Toast.makeText(TruckInfoActivity.this, "광고신청", Toast.LENGTH_SHORT).show();
                 Advertise advertise = new Advertise();
-                Log.d("1111", String.valueOf(startDay1));
                 period = period.substring(0, period.length() - 1);
-                Log.d("1111", period);
-                Log.d("1111", String.valueOf(realDay));
                 realDay = Integer.parseInt(period);
                 int a = 0;
-                Log.d("1111", String.valueOf(realDay));
                 advertise.setSellerId(loginUserId);
                 mdate.getYear();
                 mdate.getMonth();
@@ -467,13 +459,13 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
     ////////////////////////////////naverMap Method
     @Override
     public void onMapInitHandler(NMapView nMapView, NMapError nMapError) {
-        if (nMapError == null) { // success
-            mMapController.setMapCenter(//지도 출력시 맵 중앙 지정
-                    new NGeoPoint(lon, lat), 11);
-        } else { // fail
-            android.util.Log.e("NMAP", "onMapInitHandler: error="
-                    + nMapError.toString());
-        }
+//        if (nMapError == null) { // success
+//            mMapController.setMapCenter(//지도 출력시 맵 중앙 지정
+//                    new NGeoPoint(lon, lat), 11);
+//        } else { // fail
+//            android.util.Log.e("NMAP", "onMapInitHandler: error="
+//                    + nMapError.toString());
+//        }
     }
 
     @Override
@@ -497,45 +489,49 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
     }
 
 
-    public class MenuDetailTask extends AsyncTask<String, Void, Void> {
-
-
-        @Override
-        protected Void doInBackground(String... params) {
-            try {
-                URL url = new URL((String) params[0]);
-                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-                DocumentBuilder builder = factory.newDocumentBuilder();
-                Document doc = builder.parse(new InputSource(url.openStream()));
-                NodeList nodeList = doc.getElementsByTagName("menu");
-                for (int i = 0; i < nodeList.getLength(); i++) {
-                    Menu menu = new Menu();
-                    Node node = nodeList.item(i);
-                    Element element = (Element) node;
-                    menu.setMenuId(getTagValue("menuId", element));
-                    menu.setFoodtruckId(getTagValue("foodtruckId", element));
-                    menu.setMenuName(getTagValue("menuName", element));
-                    menu.setPrice(Integer.parseInt(getTagValue("price", element)));
-                    menu.setMenuState(Boolean.parseBoolean(getTagValue("menuState", element)));
-                    menus1.add(menu);
-                }
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (ParserConfigurationException e) {
-                e.printStackTrace();
-            } catch (SAXException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            foodtruckDetailMenuAdapter.notifyDataSetChanged();
-        }
-    }
+//    public class MenuDetailTask extends AsyncTask<String, Void, Void> {
+//
+//
+//        @Override
+//        protected Void doInBackground(String... params) {
+//            try {
+//                URL url = new URL((String) params[0]);
+//                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+//                DocumentBuilder builder = factory.newDocumentBuilder();
+//                Document doc = builder.parse(new InputSource(url.openStream()));
+//                NodeList nodeList = doc.getElementsByTagName("menu");
+//                for (int i = 0; i < nodeList.getLength(); i++) {
+//                    Menu menu = new Menu();
+//                    Node node = nodeList.item(i);
+//                    Element element = (Element) node;
+//                    menu.setMenuId(getTagValue("menuId", element));
+//                    menu.setFoodtruckId(getTagValue("foodtruckId", element));
+//                    menu.setMenuName(getTagValue("menuName", element));
+//                    menu.setPrice(Integer.parseInt(getTagValue("price", element)));
+//                    menu.setMenuState(Boolean.parseBoolean(getTagValue("menuState", element)));
+//                    Log.d("1111", String.valueOf(i));
+//                    menus1.add(menu);
+//                }
+//            } catch (MalformedURLException e) {
+//                e.printStackTrace();
+//            } catch (ParserConfigurationException e) {
+//                e.printStackTrace();
+//            } catch (SAXException e) {
+//                e.printStackTrace();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void aVoid) {
+//            foodtruckDetailMenuAdapter.notifyDataSetChanged();
+//        }
+//
+//
+//
+//    }
 
     public class ReviewDetialTask extends AsyncTask<String, Void, Void> {
 
@@ -588,74 +584,6 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
             truckReviewAdapter.notifyDataSetChanged();
         }
     }
-
-
-//    public class FoodtruckDetailTask extends AsyncTask<String, Void, Void> {
-//
-//        @Override
-//        protected Void doInBackground(String... params) {
-//            try {
-//                URL url = new URL((String) params[0]);
-//                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-//                DocumentBuilder builder = factory.newDocumentBuilder();
-//                Document doc = builder.parse(new InputSource(url.openStream()));
-//                NodeList nodeList = doc.getElementsByTagName("foodtruck");
-//                for (int i = 0; i < nodeList.getLength(); i++) {
-//                    Foodtruck foodtruck = new Foodtruck();
-//                    Node node = nodeList.item(i);
-//                    Element element = (Element) node;
-//                    foodtruck.setFoodtruckId(getTagValue("foodtruckId", element));
-//                    foodtruck.setSellerId(getTagValue("sellerId", element));
-//                    foodtruck.setFoodtruckName(getTagValue("foodtruckName", element));
-//                    foodtruck.setOperationTime(getTagValue("operationTime", element));
-//                    foodtruck.setSpot(getTagValue("spot", element));
-//                    foodtruck.setNotice(getTagValue("notice", element));
-//                    foodtruck.setLocation(getTagValue("location", element));
-//                    foodtruck.setCategory1(getTagValue("category1", element));
-//                    foodtruck.setCategory2(getTagValue("category2", element));
-//                    foodtruck.setCategory3(getTagValue("category3", element));
-//                    foodtruck.setCard(Boolean.parseBoolean(getTagValue("card", element)));
-//                    foodtruck.setParking(Boolean.parseBoolean(getTagValue("parking", element)));
-//                    foodtruck.setDrinking(Boolean.parseBoolean(getTagValue("drinking", element)));
-//                    foodtruck.setCatering(Boolean.parseBoolean(getTagValue("catering", element)));
-//                    foodtruck.setState(Boolean.parseBoolean(getTagValue("state", element)));
-//                    foodtruck.setFavoriteCount(Integer.parseInt(getTagValue("favoriteCount", element)));
-//                    foodtruck.setReviewCount(Integer.parseInt(getTagValue("reviewCount", element)));
-//                    foodtruck.setScore(Double.parseDouble(getTagValue("score", element)));
-//                    List<Menu> menus1 = new ArrayList<>();
-//                    NodeList list1 = element.getElementsByTagName("menus").item(i).getChildNodes();
-//                    Log.d("1111", String.valueOf(list1.getLength()));
-////                    int k = list1.getLength();
-////
-////                    for (int a = 0; a <= k; a++) {
-////                        Menu menu = new Menu();
-////                        menu.setMenuName(getTagValue("menuName", element));
-////                        menu.setPrice(Integer.parseInt(getTagValue("favoriteCount", element)));
-////                        menu.setMenuState(Boolean.parseBoolean(getTagValue("menuState", element)));
-////                        menu.setMenuId(getTagValue("menuId", element));
-////                        menus1.add(menu);
-////                    }
-//                    foodtruck.setMenus(menus1);
-//                    foodtruck.setFoodtruckImg("http://foofa.crabdance.com:8888/FoodtruckFinderProject/resources/img/food/" + getTagValue("foodtruckImg", element));
-//                }
-//            } catch (MalformedURLException e) {
-//                e.printStackTrace();
-//            } catch (ParserConfigurationException e) {
-//                e.printStackTrace();
-//            } catch (SAXException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Void aVoid) {
-//            adapter.notifyDataSetChanged();
-//        }
-//    }
-
 
     private class AdvertiseTask extends AsyncTask<Object, Void, String> {
         @Override
@@ -737,17 +665,15 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
                     foodtruck.setScore(Double.parseDouble(getTagValue("score", element)));
                     List<Menu> menus1 = new ArrayList<>();
                     NodeList list1 = element.getElementsByTagName("menus").item(i).getChildNodes();
-                    Log.d("1111", String.valueOf(list1.getLength()));
-//                    int k = list1.getLength();
-//
-//                    for (int a = 0; a <= k; a++) {
-//                        Menu menu = new Menu();
-//                        menu.setMenuName(getTagValue("menuName", element));
-//                        menu.setPrice(Integer.parseInt(getTagValue("favoriteCount", element)));
-//                        menu.setMenuState(Boolean.parseBoolean(getTagValue("menuState", element)));
-//                        menu.setMenuId(getTagValue("menuId", element));
-//                        menus1.add(menu);
-//                    }
+                    int k = list1.getLength();
+                    for (int a = 0; a <= k; a++) {
+                        Menu menu = new Menu();
+                        menu.setMenuName(getTagValue("menuName", element));
+                        menu.setPrice(Integer.parseInt(getTagValue("favoriteCount", element)));
+                        menu.setMenuState(Boolean.parseBoolean(getTagValue("menuState", element)));
+                        menu.setMenuId(getTagValue("menuId", element));
+                        menus1.add(menu);
+                    }
                     foodtruck.setMenus(menus1);
                     foodtruck.setFoodtruckImg("http://foofa.crabdance.com:8888/FoodtruckFinderProject/resources/img/food/" + getTagValue("foodtruckImg", element));
                     foodtrucks.add(foodtruck);
@@ -766,6 +692,15 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
 
         @Override
         protected void onPostExecute(Void aVoid) {
+
+            Log.d("1111", foodtrucks.get(0).toString());
+            menus1 = new ArrayList<>();
+            menus1 = foodtruck1.getMenus();
+            if (foodtrucks.get(0).isState() != true) {
+                changeBtn.setText("영업시작");
+            } else {
+                changeBtn.setText("영업종료");
+            }
         }
     }
 

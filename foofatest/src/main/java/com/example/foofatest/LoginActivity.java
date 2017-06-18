@@ -193,16 +193,15 @@ public class LoginActivity extends AppCompatActivity {
                     List<Menu> menus1 = new ArrayList<>();
                     NodeList list1 = element.getElementsByTagName("menus").item(i).getChildNodes();
                     Log.d("1111", String.valueOf(list1.getLength()));
-//                    int k = list1.getLength();
-//
-//                    for (int a = 0; a <= k; a++) {
-//                        Menu menu = new Menu();
-//                        menu.setMenuName(getTagValue("menuName", element));
-//                        menu.setPrice(Integer.parseInt(getTagValue("favoriteCount", element)));
-//                        menu.setMenuState(Boolean.parseBoolean(getTagValue("menuState", element)));
-//                        menu.setMenuId(getTagValue("menuId", element));
-//                        menus1.add(menu);
-//                    }
+                    int k = list1.getLength();
+                    for (int a = 0; a <= k; a++) {
+                        Menu menu = new Menu();
+                        menu.setMenuName(getTagValue("menuName", element));
+                        menu.setPrice(Integer.parseInt(getTagValue("favoriteCount", element)));
+                        menu.setMenuState(Boolean.parseBoolean(getTagValue("menuState", element)));
+                        menu.setMenuId(getTagValue("menuId", element));
+                        menus1.add(menu);
+                    }
                     foodtruck.setMenus(menus1);
                     foodtruck.setFoodtruckImg("http://foofa.crabdance.com:8888/FoodtruckFinderProject/resources/img/food/" + getTagValue("foodtruckImg", element));
                     foodtrucks.add(foodtruck);
@@ -225,11 +224,9 @@ public class LoginActivity extends AppCompatActivity {
             intent = new Intent(LoginActivity.this, TruckInfoActivity.class);
             Foodtruck foodturckPrime = new Foodtruck();
             foodturckPrime = foodtrucks.get(0);
-            Log.d("1111", String.valueOf(foodtrucks.get(0).getFoodtruckId()));
             intent.putExtra("foodtruck", (Serializable) foodturckPrime);
             startActivity(intent);
             finish();
-
         }
     }
 
