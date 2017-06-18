@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -200,12 +201,51 @@ public class TruckDetailActivity extends NMapActivity implements NMapView.OnMapS
         });
 
 
+        Button registerReview = (Button) findViewById(R.id.registrReview);
+        registerReview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TruckDetailActivity.this, ReviewCreateActivity.class);
+                intent.putExtra("foodtruck", (Serializable) foodtruck1);
+                startActivity(intent);
+            }
+        });
+
+
+
+
+
         menus1 = new ArrayList<>();
         final ListView menulist = (ListView) findViewById(R.id.truckInfoMenu1);
         new MenuDetailTask().execute("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/menu/detailFoodtruckId.do?id=" + sellerId);
         foodtruckDetailMenuAdapter = new FoodtruckDetailMenuAdapter(this, menus1);
         menulist.setAdapter(foodtruckDetailMenuAdapter);
         Log.d("1111", String.valueOf(menus1.size()));
+
+
+        menulist.setOnTouchListener(new ListView.OnTouchListener(){
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int action = event.getAction();
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        // Disallow ScrollView to intercept touch events.
+                        v.getParent().requestDisallowInterceptTouchEvent(true);
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        // Allow ScrollView to intercept touch events.
+                        v.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
+                }
+
+                // Handle ListView touch events.
+                v.onTouchEvent(event);
+                return true;
+            }
+        });
+
     }
 
     public class FoodtruckDetailTask extends AsyncTask<String, Void, Void> {
@@ -257,6 +297,7 @@ public class TruckDetailActivity extends NMapActivity implements NMapView.OnMapS
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            adapter.notifyDataSetChanged();
         }
     }
 
@@ -349,7 +390,7 @@ public class TruckDetailActivity extends NMapActivity implements NMapView.OnMapS
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
+            Log.d("1113", favorites.toString());
 
         }
     }

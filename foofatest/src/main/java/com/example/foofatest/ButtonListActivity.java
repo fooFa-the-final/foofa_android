@@ -121,8 +121,25 @@ public class ButtonListActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.memberTab).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ButtonListActivity.this, MemberActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
+        findViewById(R.id.favoriteTest).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ButtonListActivity.this, TruckDetailActivity.class);
+                Foodtruck foodtruck = new Foodtruck();
+                foodtruck.setFoodtruckId("F1041");
+                intent.putExtra("foodtruck", foodtruck);
+                startActivity(intent);
+            }
+        });
 
     }
 

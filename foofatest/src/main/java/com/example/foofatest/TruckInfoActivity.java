@@ -82,6 +82,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import static com.example.foofatest.R.id.menu;
 import static com.example.foofatest.R.id.truckLocation;
 
 
@@ -187,10 +188,6 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
         Intent intent = getIntent();
         foodtruck1 = (Foodtruck) intent.getExtras().get("foodtruck");
 
-        foodtruck1.setMenus(menus1);
-        foodtruck1 = (Foodtruck) intent.getExtras().get("foodtruck");
-
-
 //        loca = foodtruck1.getLocation();
 //        try {
 //            list = geocoder.getFromLocationName(loca, 10);
@@ -271,11 +268,12 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
         final ListView reviewlist = (ListView) findViewById(R.id.truckReviewListlist);
         reviewlist.setAdapter(truckReviewAdapter);
 
+        menus1 = new ArrayList<>();
         final ListView menulist = (ListView) findViewById(R.id.truckInfoMenu1);
-//        new MenuDetailTask().execute("http://foofa.crabdance.com:8888/FoodtruckFinderProject/mobile/menu/detail.do?id=" + loginUserId);
-        foodtruckDetailMenuAdapter = new FoodtruckDetailMenuAdapter(this, foodtruck1.getMenus());
+        new MenuDetailTask().execute("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/menu/detail.do?id=" + loginUserId);
+        foodtruckDetailMenuAdapter = new FoodtruckDetailMenuAdapter(this, menus1);
         menulist.setAdapter(foodtruckDetailMenuAdapter);
-
+        Log.d("1111", String.valueOf(menus1.size()));
 
         TextView text = (TextView) findViewById(R.id.truckChange);
         changeBtn = (Button) findViewById(R.id.truckChange);
@@ -489,49 +487,49 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
     }
 
 
-//    public class MenuDetailTask extends AsyncTask<String, Void, Void> {
-//
-//
-//        @Override
-//        protected Void doInBackground(String... params) {
-//            try {
-//                URL url = new URL((String) params[0]);
-//                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-//                DocumentBuilder builder = factory.newDocumentBuilder();
-//                Document doc = builder.parse(new InputSource(url.openStream()));
-//                NodeList nodeList = doc.getElementsByTagName("menu");
-//                for (int i = 0; i < nodeList.getLength(); i++) {
-//                    Menu menu = new Menu();
-//                    Node node = nodeList.item(i);
-//                    Element element = (Element) node;
-//                    menu.setMenuId(getTagValue("menuId", element));
+    public class MenuDetailTask extends AsyncTask<String, Void, Void> {
+
+
+        @Override
+        protected Void doInBackground(String... params) {
+            try {
+                URL url = new URL((String) params[0]);
+                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder builder = factory.newDocumentBuilder();
+                Document doc = builder.parse(new InputSource(url.openStream()));
+                NodeList nodeList = doc.getElementsByTagName("menu");
+                Log.d("1113", String.valueOf(nodeList.getLength()));
+                for (int i = 0; i < nodeList.getLength(); i++) {
+                    Menu menu = new Menu();
+                    Node node = nodeList.item(i);
+                    Element element = (Element) node;
+                    menu.setMenuId(getTagValue("menuId", element));
 //                    menu.setFoodtruckId(getTagValue("foodtruckId", element));
-//                    menu.setMenuName(getTagValue("menuName", element));
-//                    menu.setPrice(Integer.parseInt(getTagValue("price", element)));
-//                    menu.setMenuState(Boolean.parseBoolean(getTagValue("menuState", element)));
-//                    Log.d("1111", String.valueOf(i));
-//                    menus1.add(menu);
-//                }
-//            } catch (MalformedURLException e) {
-//                e.printStackTrace();
-//            } catch (ParserConfigurationException e) {
-//                e.printStackTrace();
-//            } catch (SAXException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Void aVoid) {
-//            foodtruckDetailMenuAdapter.notifyDataSetChanged();
-//        }
-//
-//
-//
-//    }
+                    menu.setMenuName(getTagValue("menuName", element));
+                    menu.setPrice(Integer.parseInt(getTagValue("price", element)));
+                    menu.setMenuState(Boolean.parseBoolean(getTagValue("menuState", element)));
+                    Log.d("1333",menu.getMenuName());
+                    menus1.add(menu);
+                }
+                Log.d("1333", menus1.toString());
+                Log.d("1333", String.valueOf(menus1.size()));
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (ParserConfigurationException e) {
+                e.printStackTrace();
+            } catch (SAXException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            foodtruckDetailMenuAdapter.notifyDataSetChanged();
+        }
+    }
 
     public class ReviewDetialTask extends AsyncTask<String, Void, Void> {
 
@@ -602,10 +600,12 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
                     Toast.makeText(TruckInfoActivity.this, "광고 등록에 성공했습니다.", Toast.LENGTH_SHORT).show();
 
                     intent = new Intent(TruckInfoActivity.this, TruckInfoActivity.class);
+                    intent.putExtra("foodtruck", foodtruck1);
                     break;
                 case "false":
                     Toast.makeText(TruckInfoActivity.this, "광고 등록에 실패하였습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
                     intent = new Intent(TruckInfoActivity.this, TruckInfoActivity.class);
+                    intent.putExtra("foodtruck", foodtruck1);
                     break;
             }
             if (intent != null) {
@@ -693,7 +693,6 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
         @Override
         protected void onPostExecute(Void aVoid) {
 
-            Log.d("1111", foodtrucks.get(0).toString());
             menus1 = new ArrayList<>();
             menus1 = foodtruck1.getMenus();
             if (foodtrucks.get(0).isState() != true) {
