@@ -86,8 +86,8 @@ import static com.example.foofatest.R.id.menu;
 import static com.example.foofatest.R.id.truckLocation;
 
 
-public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapStateChangeListener {
-
+//public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapStateChangeListener {
+public class TruckInfoActivity extends AppCompatActivity {
 //    final private Geocoder geocoder = new Geocoder(TruckInfoActivity.this);
 //    private double lat = 0;
 //    private double lon = 0;
@@ -334,7 +334,7 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
                                                          // Event
                                                      }
                                                  });
-                                                 ad.setNegativeButton("Cencle", new DialogInterface.OnClickListener() {
+                                                 ad.setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
                                                      @Override
                                                      public void onClick(DialogInterface dialog, int which) {
                                                          Log.d(TAG, "No Btn Click");
@@ -454,7 +454,7 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
     }
 
 
-    ////////////////////////////////naverMap Method
+    /*////////////////////////////////naverMap Method
     @Override
     public void onMapInitHandler(NMapView nMapView, NMapError nMapError) {
 //        if (nMapError == null) { // success
@@ -484,7 +484,7 @@ public class TruckInfoActivity extends NMapActivity implements NMapView.OnMapSta
     @Override
     public void onAnimationStateChange(NMapView nMapView, int i, int i1) {
 
-    }
+    }*/
 
 
     public class MenuDetailTask extends AsyncTask<String, Void, Void> {
