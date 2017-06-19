@@ -92,7 +92,8 @@ public class ReviewCreateActivity extends AppCompatActivity {
                 createDialog();
             }
         });
-
+        Intent truckIntent = getIntent();
+        final Foodtruck foodtruck = (Foodtruck) truckIntent.getExtras().get("foodtruck");
         Button submit = (Button) findViewById(R.id.submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,18 +101,16 @@ public class ReviewCreateActivity extends AppCompatActivity {
                 SharedPreferences prefs;
                 Review review = new Review();
                 Member writer = new Member();
-                Foodtruck foodtruck = new Foodtruck();
+
                 prefs = getSharedPreferences("loginUserId", Context.MODE_PRIVATE);
                 String memberId = prefs.getString("loginId", "");
                 writer.setMemberId(memberId);
-                foodtruck.setFoodtruckId("F123");
-                foodtruck.setFoodtruckName("sampleTruck102");
                 review.setScore((int) score.getRating());
                 review.setContents(contents.getText().toString());
                 review.setWriter(writer);
                 review.setFoodtruck(foodtruck);
                 HttpAsyncTask task = new HttpAsyncTask();
-                task.execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/review/create.do", review);
+                task.execute("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/review/create.do", review);
             }
         });
     }
@@ -430,7 +429,7 @@ public class ReviewCreateActivity extends AppCompatActivity {
 
         InputStream inputStream = null;
         HttpClient httpClient = AndroidHttpClient.newInstance("Android");
-        HttpPost httpPost = new HttpPost("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/review/image.do");
+        HttpPost httpPost = new HttpPost("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/review/image.do");
         httpPost.setEntity(builder.build());
 
         try {

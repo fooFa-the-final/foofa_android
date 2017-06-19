@@ -89,7 +89,7 @@ public class ReviewListActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(String... params) {
             try {
-                URL url = new URL("http://192.168.0.87:8888/FoodtruckFinderProject/mobile/member/detail.do?id="+memberId);
+                URL url = new URL("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/member/detail.do?id="+memberId);
                 DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
                 DocumentBuilder builder = factory.newDocumentBuilder();
                 Document document = builder.parse(new InputSource(url.openStream()));
