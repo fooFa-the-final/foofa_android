@@ -136,7 +136,7 @@ public class LoginActivity extends AppCompatActivity {
                     intent = new Intent(LoginActivity.this, TruckInfoActivity.class);
                 }
 
-                intent = new Intent(LoginActivity.this, ButtonListActivity.class);
+                intent = new Intent(LoginActivity.this, MemberActivity.class);
 
                 SharedPreferences login = getSharedPreferences("loginUserId", Context.MODE_PRIVATE);
                 login.edit().putString("loginId", idEdit.getText().toString()).apply();
@@ -157,9 +157,6 @@ public class LoginActivity extends AppCompatActivity {
         protected Void doInBackground(String... params) {
 
             foodtrucks = new ArrayList<>();
-
-//            adapter = new FoodtruckDetailAdapter(this, foodtrucks);
-
             try {
                 URL url = new URL((String) params[0]);
                 DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
