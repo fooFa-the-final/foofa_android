@@ -40,13 +40,5 @@ public class MemberActivity extends TabActivity {
         spec = mTab.newTabSpec("friend").setIndicator("팔로우").setContent(intent);
         mTab.addTab(spec);
 
-
-        intent = new Intent(this, MemberNewsfeedActivity.class);
-        spec = mTab.newTabSpec("setting").setIndicator("뉴스피드").setContent(intent);
-        mTab.addTab(spec);
-
-
-
-
     }
 }
