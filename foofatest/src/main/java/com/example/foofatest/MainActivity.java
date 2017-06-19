@@ -66,7 +66,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 public class MainActivity extends NMapActivity implements NMapView.OnMapStateChangeListener, CompoundButton.OnCheckedChangeListener, AbsListView.OnScrollListener {
-//public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, AbsListView.OnScrollListener{
+    //public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, AbsListView.OnScrollListener{
     final private Geocoder geocoder = new Geocoder(MainActivity.this);
     private double lat = 0;
     private double lon = 0;
@@ -193,11 +193,11 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
 
             }
         });
-        card = (CheckBox)findViewById(R.id.filter_card);
-        drinking = (CheckBox)findViewById(R.id.filter_drinking);
-        parking = (CheckBox)findViewById(R.id.filter_parking);
-        catering = (CheckBox)findViewById(R.id.filter_catering);
-        nowOpen = (CheckBox)findViewById(R.id.filter_nowOpen);
+        card = (CheckBox) findViewById(R.id.filter_card);
+        drinking = (CheckBox) findViewById(R.id.filter_drinking);
+        parking = (CheckBox) findViewById(R.id.filter_parking);
+        catering = (CheckBox) findViewById(R.id.filter_catering);
+        nowOpen = (CheckBox) findViewById(R.id.filter_nowOpen);
         card.setOnCheckedChangeListener(this);
         drinking.setOnCheckedChangeListener(this);
         parking.setOnCheckedChangeListener(this);
@@ -280,7 +280,7 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
     public void onScrollStateChanged(AbsListView view, int scrollState) {
         //OnScrollListener.SCROLL_STATE_IDLE은 스크롤이 이동하다가 멈추었을때 발생되는 스크롤 상태입니다.
         //즉 스크롤이 바닥에 닿아 멈춘 상태에 처리를 하겠다는 뜻
-        if(scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && lastItemVisibleFlag) {
+        if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE && lastItemVisibleFlag) {
             truck4search = justBeforeSearch();
             truck4search.setFavoriteCount(++pageNum);
             HttpAsyncTask httpAsyncTask = new HttpAsyncTask(MainActivity.this);
@@ -343,7 +343,7 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
             poiData.endPOIdata();
             NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
 
-             poiDataOverlay.showAllPOIdata(0);
+            //          poiDataOverlay.showAllPOIdata(0);
             poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
 
             //////////////////////////////////////////////////////
@@ -380,7 +380,7 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
         //return trucks;
     }
 
-    public Foodtruck justBeforeSearch(){
+    public Foodtruck justBeforeSearch() {
 
         truck4search = new Foodtruck();
 
@@ -388,25 +388,25 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
         truck4search.setLocation("제주");
         truck4search.setFoodtruckName(key.getText().toString());
         /*truck4search.setLocation(loc.getText().toString());*/
-        if(card.isChecked()){
+        if (card.isChecked()) {
             truck4search.setCard(true);
         }
-        if(drinking.isChecked()){
+        if (drinking.isChecked()) {
             truck4search.setDrinking(true);
         }
-        if(parking.isChecked()){
+        if (parking.isChecked()) {
             truck4search.setParking(true);
         }
-        if(catering.isChecked()){
+        if (catering.isChecked()) {
             truck4search.setCatering(true);
         }
-        if(nowOpen.isChecked()){
+        if (nowOpen.isChecked()) {
             truck4search.setState(true);
         }
 
         int sortPostion = spinner.getSelectedItemPosition();
 
-        if(sortPostion==1){
+        if (sortPostion == 1) {
             truck4search.setFoodtruckId("favoriteCount");
         } else {
             truck4search.setFoodtruckId("reviewCount");

@@ -77,13 +77,13 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(sellerCheck.isChecked()){
+                if (sellerCheck.isChecked()) {
                     new LoginCheckTask().execute("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/sellerlogin.do?id="
                             + idEdit.getText() + "&password=" + pwEdit.getText());
-                    String tempId ;
+                    String tempId;
                     tempId = idEdit.getText().toString();
                     new FoodtruckDetailTask().execute("http://foofa.crabdance.com:8888/FoodtruckFinderProject/mobile/detail.do?id=" + tempId);
-                }else {
+                } else {
                     new LoginCheckTask().execute("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/memberlogin.do?id="
                             + idEdit.getText() + "&password=" + pwEdit.getText());
                 }
@@ -116,11 +116,12 @@ public class LoginActivity extends AppCompatActivity {
             }
             return checkStr;
         }
+
         @Override
         protected void onPostExecute(String s) {
-            if(s.equals("true")){
+            if (s.equals("true")) {
 
-                if(autoLoginCheck.isChecked()) {
+                if (autoLoginCheck.isChecked()) {
                     SharedPreferences.Editor editor = prefs.edit();
                     editor.putString("id", idEdit.getText().toString());
                     editor.putString("pw", pwEdit.getText().toString());
@@ -129,9 +130,9 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "정상 로그인 되었습니다.", Toast.LENGTH_SHORT).show();
 
                 Intent intent;
-                if(sellerCheck.isChecked()){
+                if (sellerCheck.isChecked()) {
                     finish();
-                }else {
+                } else {
                     intent = new Intent(LoginActivity.this, TruckInfoActivity.class);
                 }
 
@@ -139,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 SharedPreferences login = getSharedPreferences("loginUserId", Context.MODE_PRIVATE);
                 login.edit().putString("loginId", idEdit.getText().toString()).apply();
-                intent.putExtra("loginUserId",idEdit.getText().toString());
+                intent.putExtra("loginUserId", idEdit.getText().toString());
                 startActivity(intent);
                 finish();
             } else {
@@ -149,10 +150,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-
     public class FoodtruckDetailTask extends AsyncTask<String, Void, Void> {
-
-
 
 
         @Override
@@ -231,8 +229,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-
-
     private static String getTagValue(String tag, Element element) {
         try {
             NodeList list = element.getElementsByTagName(tag).item(0).getChildNodes();
@@ -243,8 +239,6 @@ public class LoginActivity extends AppCompatActivity {
         }
         return "";
     }
-
-
 
 
 }

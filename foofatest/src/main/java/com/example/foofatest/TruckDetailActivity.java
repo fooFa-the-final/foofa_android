@@ -65,25 +65,25 @@ import static com.example.foofatest.R.id.locationText;
 
 public class TruckDetailActivity extends NMapActivity implements NMapView.OnMapStateChangeListener {
 
-//    final private Geocoder geocoder = new Geocoder(TruckDetailActivity.this);
-//    private double lat = 0;
-//    private double lon = 0;
-//    private String loca = "";//트럭 주소 입력
-//    private List<Address> list = new ArrayList<>();
-//    private NMapViewerResourceProvider mMapViewerResourceProvider = null;
-//    private NMapOverlayManager mOverlayManager;
-//    private NMapPOIdataOverlay.OnStateChangeListener onPOIdataStateChangeListener = null;
+    final private Geocoder geocoder = new Geocoder(TruckDetailActivity.this);
+    private double lat = 0;
+    private double lon = 0;
+    private String loca = "";//트럭 주소 입력
+    private List<Address> list = new ArrayList<>();
+    private NMapViewerResourceProvider mMapViewerResourceProvider = null;
+    private NMapOverlayManager mOverlayManager;
+    private NMapPOIdataOverlay.OnStateChangeListener onPOIdataStateChangeListener = null;
 //
 //    ///////////////////////////////////////////////////////naver Map용 Field
-//    private NMapOverlayManager.OnCalloutOverlayListener onCalloutOverlayListener;
+   private NMapOverlayManager.OnCalloutOverlayListener onCalloutOverlayListener;
 //    // API-KEY
-//    public static final String API_KEY = "noUvsaR702FX6WH5un5h";  //<---맨위에서 발급받은 본인 ClientID 넣으세요.
+    public static final String API_KEY = "noUvsaR702FX6WH5un5h";  //<---맨위에서 발급받은 본인 ClientID 넣으세요.
 //    // 네이버 맵 객체
-//    NMapView mMapView = null;
+    NMapView mMapView = null;
 //    // 맵 컨트롤러
-//    NMapController mMapController = null;
+    NMapController mMapController = null;
 //    // 맵을 추가할 레이아웃
-//    LinearLayout truckLocation;
+    LinearLayout truckLocation;
 
     private List<Review> reviews;
 
@@ -109,41 +109,41 @@ public class TruckDetailActivity extends NMapActivity implements NMapView.OnMapS
         setContentView(R.layout.activity_truck_detail);
 
 
-//        // 네이버 지도를 넣기 위한 LinearLayout 컴포넌트
-//        truckLocation = (LinearLayout) findViewById(R.id.truckLocation);
-//
-//        // 네이버 지도 객체 생성
-//        mMapView = new NMapView(this);
-//
-//        // 지도 객체로부터 컨트롤러 추출
-//        mMapController = mMapView.getMapController();
-//
-//        // 네이버 지도 객체에 APIKEY 지정
-//        mMapView.setApiKey(API_KEY);
-//
-//        // 생성된 네이버 지도 객체를 LinearLayout에 추가시킨다.
-//        truckLocation.addView(mMapView);
-//
-//        // 지도를 터치할 수 있도록 옵션 활성화
-//        mMapView.setClickable(true);
-//
-//        // 확대/축소를 위한 줌 컨트롤러 표시 옵션 활성화
-//        mMapView.setBuiltInZoomControls(true, null);
-//
-//        mMapView.setScalingFactor(2f);//맵 확대 레벨 업
-//
-//        // 지도에 대한 상태 변경 이벤트 연결
-//        mMapView.setOnMapStateChangeListener(this);
+        // 네이버 지도를 넣기 위한 LinearLayout 컴포넌트
+        truckLocation = (LinearLayout) findViewById(R.id.truckLocation);
+
+        // 네이버 지도 객체 생성
+        mMapView = new NMapView(this);
+
+        // 지도 객체로부터 컨트롤러 추출
+        mMapController = mMapView.getMapController();
+
+        // 네이버 지도 객체에 APIKEY 지정
+        mMapView.setApiKey(API_KEY);
+
+        // 생성된 네이버 지도 객체를 LinearLayout에 추가시킨다.
+        truckLocation.addView(mMapView);
+
+        // 지도를 터치할 수 있도록 옵션 활성화
+        mMapView.setClickable(true);
+
+        // 확대/축소를 위한 줌 컨트롤러 표시 옵션 활성화
+        mMapView.setBuiltInZoomControls(true, null);
+
+        mMapView.setScalingFactor(2f);//맵 확대 레벨 업
+
+        // 지도에 대한 상태 변경 이벤트 연결
+        mMapView.setOnMapStateChangeListener(this);
 //
 ////         create resource provider
-//
-//        mMapViewerResourceProvider = new NMapViewerResourceProvider(this);
-//
-//        mOverlayManager = new NMapOverlayManager(this, mMapView, mMapViewerResourceProvider);
-//
-//        mOverlayManager.setOnCalloutOverlayListener(onCalloutOverlayListener);
-//
-//        int markerId = NMapPOIflagType.PIN;
+
+        mMapViewerResourceProvider = new NMapViewerResourceProvider(this);
+
+        mOverlayManager = new NMapOverlayManager(this, mMapView, mMapViewerResourceProvider);
+
+        mOverlayManager.setOnCalloutOverlayListener(onCalloutOverlayListener);
+
+        int markerId = NMapPOIflagType.PIN;
 
 
         prefs = getSharedPreferences("loginUserId", Context.MODE_PRIVATE);
@@ -154,34 +154,34 @@ public class TruckDetailActivity extends NMapActivity implements NMapView.OnMapS
         foodtruck1 = (Foodtruck) intent.getExtras().get("foodtruck");
         sellerId = foodtruck1.getFoodtruckId();
         foodtruck1.setMenus(menus1);
-//        loca = foodtruck1.getLocation();
+        loca = foodtruck1.getLocation();
+
+
+        try {
+            list = geocoder.getFromLocationName(loca, 10);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (loca.equals(null)) {//영업전이면 위경도 안 받아옴
+
+        } else {
+            lat = list.get(0).getLatitude();//위도
+            lon = list.get(0).getLongitude();//경도
+        }
+
+
+        NMapPOIdata poiData = new NMapPOIdata(2, mMapViewerResourceProvider);
+        poiData.beginPOIdata(2);
+        if (lat != 0 && lon != 0) {
+            poiData.addPOIitem(lon, lat, "here", markerId, 0);    //요기 좌표 입력해주면, 그 좌표가 표시됩니다.
+        }
+        poiData.endPOIdata();
+        NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
 //
 //
-//        try {
-//            list = geocoder.getFromLocationName(loca, 10);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        if (loca.equals(null)) {//영업전이면 위경도 안 받아옴
-//
-//        } else {
-//            lat = list.get(0).getLatitude();//위도
-//            lon = list.get(0).getLongitude();//경도
-//        }
-//
-//
-//        NMapPOIdata poiData = new NMapPOIdata(2, mMapViewerResourceProvider);
-//        poiData.beginPOIdata(2);
-//        if (lat != 0 && lon != 0) {
-//            poiData.addPOIitem(lon, lat, "here", markerId, 0);    //요기 좌표 입력해주면, 그 좌표가 표시됩니다.
-//        }
-//        poiData.endPOIdata();
-//        NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
-//
-//
-//        // poiDataOverlay.showAllPOIdata(0);
-//        poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
+        // poiDataOverlay.showAllPOIdata(0);
+        poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
         foodtrucks = new ArrayList<>();
         final ListView list = (ListView) findViewById(R.id.truckDetail);
         new FoodtruckDetailTask().execute("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/detailFoodtruckId.do?id=" + sellerId);
@@ -216,6 +216,7 @@ public class TruckDetailActivity extends NMapActivity implements NMapView.OnMapS
                 Intent intent = new Intent(TruckDetailActivity.this, ReviewCreateActivity.class);
                 intent.putExtra("foodtruck", foodtruck1);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -447,13 +448,13 @@ public class TruckDetailActivity extends NMapActivity implements NMapView.OnMapS
 
     @Override
     public void onMapInitHandler(NMapView nMapView, NMapError nMapError) {
-//        if (nMapError == null) { // success
-//            mMapController.setMapCenter(//지도 출력시 맵 중앙 지정
-//                    new NGeoPoint(lon, lat), 11);
-//        } else { // fail
-//            android.util.Log.e("NMAP", "onMapInitHandler: error="
-//                    + nMapError.toString());
-//        }
+        if (nMapError == null) { // success
+            mMapController.setMapCenter(//지도 출력시 맵 중앙 지정
+                    new NGeoPoint(lon, lat), 11);
+        } else { // fail
+            android.util.Log.e("NMAP", "onMapInitHandler: error="
+                    + nMapError.toString());
+        }
     }
 
     @Override
