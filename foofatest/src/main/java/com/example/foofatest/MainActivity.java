@@ -385,9 +385,9 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
         truck4search = new Foodtruck();
 
         //truck4search.setFoodtruckName("양식");
-        //truck4search.setLocation("제주");
+        truck4search.setLocation("서울");
         truck4search.setFoodtruckName(key.getText().toString());
-        truck4search.setLocation(loc.getText().toString());
+        //truck4search.setLocation(loc.getText().toString());
         if (card.isChecked()) {
             truck4search.setCard(true);
         }
