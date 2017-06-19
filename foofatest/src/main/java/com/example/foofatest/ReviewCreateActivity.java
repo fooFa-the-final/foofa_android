@@ -342,6 +342,7 @@ public class ReviewCreateActivity extends AppCompatActivity {
             Log.d("log", "reviewId : " + result);
             Toast.makeText(ReviewCreateActivity.this, "리뷰가 작성되었습니다.", Toast.LENGTH_SHORT);
             review.setReviewId(result);
+            Log.d("log", "surveyopen");
             surveyDialog(review);
 
         }

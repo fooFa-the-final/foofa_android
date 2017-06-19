@@ -66,6 +66,7 @@
         <activity android:name=".TruckBefore" />
         <activity android:name=".ReportActivity" />
         <activity android:name=".MemberFavListActivity" />
+        <activity android:name=".SurveyActivity"/>
         <activity android:name=".ReviewCreateActivity" />
         <activity android:name=".MemberFollowActivity" />
         <activity android:name=".ButtonListActivity" />

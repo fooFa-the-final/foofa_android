@@ -142,7 +142,7 @@ public class SurveyActivity extends AppCompatActivity {
         protected Void doInBackground(Void... params) {
             surveyItem = new ArrayList<>();
             try {
-                URL url = new URL("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/survey/form.do");
+                URL url = new URL("106.242.203.67:8888/FoodtruckFinderProject/mobile/survey/form.do");
                 DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
                 DocumentBuilder builder = factory.newDocumentBuilder();
                 Document document = builder.parse(new InputSource(url.openStream()));
@@ -188,7 +188,7 @@ public class SurveyActivity extends AppCompatActivity {
         protected Void doInBackground(String... params) {
             String reviewId = params[0];
             try {
-                URL url = new URL("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/review/detail.do?reviewId="+reviewId);
+                URL url = new URL("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/review/detail.do?reviewId="+reviewId);
 
                 DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
                 DocumentBuilder builder = factory.newDocumentBuilder();
@@ -247,7 +247,7 @@ public class SurveyActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Object... params) {
             JsonParsingControl jsonParsingControl = new JsonParsingControl();
-            jsonParsingControl.POST("http://192.168.0.87:8888/FoodtruckFinderProject/mobile/survey/create.do", survey);
+            jsonParsingControl.POST("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/survey/create.do", survey);
             return null;
         }
 
