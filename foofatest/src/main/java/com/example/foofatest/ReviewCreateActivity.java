@@ -92,7 +92,8 @@ public class ReviewCreateActivity extends AppCompatActivity {
                 createDialog();
             }
         });
-
+        Intent truckIntent = getIntent();
+        final Foodtruck foodtruck = (Foodtruck) truckIntent.getExtras().get("foodtruck");
         Button submit = (Button) findViewById(R.id.submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,12 +101,10 @@ public class ReviewCreateActivity extends AppCompatActivity {
                 SharedPreferences prefs;
                 Review review = new Review();
                 Member writer = new Member();
-                Foodtruck foodtruck = new Foodtruck();
+
                 prefs = getSharedPreferences("loginUserId", Context.MODE_PRIVATE);
                 String memberId = prefs.getString("loginId", "");
                 writer.setMemberId(memberId);
-                foodtruck.setFoodtruckId("F123");
-                foodtruck.setFoodtruckName("sampleTruck102");
                 review.setScore((int) score.getRating());
                 review.setContents(contents.getText().toString());
                 review.setWriter(writer);

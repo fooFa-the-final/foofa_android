@@ -213,7 +213,7 @@ public class TruckDetailActivity extends NMapActivity implements NMapView.OnMapS
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(TruckDetailActivity.this, ReviewCreateActivity.class);
-                intent.putExtra("foodtruck", (Serializable) foodtruck1);
+                intent.putExtra("foodtruck", foodtruck1);
                 startActivity(intent);
             }
         });
