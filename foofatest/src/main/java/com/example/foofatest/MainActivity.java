@@ -223,7 +223,7 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
         list.setOnScrollListener(this);
 
         loc = (EditText) findViewById(R.id.searchLoc);
-        loc.setText("Current Location");
+        //loc.setText("Current Location");
         key = (EditText) findViewById(R.id.searchKey);
 
         go = (Button) findViewById(R.id.search_go_btn);
@@ -385,9 +385,9 @@ public class MainActivity extends NMapActivity implements NMapView.OnMapStateCha
         truck4search = new Foodtruck();
 
         //truck4search.setFoodtruckName("양식");
-        truck4search.setLocation("제주");
+        //truck4search.setLocation("제주");
         truck4search.setFoodtruckName(key.getText().toString());
-        /*truck4search.setLocation(loc.getText().toString());*/
+        truck4search.setLocation(loc.getText().toString());
         if (card.isChecked()) {
             truck4search.setCard(true);
         }
