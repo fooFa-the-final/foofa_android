@@ -65,29 +65,29 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-//public class MainActivity extends NMapActivity implements NMapView.OnMapStateChangeListener, CompoundButton.OnCheckedChangeListener, AbsListView.OnScrollListener {
-public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, AbsListView.OnScrollListener{
-//    final private Geocoder geocoder = new Geocoder(MainActivity.this);
-//    private double lat = 0;
-//    private double lon = 0;
-//    private List<Double> lats;
-//    private List<Double> lons;
-//    private String loca = "";//트럭 주소 입력
-//    private List<String> locas;//트럭 주소들
-//    private List<Address> list_loc = new ArrayList<>();
-//    private NMapViewerResourceProvider mMapViewerResourceProvider = null;
-//    private NMapOverlayManager mOverlayManager;
-//    private NMapPOIdataOverlay.OnStateChangeListener onPOIdataStateChangeListener = null;
-//    private NMapOverlayManager.OnCalloutOverlayListener onCalloutOverlayListener;
-//    // API-KEY
-//    public static final String API_KEY = "noUvsaR702FX6WH5un5h";  //<---맨위에서 발급받은 본인 ClientID 넣으세요.
-//    // 네이버 맵 객체
-//    NMapView mMapView = null;
-//    // 맵 컨트롤러
-//    NMapController mMapController = null;
-//    // 맵을 추가할 레이아웃
-//    LinearLayout truckLocation;
-//    private int markerId;
+public class MainActivity extends NMapActivity implements NMapView.OnMapStateChangeListener, CompoundButton.OnCheckedChangeListener, AbsListView.OnScrollListener {
+//public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, AbsListView.OnScrollListener{
+    final private Geocoder geocoder = new Geocoder(MainActivity.this);
+    private double lat = 0;
+    private double lon = 0;
+    private List<Double> lats;
+    private List<Double> lons;
+    private String loca = "";//트럭 주소 입력
+    private List<String> locas;//트럭 주소들
+    private List<Address> list_loc = new ArrayList<>();
+    private NMapViewerResourceProvider mMapViewerResourceProvider = null;
+    private NMapOverlayManager mOverlayManager;
+    private NMapPOIdataOverlay.OnStateChangeListener onPOIdataStateChangeListener = null;
+    private NMapOverlayManager.OnCalloutOverlayListener onCalloutOverlayListener;
+    // API-KEY
+    public static final String API_KEY = "noUvsaR702FX6WH5un5h";  //<---맨위에서 발급받은 본인 ClientID 넣으세요.
+    // 네이버 맵 객체
+    NMapView mMapView = null;
+    // 맵 컨트롤러
+    NMapController mMapController = null;
+    // 맵을 추가할 레이아웃
+    LinearLayout truckLocation;
+    private int markerId;
 
     ///////////////////////////////////////////////////////naver Map용 Field
     private SearchTruckListAdapter adapter;
@@ -106,71 +106,71 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 //        // 네이버 지도를 넣기 위한 LinearLayout 컴포넌트
-//        truckLocation = (LinearLayout) findViewById(R.id.truckLocation);
-//
-//
-//        // 네이버 지도 객체 생성
-//        mMapView = new NMapView(this);
-//
-//        // 지도 객체로부터 컨트롤러 추출
-//        mMapController = mMapView.getMapController();
-//
-//        // 네이버 지도 객체에 APIKEY 지정
-//        mMapView.setApiKey(API_KEY);
-//
-//        // 생성된 네이버 지도 객체를 LinearLayout에 추가시킨다.
-//        //truckLocation.addView(mMapView);
-//
-//        // 지도를 터치할 수 있도록 옵션 활성화
-//        mMapView.setClickable(true);
-//
-//        // 확대/축소를 위한 줌 컨트롤러 표시 옵션 활성화
-//        mMapView.setBuiltInZoomControls(true, null);
-//
-//        mMapView.setScalingFactor(2f);//맵 확대 레벨 업
-//
-//        // 지도에 대한 상태 변경 이벤트 연결
-//        mMapView.setOnMapStateChangeListener(this);
-//
-////         create resource provider
-//
-//        mMapViewerResourceProvider = new NMapViewerResourceProvider(this);
-//
-//        mOverlayManager = new NMapOverlayManager(this, mMapView, mMapViewerResourceProvider);
-//
-//        mOverlayManager.setOnCalloutOverlayListener(onCalloutOverlayListener);
-//        markerId = NMapPOIflagType.PIN;
-//        mMapView.setOnMapViewTouchEventListener(new NMapView.OnMapViewTouchEventListener() {
-//            @Override
-//            public void onLongPress(NMapView nMapView, MotionEvent motionEvent) {
-//
-//            }
-//
-//            @Override
-//            public void onLongPressCanceled(NMapView nMapView) {
-//
-//            }
-//
-//            @Override
-//            public void onTouchDown(NMapView nMapView, MotionEvent motionEvent) {
-//
-//            }
-//
-//            @Override
-//            public void onTouchUp(NMapView nMapView, MotionEvent motionEvent) {
-//
-//            }
-//
-//            @Override
-//            public void onScroll(NMapView nMapView, MotionEvent motionEvent, MotionEvent motionEvent1) {
-//
-//            }
-//
-//            @Override
-//            public void onSingleTapUp(NMapView nMapView, MotionEvent motionEvent) {
-//                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://map.naver.com/index.nhn?enc=utf8&level=2&lng=" + lons.get(0) + "&lat=" + lats.get(0) + "&pinTitle=" + loca)));
-//            }
-//        });
+        truckLocation = (LinearLayout) findViewById(R.id.truckLocation);
+
+
+        // 네이버 지도 객체 생성
+        mMapView = new NMapView(this);
+
+        // 지도 객체로부터 컨트롤러 추출
+        mMapController = mMapView.getMapController();
+
+        // 네이버 지도 객체에 APIKEY 지정
+        mMapView.setApiKey(API_KEY);
+
+        // 생성된 네이버 지도 객체를 LinearLayout에 추가시킨다.
+        truckLocation.addView(mMapView);
+
+        // 지도를 터치할 수 있도록 옵션 활성화
+        mMapView.setClickable(true);
+
+        // 확대/축소를 위한 줌 컨트롤러 표시 옵션 활성화
+        mMapView.setBuiltInZoomControls(true, null);
+
+        mMapView.setScalingFactor(2f);//맵 확대 레벨 업
+
+        // 지도에 대한 상태 변경 이벤트 연결
+        mMapView.setOnMapStateChangeListener(this);
+
+//         create resource provider
+
+        mMapViewerResourceProvider = new NMapViewerResourceProvider(this);
+
+        mOverlayManager = new NMapOverlayManager(this, mMapView, mMapViewerResourceProvider);
+
+        mOverlayManager.setOnCalloutOverlayListener(onCalloutOverlayListener);
+        markerId = NMapPOIflagType.PIN;
+        mMapView.setOnMapViewTouchEventListener(new NMapView.OnMapViewTouchEventListener() {
+            @Override
+            public void onLongPress(NMapView nMapView, MotionEvent motionEvent) {
+
+            }
+
+            @Override
+            public void onLongPressCanceled(NMapView nMapView) {
+
+            }
+
+            @Override
+            public void onTouchDown(NMapView nMapView, MotionEvent motionEvent) {
+
+            }
+
+            @Override
+            public void onTouchUp(NMapView nMapView, MotionEvent motionEvent) {
+
+            }
+
+            @Override
+            public void onScroll(NMapView nMapView, MotionEvent motionEvent, MotionEvent motionEvent1) {
+
+            }
+
+            @Override
+            public void onSingleTapUp(NMapView nMapView, MotionEvent motionEvent) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://map.naver.com/index.nhn?enc=utf8&level=2&lng=" + lons.get(0) + "&lat=" + lats.get(0) + "&pinTitle=" + loca)));
+            }
+        });
 
 ///////////////////////////////////////naver map source*/
 
@@ -216,6 +216,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
                 Intent intent = new Intent(MainActivity.this, TruckDetailActivity.class);
                 intent.putExtra("foodtruck", foodtrucks.get(position));
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -242,7 +243,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
 
     }
 
-   /* @Override
+    @Override
     public void onMapInitHandler(NMapView nMapView, NMapError nMapError) {
 
     }
@@ -265,7 +266,7 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     @Override
     public void onAnimationStateChange(NMapView nMapView, int i, int i1) {
 
-    }*/
+    }
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -315,35 +316,35 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
         protected void onPostExecute(String result) {
 //            Log.d("test", "onPostExecute: "+result);
             method(result);
-//            locas = new ArrayList<>();
-//            lats = new ArrayList<>();
-//            lons = new ArrayList<>();
-//
-//            for (Foodtruck fd : foodtrucks) {
-//                loca = fd.getLocation();
-//                locas.add(loca);
-//            }
+            locas = new ArrayList<>();
+            lats = new ArrayList<>();
+            lons = new ArrayList<>();
+
+            for (Foodtruck fd : foodtrucks) {
+                loca = fd.getLocation();
+                locas.add(loca);
+            }
 
 
-//            NMapPOIdata poiData = new NMapPOIdata(2, mMapViewerResourceProvider);
-//            poiData.beginPOIdata(2);
-//            for (String loc1 : locas) {
-//                try {
-//                    list_loc = geocoder.getFromLocationName(loc1, 10);
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//                lat = list_loc.get(0).getLatitude();//위도
-//                lon = list_loc.get(0).getLongitude();//경도
-//                lats.add(lat);
-//                lons.add(lon);
-//                poiData.addPOIitem(lon, lat, loc1, markerId, 0);
-//            }
-//            poiData.endPOIdata();
-//            NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
-//
-//             poiDataOverlay.showAllPOIdata(0);
-//            poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
+            NMapPOIdata poiData = new NMapPOIdata(2, mMapViewerResourceProvider);
+            poiData.beginPOIdata(2);
+            for (String loc1 : locas) {
+                try {
+                    list_loc = geocoder.getFromLocationName(loc1, 10);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                lat = list_loc.get(0).getLatitude();//위도
+                lon = list_loc.get(0).getLongitude();//경도
+                lats.add(lat);
+                lons.add(lon);
+                poiData.addPOIitem(lon, lat, loc1, markerId, 0);
+            }
+            poiData.endPOIdata();
+            NMapPOIdataOverlay poiDataOverlay = mOverlayManager.createPOIdataOverlay(poiData, null);
+
+             poiDataOverlay.showAllPOIdata(0);
+            poiDataOverlay.setOnStateChangeListener(onPOIdataStateChangeListener);
 
             //////////////////////////////////////////////////////
             //Log.d("test", "onPostExecute: " + foodtrucks.size());

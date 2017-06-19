@@ -204,6 +204,7 @@ public class TruckDetailActivity extends NMapActivity implements NMapView.OnMapS
                 new TruckDetailActivity.RegisterTask().execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/favorite/register.do?memberId=" + loginUserId + "&foodtruckId=" + foodtruck1.getFoodtruckId());
                 intent.putExtra("foodtruck", (Serializable) foodtruck1);
                 startActivity(intent);
+                finish();
             }
         });
 
