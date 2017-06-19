@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.foofatest.R;
@@ -65,6 +66,7 @@ public class SearchTruckListAdapter extends BaseAdapter {
         TextView location = (TextView)convertView.findViewById(R.id.listTruckLocation);
         TextView favCount = (TextView)convertView.findViewById(R.id.listTruckFavCount);
         TextView revCount = (TextView)convertView.findViewById(R.id.listTruckReviewCount);
+        RatingBar ratingBar = (RatingBar) convertView.findViewById(R.id.ratingBar4search);
 
         ImageView image = (ImageView)convertView.findViewById(R.id.listTruckImg);
 
@@ -73,6 +75,8 @@ public class SearchTruckListAdapter extends BaseAdapter {
         location.setText(foodtrucks.get(position).getLocation());
         favCount.setText(foodtrucks.get(position).getFavoriteCount() + "");
         revCount.setText(foodtrucks.get(position).getReviewCount() + "");
+        ratingBar.setRating((float) foodtrucks.get(position).getScore());
+
 
         new ImageLoadingTask(image).execute(foodtrucks.get(position).getFoodtruckImg());
 
