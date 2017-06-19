@@ -61,7 +61,7 @@ public class ReviewDetailActivity extends AppCompatActivity {
         ((TextView)findViewById(R.id.recommandCount)).setText(review.getRecommand()+"");
         ((RatingBar)findViewById(R.id.reviewScore)).setRating(review.getScore());
         ImageLoadingTask task = new ImageLoadingTask();
-        task.execute("http://192.168.0.87:8888/FoodtruckFinderProject/mobile/review/imageList.do?reviewId=" + review.getReviewId());
+        task.execute("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/review/imageList.do?reviewId=" + review.getReviewId());
 
         findViewById(R.id.reviewReport).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +92,7 @@ public class ReviewDetailActivity extends AppCompatActivity {
 
                     NodeList list = element.getElementsByTagName("filename").item(0).getChildNodes();
                     Node value = list.item(0);
-                    taskimage.add("http://10.0.2.2:8888/FoodtruckFinderProject/resources/img/reviewImg/" +value.getNodeValue());
+                    taskimage.add("http://106.242.203.67:8888/FoodtruckFinderProject/resources/img/reviewImg/" +value.getNodeValue());
                     Log.d("log", "value : " + value.getNodeValue());
                 }
             } catch (ParserConfigurationException e) {
@@ -217,7 +217,7 @@ public class ReviewDetailActivity extends AppCompatActivity {
             JsonParsingControl jsonParsingControl = new JsonParsingControl();
             //jsonParsingControl.POST("http://192.168.0.87:8888/FoodtruckFinderProject/mobile/report/create.do", report);
 
-            return jsonParsingControl.POST("http://192.168.0.87:8888/FoodtruckFinderProject/mobile/report/create.do", report);
+            return jsonParsingControl.POST("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/report/create.do", report);
         }
 
         @Override

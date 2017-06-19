@@ -110,7 +110,7 @@ public class ReviewCreateActivity extends AppCompatActivity {
                 review.setWriter(writer);
                 review.setFoodtruck(foodtruck);
                 HttpAsyncTask task = new HttpAsyncTask();
-                task.execute("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/review/create.do", review);
+                task.execute("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/review/create.do", review);
             }
         });
     }
@@ -429,7 +429,7 @@ public class ReviewCreateActivity extends AppCompatActivity {
 
         InputStream inputStream = null;
         HttpClient httpClient = AndroidHttpClient.newInstance("Android");
-        HttpPost httpPost = new HttpPost("http://10.0.2.2:8888/FoodtruckFinderProject/mobile/review/image.do");
+        HttpPost httpPost = new HttpPost("http://106.242.203.67:8888/FoodtruckFinderProject/mobile/review/image.do");
         httpPost.setEntity(builder.build());
 
         try {
