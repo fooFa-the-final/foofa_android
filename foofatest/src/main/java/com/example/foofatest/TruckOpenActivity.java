@@ -295,7 +295,7 @@ public class TruckOpenActivity extends AppCompatActivity {
                 finish();
 
             } else {
-                Toast.makeText(TruckOpenActivity.this, "다시 시도해주세요.", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(TruckOpenActivity.this, "다시 시도해주세요.", Toast.LENGTH_SHORT).show();
             }
 
         }
